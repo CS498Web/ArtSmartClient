@@ -32,19 +32,14 @@
                             "type":"pin",
                             "x": ev.point.x,
                             "y": ev.point.y,
-                            "text": ""
+                            "text": scope.newAnnotationText
                           }
           newShape = scope.drawAnnotation(newAnnotation);
-          scope.$apply(function() {
-            scope.annotationText = newShape.text;
-          });
         }
         else { //if the mouse is clicked on the shape
           isNewShape = false;
           newShape = shape;
           oldShape = shape;
-          scope.newText = shape.text;
-          console.log(shape.type);
         }
       };
 
@@ -67,9 +62,9 @@
       // when submit is clicked on the drop down meny
       scope.submitNewAnnotation = function() {
         //check if the fieldtext is not empty
-        if (scope.newText.trim() !== ""){
+        if (scope.newAnnotationText && scope.newAnnotationText.trim() !== ""){
           confirmDraw = true;
-          newShape.text = scope.newText;
+          newShape.text = scope.newAnnotationText;
           scope.hideDropdown();
           scope.showDropdown = true;
         }
@@ -84,33 +79,26 @@
       }
 
       // when clicking the shapes on the dropdown menu
-      scope.dropdownClick = function(index){
-        var origX = newShape.position.x;
-        var origY = newShape.position.y;
+      scope.dropdownClick = function(toolName){
+        var origX = newShape.position.x / scope.canvas.width;
+        var origY = newShape.position.y / scope.canvas.height;
         newShape.remove();
-        var newText;
-        if (isNewShape){
-          newText = "";
-        }
-        else {
-          newText = oldShape.text;
-        }
-        if (scope.toolIcons[index].name === 'circle-tool'){
+        if (toolName === 'circle-tool'){
           newAnnotation = 
           {
-            "type":"circle",
-            "x": origX,
-            "y": origY,
-            "text": newText
+            "type":"ellipse",
+            "relative_x": origX,
+            "relative_y": origY,
+            "text": scope.newAnnotationText
           }
         }
-        else if (scope.toolIcons[index].name === 'square-tool'){
+        else if (toolName === 'square-tool'){
           newAnnotation = 
           {
             "type":"rectangle",
-            "x": origX,
-            "y": origY,
-            "text": newText
+            "relative_x": origX,
+            "relative_y": origY,
+            "text": scope.newAnnotationText
           }
         }
         newShape = scope.drawAnnotation(newAnnotation);

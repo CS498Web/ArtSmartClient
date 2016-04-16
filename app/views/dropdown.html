@@ -3,12 +3,12 @@
 		<p>Vector tool</p>
 		<hr align="right" width="65%" color='black'>
 		<div class='list-group list-group-horizontal'>
-			<img ng-repeat='image in toolIcons' ng-src='{{image.url}}' ng-click='dropdownClick($index)'>
+			<img ng-repeat='image in toolIcons' ng-src='{{image.url}}' ng-click='dropdownClick(image.name)'>
 		</div>
 	</div>
 	<form>
 		<div class="form-group">
-			<textarea id="annotation-submit" ng-model="annotationText" class="form-control" rows="4" id="exampleInputEmail1" placeholder="Type something..."></textarea>
+			<textarea id="annotation-submit" ng-model="newAnnotationText" class="form-control" rows="4" id="exampleInputEmail1" placeholder="Type something..."></textarea>
 		</div>
 		<button type="submit" ng-click="submitNewAnnotation()" class="btn btn-default">Submit</button>
 		<button type="submit" ng-click="cancelNewAnnotation()" class="btn btn-default">Cancel</button>

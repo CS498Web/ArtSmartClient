@@ -19,12 +19,12 @@ angular.module('anotareApp')
         //prevent default right click function
         window.oncontextmenu = function() { return false;};
 
-        var canvas, shapeLastClicked, canvasWidth, canvasHeight;
+        var shapeLastClicked, canvasWidth, canvasHeight;
 
         // initialize the page
         var init = function() {
             var canvasContainer = $("#canvas-container");
-            canvas = document.getElementById("main-canvas");
+            scope.canvas = document.getElementById("main-canvas");
 
             var img = new Image();
             img.src = scope.imageScope.src;
@@ -34,7 +34,7 @@ angular.module('anotareApp')
                 canvasContainer.height(canvasContainer.width() * scaleCanvas);
                 // canvas.setAttribute("width", screen.availWidth * 0.55);
 
-                paper.setup(canvas);
+                paper.setup(scope.canvas);
                 // canvas.height =  screen.availHeight * 0.85;
 
                 scope.paper = paper;
@@ -148,8 +148,8 @@ angular.module('anotareApp')
           var resizeRaster = function(){
             var rasterHeight = this.getHeight();
             var rasterWidth = this.getWidth();
-            canvasHeight = parseFloat(canvas.style.height, 10);
-            canvasWidth = parseFloat(canvas.style.width, 10);
+            canvasHeight = parseFloat(scope.canvas.style.height, 10);
+            canvasWidth = parseFloat(scope.canvas.style.width, 10);
             var scale = Math.min(canvasHeight/rasterHeight, canvasWidth/rasterWidth);
 
             this.scale(scale);
@@ -364,8 +364,8 @@ angular.module('anotareApp')
                 var halfHeight = shape.bounds.height/2;
                 var halfWidth = shape.bounds.width/2;
 
-                if(point.x < shape.bounds || point.x > canvas.width - halfWidth || 
-                  point.y < halfHeight || point.y > canvas.height - halfHeight)
+                if(point.x < shape.bounds || point.x > canvasWidth - halfWidth || 
+                  point.y < halfHeight || point.y > canvasHeight - halfHeight)
                   return false;
 
                 return true;
