@@ -19,25 +19,34 @@ angular.module('anotareApp')
         //prevent default right click function
         window.oncontextmenu = function() { return false;};
 
-        var canvas, image, shapeLastClicked;
+        var canvas, shapeLastClicked, canvasWidth, canvasHeight;
 
         // initialize the page
         var init = function() {
-          var canvasContainer = document.getElementById("canvas-column");
-          canvasContainer.style.height = screen.availHeight * 0.85 + 'px';
-          canvas = document.getElementById("main-canvas");
-          // canvas.setAttribute("width", screen.availWidth * 0.55);
+            var canvasContainer = $("#canvas-container");
+            canvas = document.getElementById("main-canvas");
 
-          paper.setup(canvas);
-          // canvas.height =  screen.availHeight * 0.85;
+            var img = new Image();
+            img.src = scope.imageScope.src;
 
-          scope.paper = paper;
-          //ajax http get method to get image object from database
-          scope.getImage();
+            img.addEventListener("load", function(){
+                var scaleCanvas = this.naturalHeight / this.naturalWidth;
+                canvasContainer.height(canvasContainer.width() * scaleCanvas);
+                // canvas.setAttribute("width", screen.availWidth * 0.55);
+
+                paper.setup(canvas);
+                // canvas.height =  screen.availHeight * 0.85;
+
+                scope.paper = paper;
+                //ajax http get method to get image object from database
+
+                drawAll();
+            });
+          
         }
 
         //global styles to be used on the shapes
-        var styleStandard = {
+        var styleDefault = {
           strokeColor: new paper.Color(0.8,0.9),
           strokeWidth: 1.5,
           fillColor: new paper.Color(0,0,0,0.2)
@@ -45,11 +54,6 @@ angular.module('anotareApp')
         var styleHide = {
           strokeWidth: 0,
           fillColor: null
-        };
-        var styleSufei = {
-          strokeColor: new paper.Color(1,1,0,1),
-          strokeWidth: 1.5,
-          fillColor: new paper.Color(1,1,0,1)
         };
         var stylePin = {
           strokeColor: new paper.Color(0.8,0.9),
@@ -125,7 +129,7 @@ angular.module('anotareApp')
               shapes[i].style = styleHide;
             }
             else {
-              shapes[i].style = styleStandard;
+              shapes[i].style = styleDefault;
             }
           }
 
@@ -138,21 +142,22 @@ angular.module('anotareApp')
         }
 
         //draw the image
-        var drawImage = function( image ){
+        var drawImage = function(next){
 
           //resize the image to max in the canvas
           var resizeRaster = function(){
             var rasterHeight = this.getHeight();
             var rasterWidth = this.getWidth();
-            var canvasHeight = parseFloat(canvas.style.height, 10);
-            var canvasWidth = parseFloat(canvas.style.width, 10);
+            canvasHeight = parseFloat(canvas.style.height, 10);
+            canvasWidth = parseFloat(canvas.style.width, 10);
             var scale = Math.min(canvasHeight/rasterHeight, canvasWidth/rasterWidth);
 
             this.scale(scale);
+            next();
           }
 
           // initialize raster
-          var raster = new paper.Raster(image.src);
+          var raster = new paper.Raster(scope.imageScope.src);
           raster.type = 'main-image';
           raster.onLoad = resizeRaster;
           raster.position = paper.view.center;
@@ -166,7 +171,7 @@ angular.module('anotareApp')
 
             // if raster is clicked, turn shapes into style standard
             if (typeof shapeLastClicked !== 'undefined') {
-              shapeLastClicked.style = styleStandard;
+              shapeLastClicked.style = styleDefault;
               shapeLastClicked.active = false;
               if (shapeLastClicked.frame) {
                 shapeLastClicked.removeSegments();
@@ -192,18 +197,7 @@ angular.module('anotareApp')
         // find angle for rotation of shape
         // TODO: detect when it is counterclockwise rotation
         var findAngle = function (centerPoint, rotatePoint, eventPoint ){
-
-          // find distance between 2 points
-          var findDistance = function(point1, point2){
-            return ( (point1.x-point2.x)*(point1.x-point2.x) + (point1.y-point2.y)*(point1.y-point2.y) );
-          }
-
-          var centerToRotate = findDistance(centerPoint, rotatePoint);
-          var centerToEvent = findDistance(centerPoint, eventPoint);
-          var rotateToEvent = findDistance(rotatePoint, eventPoint);
-
-          var angle = Math.acos((centerToRotate + centerToEvent - rotateToEvent)/ (2 * Math.sqrt(centerToRotate) * Math.sqrt(centerToEvent) ) ) * 180 / Math.PI;
-          return angle;
+          return eventPoint.subtract(centerPoint).angle - rotatePoint.subtract(centerPoint).angle;
         }
 
         // draw boundary frame on shapes
@@ -357,7 +351,7 @@ angular.module('anotareApp')
                   shape.style = stylePin;
                 }
                 else {
-                  shape.style = styleStandard;
+                  shape.style = styleDefault;
                 }
               }
             }
@@ -391,7 +385,7 @@ angular.module('anotareApp')
                     shapeLastClicked.style = stylePin;
                 }
                 else {
-                  shapeLastClicked.style = styleStandard;
+                  shapeLastClicked.style = styleDefault;
                 }
                 shapeLastClicked.active = false;
                 if (scope.editMode){
@@ -436,39 +430,21 @@ angular.module('anotareApp')
           };
           //end mouseActionsOn
 
-          // draw circle
-          var drawCircle = function( shape ){
-            var circle;
-            if (typeof shape.radius === 'undefined'){
-              circle = new paper.Path.Circle({
-                radius: 50,
-                style: styleStandard,
-              });
-            }
-            else {
-              circle = new paper.Path.Circle({
-                radius: shape.radius,
-                style: styleStandard,
-              });
-            }
-            return circle;
-          };
-
           // draw rectangle
           var drawRect = function( shape ){
             var rect;
-            if (typeof shape.width === 'undefined' || typeof shape.height === 'undefined'){
+            if (typeof shape.relative_width === 'undefined' || typeof shape.relative_height === 'undefined'){
               rect = new paper.Path.Rectangle({
                 width: 70,
                 height: 70,
-                style: styleStandard
+                style: styleDefault
               });
             }
             else {
               rect = new paper.Path.Rectangle({
-                width: shape.width,
-                height: shape.height,
-                style: styleStandard
+                width: shape.relative_width * canvasWidth,
+                height: shape.relative_height * canvasHeight,
+                style: styleDefault
               });
             }
             return rect;
@@ -477,18 +453,18 @@ angular.module('anotareApp')
           // draw ellipse
           var drawEllipse = function( shape ){
             var ellipse;
-            if (typeof shape.width === 'undefined' || typeof shape.height === 'undefined'){
+            if (typeof shape.relative_width === 'undefined' || typeof shape.relative_height === 'undefined'){
               ellipse = new paper.Path.Ellipse({
                 width: 70,
                 height: 50,
-                style: styleStandard
+                style: styleDefault
               });
             }
             else {
               ellipse = new paper.Path.Ellipse({
-                width: shape.width,
-                height: shape.height,
-                style: styleStandard
+                width: shape.relative_width * canvasWidth,
+                height: shape.relative_height * canvasHeight,
+                style: styleDefault
               });
             }
             return ellipse;
@@ -506,10 +482,7 @@ angular.module('anotareApp')
           //draw every annotation from annotations
           var shape;
 
-          if (annotation.type === 'circle'){
-            shape = drawCircle(annotation);
-          }
-          else if (annotation.type === 'rectangle'){
+          if (annotation.type === 'rectangle'){
             shape = drawRect(annotation);
           }
           else if (annotation.type === 'ellipse'){
@@ -523,8 +496,8 @@ angular.module('anotareApp')
           if (typeof shape !== 'undefined') {
 
             shape.type = annotation.type;
-            shape.position.setX(annotation.x);
-            shape.position.setY(annotation.y);
+            shape.position.setX(annotation.relative_x * canvasWidth);
+            shape.position.setY(annotation.relative_y *  canvasHeight);
             shape.text = annotation.text;
             shape.comments = annotation.comments;
             shape.active = false;
@@ -539,30 +512,16 @@ angular.module('anotareApp')
         //end drawAnnotations
 
         //wrapper function to draw image, annotation, frame, and the implement the mouse actions on the shapes
-        var drawAll = function(image){
-          if (typeof image !== 'undefined') {
-            drawImage(image);
-            image.annotations.forEach(function(annotation){
+        var drawAll = function(){
+          drawImage( function() {
+            scope.imageScope.annotations.forEach(function(annotation){
               scope.drawAnnotation(annotation);
-            });
-          }
+            }); 
+          });
         };
 
-        //watch if there is any change in imageScope, handles ajax call to the imagescope
-        scope.$watch('imageScope', function(newVal, oldVal) {
-            if (typeof newVal === 'undefined' || newVal.length <= 0)
-            {   
-                image = oldVal;
-            }
-            else
-            {  
-                image = newVal;
-                drawAll(image[0]);
-            }
-        });
-
         //setup canvas
-        init();
+        scope.getImage(init);
         
       }
     };

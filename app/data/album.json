@@ -13,10 +13,11 @@
             "annotations":
             [
 			{
-				"type":"circle",
-				"x": 210,
-				"y": 110,
-				"radius": 40,
+				"type":"ellipse",
+				"relative_x": 0.25,
+				"relative_y": 0.2,
+                "relative_height": 0.15,
+                "relative_width": 0.1,
                 "text":"Facing away, shows ignorance",
                 "comments":
                 [
@@ -40,10 +41,10 @@
 			},
 			{
 				"type":"rectangle",
-				"x": 520,
-				"y": 70,
-				"height": 90,
-				"width": 50,
+				"relative_x": 0.8,
+				"relative_y": 0.15,
+				"relative_height": 0.15,
+				"relative_width": 0.1,
                 "text": "Represents a mask, African art's influence on Picasso's work",
                 "comments":
                 [
@@ -67,10 +68,10 @@
 			},
 			{
 				"type":"ellipse",
-				"x": 370,
-				"y": 490,
-				"height": 130,
-				"width": 90,
+				"relative_x": 0.53,
+				"relative_y": 0.9,
+				"relative_height": 0.2,
+				"relative_width": 0.15,
                 "text": "a scything blade of melon with testicular grapes, an apple and a pear",
                 "comments":
                 [
@@ -93,10 +94,11 @@
                 ]
 			},
 			{
-				"type":"circle",
-				"x": 520,
-				"y": 250,
-				"radius": 60,
+				"type":"ellipse",
+				"relative_x": 0.8,
+				"relative_y": 0.45,
+                "relative_height": 0.2,
+                "relative_width": 0.15,
                 "text": "Facing back and stares directly to the audience",
                 "comments":
                 [
@@ -120,8 +122,8 @@
 			},
             {
                 "type":"pin",
-                "x": 300,
-                "y": 130,
+                "relative_x": 0.405,
+                "relative_y": 0.255,
                 "text": "Intimidating the audience by staring",
                 "comments":
                 [
