@@ -1,0 +1,41 @@
+<div id='annotation-body' class='container-fluid'>
+    <div class='row'>
+        <!-- <div style="float:left"> -->
+    	<div class='col-md-1'>
+	        <a href='' ng-click='switchViewMode()' >
+	    		<div class="button-round {{viewMode ? 'button-active' : 'button-inactive'}}">
+		        		<span>V</span>
+		        </div>
+	        </a>
+
+	        <a href='' ng-click='switchEditMode()' >
+	    		<div class="button-round {{editMode ? 'button-active' : 'button-inactive'}}">
+		        		<span>E</span>
+		        </div>
+	        </a>
+
+        </div>
+        <!-- <div id="canvas-column"> -->
+        <div class='col-md-7' id="canvas-column">
+        	<canvas id='main-canvas'></canvas>
+        	
+        </div>
+        <!-- <div id="canvas-description">
+                Les Demoiselles d'Avignon - Pablo Picasso
+            </div> -->
+        <!-- <div id="annotation-column" style="float:right" ng-show="showAnnotation"> -->
+        <div id="annotation-column" class='col-md-4' ng-show="showAnnotation">
+            <div id="annotation-header">annotation</div>
+            <hr align="right" width="100%" color='black'>
+            <div id="annotation-description" ng-bind='annotationText'></div>
+            <div class="annotation-comments" ng-repeat="comment in comments">
+                <div class="user-comment">{{comment.user}}</div>
+                <div class="text-comment">{{comment.text}}</div>
+            </div>
+            <div class="form-group">
+                <textarea id="annotation-submit" class="form-control" rows="4" id="exampleInputEmail1" placeholder="Comment something..."></textarea>
+            </div>
+            <button style="float:right;" type="submit" class="btn btn-default">Comment</button>
+        </div>
+    </div>
+</div>

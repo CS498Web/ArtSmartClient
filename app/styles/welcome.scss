@@ -1,0 +1,74 @@
+#welcome {
+  text-align: center;
+  background: none;
+
+  #logo-on-photo{
+    margin: 0 auto 40px auto;
+    a.arrow{
+      img{
+        position:relative; 
+        width:20px; 
+        top:135px;
+      }
+      #right-arrow{
+        right: 190px
+      }
+      #left-arrow{
+        left: 190px
+      }
+    }
+    #logo-large-rect{
+      z-index: 100; 
+      position: absolute;
+      left: 50%;
+      transform: translateX(-57%);
+      top:20px; 
+      width:18em; 
+    }
+    .logo-gallery{
+      position: absolute;
+      left: 50%;
+      transform: translateX(-43%);
+      top: 70px;
+      width: 16em;
+      height: 18em;
+    }
+  }
+
+  form {
+    width: 330px;
+    margin: 0 auto 0 auto;
+    input{
+      font-family: 'Josefin Sans', sans-serif;
+      margin-top: 10px;
+      height: 30px;
+      font-size: 15px;
+      color: black;
+      background-color: #F5F5F5;
+      &::-webkit-input-placeholder { 
+        color: black;
+      }
+      border-radius: 0;
+    }
+    button {
+      font-family: 'EB Garamond', serif;
+      float: right;
+      border:none;
+      font-size: 15px;
+      margin: 0 0 0 5px;
+      &.active{
+      }
+    }
+  }
+}
+
+#welcome-icon{
+  max-width:210px;
+  margin-top: 250px;
+}
+
+#welcome-caption{
+  margin-top: 15px;
+  font-family: 'EB Garamond', serif;
+  font-size:20px;
+}
