@@ -144,16 +144,11 @@ angular.module('anotareApp')
           var resizeRaster = function(){
             var rasterHeight = this.getHeight();
             var rasterWidth = this.getWidth();
-            var scale = Math.max(rasterHeight/canvas.height, rasterWidth/canvas.width);
+            var canvasHeight = parseFloat(canvas.style.height, 10);
+            var canvasWidth = parseFloat(canvas.style.width, 10);
+            var scale = Math.min(canvasHeight/rasterHeight, canvasWidth/rasterWidth);
 
-            if (false) {
-              // this.setHeight(rasterHeight * scale);
-              // this.setWidth(rasterWidth * scale);
-            }
-            else {
-              this.setHeight(rasterHeight / scale);
-              this.setWidth(rasterWidth / scale);
-            }
+            this.scale(scale);
           }
 
           // initialize raster
