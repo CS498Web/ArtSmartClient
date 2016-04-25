@@ -409,9 +409,9 @@ angular.module('anotareApp')
               });
 
               if (scope.editMode){
-                if (event.event.which === 3){ //right click event
-                  scope.drawDropdown(event, shape);
-                }
+                // if (event.event.which === 3){ //right click event
+                //   scope.drawDropdown(event, shape);
+                // }
                 if (!shape.frame){
                   drawFrameOn(shape, 'makeNew');
                 }
