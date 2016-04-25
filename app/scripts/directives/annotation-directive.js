@@ -42,7 +42,7 @@ angular.module('anotareApp')
 
                 drawAll();
             });
-          
+
         }
 
         //global styles to be used on the shapes
@@ -81,7 +81,7 @@ angular.module('anotareApp')
         };
 
 
-        // turn on/off edit mode        
+        // turn on/off edit mode
         scope.switchEditMode = function(){
 
           // turn off view mode if it is on
@@ -119,7 +119,7 @@ angular.module('anotareApp')
           }
 
           scope.viewMode = !scope.viewMode;
-          
+
           // get array of shapes
           var shapes = paper.project.getActiveLayer().children;
 
@@ -328,7 +328,7 @@ angular.module('anotareApp')
             }
 
           };
-        
+
 
         //draw shapes on the image/Raster
         scope.drawAnnotation = function( annotation ){
@@ -364,7 +364,7 @@ angular.module('anotareApp')
                 var halfHeight = shape.bounds.height/2;
                 var halfWidth = shape.bounds.width/2;
 
-                if(point.x < shape.bounds || point.x > canvasWidth - halfWidth || 
+                if(point.x < shape.bounds || point.x > canvasWidth - halfWidth ||
                   point.y < halfHeight || point.y > canvasHeight - halfHeight)
                   return false;
 
@@ -470,6 +470,16 @@ angular.module('anotareApp')
             return ellipse;
           };
 
+          // draw line
+          var drawLine = function( shape ){
+            console.log(shape.relative_x_end);
+            var line = new Paper.Path([
+              new Point(shape.relative_x_start,shape.relative_y_start),
+              new Point(shape.relative_x_end,shape.relative_y_end)
+            ])
+            return line;
+          }
+
           //draw pin
           var drawPin = function( shape ){
             var pin = new paper.Path.Circle({
@@ -490,6 +500,9 @@ angular.module('anotareApp')
           }
           else if(annotation.type === 'pin'){
             shape = drawPin(annotation);
+          }
+          else if(annotation.type === 'line'){
+            //shape = drawLine(annotation);
           }
 
           //creating the frame and overriding mouse actions on every shape
@@ -516,13 +529,13 @@ angular.module('anotareApp')
           drawImage( function() {
             scope.imageScope.annotations.forEach(function(annotation){
               scope.drawAnnotation(annotation);
-            }); 
+            });
           });
         };
 
         //setup canvas
         scope.getImage(init);
-        
+
       }
     };
   });
