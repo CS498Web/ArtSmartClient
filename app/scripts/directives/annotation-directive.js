@@ -12,7 +12,7 @@ angular.module('anotareApp')
       templateUrl :'views/display-annotation.html',
       link: function(scope, element, attribute, event) {
         scope.editMode = false;
-        scope.viewMode = false;
+        scope.addMode = false;
         scope.showAnnotation = false;
         scope.showDropdown = true;
 
@@ -20,6 +20,8 @@ angular.module('anotareApp')
         // window.oncontextmenu = function() { return false;};
 
         var shapeLastClicked, canvasWidth, canvasHeight;
+
+        var toolSelected, newAnnotation, newShape;
 
         // initialize the page
         var init = function() {
@@ -42,7 +44,7 @@ angular.module('anotareApp')
 
                 drawAll();
             });
-          
+            
         }
 
         //global styles to be used on the shapes
@@ -83,19 +85,24 @@ angular.module('anotareApp')
 
         // turn on/off edit mode        
         scope.switchEditMode = function(){
-
           // turn off view mode if it is on
-          if (scope.viewMode)
+          if (scope.addMode)
           {
-            scope.switchViewMode();
+            scope.switchAddMode();
           }
 
           scope.editMode = !scope.editMode;
 
-          // show dropdown to edit shapes
-          if (scope.editMode){
-            scope.showDropdown = true;
-            scope.hideDropdown();
+          changeCursorType();
+
+          // draw frame on the first shape if edit mode is activated and
+          // shapeLastClicked is not defined.
+          // TODO: draw on the biggest shape
+          if (scope.editMode && typeof shapeLastClicked === 'undefined') {
+            // only if children contains more than one (it contains annotation)
+            if (paper.project.getActiveLayer().children.length > 1) {
+              shapeLastClicked = paper.project.getActiveLayer().children[1];
+            }
           }
 
           // draw frame boundary for shape last clicked
@@ -111,34 +118,55 @@ angular.module('anotareApp')
         }
 
         // turn on/off view mode
-        scope.switchViewMode = function () {
-
+        scope.switchAddMode = function () {
           // turn off edit mode if it is on
           if (scope.editMode){
             scope.switchEditMode();
           }
 
-          scope.viewMode = !scope.viewMode;
+          scope.addMode = !scope.addMode;
+
+          if (!scope.addMode) {
+            toolSelected = '';
+          }
           
           // get array of shapes
           var shapes = paper.project.getActiveLayer().children;
 
-          // hide the shapes if view mode is one
-          for (var i=1; i < shapes.length; i++ ){
-            if (scope.viewMode){
-              shapes[i].style = styleHide;
-            }
-            else {
-              shapes[i].style = styleDefault;
-            }
-          }
+        }
 
-          //hide annotation
-          if (scope.viewMode){
-            scope.$apply(function() {
-              scope.showAnnotation = false;
-            });
+        var changeCursorType = function() {
+          if (scope.addMode && !!toolSelected) {
+            $('html,body').css('cursor','crosshair');
+          } else {
+            $('html,body').css('cursor','default');
           }
+        }
+
+        scope.isToolSelected = function(toolName) {
+          return toolSelected === toolName;
+        }
+        // when clicking the shapes on the dropdown menu
+        scope.selectDrawTool = function(toolName){
+          toolSelected = toolName;
+
+          // var origX = newShape.position.x / scope.canvas.width;
+          // var origY = newShape.position.y / scope.canvas.height;
+          // newShape.remove();
+          changeCursorType();
+          if (toolName === 'circle-tool'){
+            newAnnotation = 
+            {
+              "type":"ellipse",
+            }
+          }
+          else if (toolName === 'square-tool'){
+            newAnnotation = 
+            {
+              "type":"rectangle",
+            }
+          }
+          // newShape = scope.drawAnnotation(newAnnotation);
         }
 
         //draw the image
@@ -179,17 +207,16 @@ angular.module('anotareApp')
               }
             }
 
-            // when showdropdown is true, a click on raster hides the dropdown
-            // when show dropdown is false, a click on raster shows the dropdown
-            if (scope.editMode) {
-              if (scope.showDropdown){
-                scope.drawDropdown(event);
-                scope.showDropdown = false;
-              }
-              else {
-                scope.hideDropdown();
-                scope.showDropdown = true;
-              }
+        if (scope.addMode) {
+            var eventPointXRelativeCanvas = event.point.x - scope.canvas.offsetLeft;
+            var eventPointYRelativeCanvas = event.point.y - scope.canvas.offsetTop;
+            newAnnotation.relative_x = eventPointXRelativeCanvas / canvasWidth;
+            newAnnotation.relative_y = eventPointYRelativeCanvas / canvasHeight;
+            newShape = scope.drawAnnotation(newAnnotation);
+            shapeLastClicked = newShape;
+            scope.$apply(scope.switchEditMode);
+            newShape.onClick();
+            newShape = undefined;
           }
         }
       }
@@ -371,7 +398,7 @@ angular.module('anotareApp')
                 return true;
               }
 
-              if (scope.editMode && dragBound(event.point,shape)){
+              if (shape === newShape || (scope.editMode && dragBound(event.point,shape)) ){
                 shape.position = event.point;
                 drawFrameOn(shape, 'updateAll');
               }
@@ -388,7 +415,7 @@ angular.module('anotareApp')
                   shapeLastClicked.style = styleDefault;
                 }
                 shapeLastClicked.active = false;
-                if (scope.editMode){
+                if (shape === newShape || scope.editMode){
                   shapeLastClicked.removeSegments();
                   shapeLastClicked.frame.remove();
                 }
@@ -398,8 +425,6 @@ angular.module('anotareApp')
               shape.active = true;
 
               shape.style = styleActive;
-              scope.hideDropdown();
-              scope.showDropdown = false;
 
               //show the text corresponding to the shape
               scope.showAnnotation=true;
@@ -408,10 +433,7 @@ angular.module('anotareApp')
                 scope.comments = shape.comments;
               });
 
-              if (scope.editMode){
-                // if (event.event.which === 3){ //right click event
-                //   scope.drawDropdown(event, shape);
-                // }
+              if (shape === newShape || scope.editMode){
                 if (!shape.frame){
                   drawFrameOn(shape, 'makeNew');
                 }

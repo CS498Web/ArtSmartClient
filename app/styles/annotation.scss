@@ -1,38 +1,58 @@
+@import "./color.scss";
+
 #annotation-body {
 
 	a {
       	text-decoration: none;
 	}
 
-	.button-round {
-		border: 2px solid #9013FE;
-		border-radius: 50%;
-		width: 55px;
-		height: 55px;
-		text-align: center;
-		display: inline-block;
-		margin-bottom: 22.5px;
-
-		span {
-      font-family: 'Josefin Sans', sans-serif;
-			position: relative;
-			top: 12px;
-			font-size: 20px;
-      font-weight: 900;
-		}
-	}
+	.button-mode-container {
 	
-	.button-inactive {
-		background-color: white;
-		span {
-      		color: black;
+		.button-mode {
+			border-top: 2px solid $primary-color;
+			border-right: 2px solid $primary-color;
+			border-left: 2px solid $primary-color;
+			border-bottom: 0;
+			width: 55px;
+			height: 55px;
+			text-align: center;
+			display: inline-block;
+			
+			&:hover {
+				cursor: pointer;
+			}
+			span {
+				position: relative;
+				top: 12px;
+				/*font-size: 20px;*/
+			}
 		}
-	}
 
-	.button-active {
-		background-color: #9013FE;
-		span {
-      		color: white;
+		div:last-child {
+			>.button-mode {
+				border-bottom: 2px solid $primary-color;
+			}
+		}
+
+		.tool-icon-box {
+			padding: 0;
+		}
+		
+		.button-inactive {
+			background-color: white;
+			span {
+	      		color: black;
+			}
+			&:hover {
+				background-color: $hover-color;
+			}
+		}
+
+		.button-active {
+			background-color: $primary-color;
+			span {
+	      		color: white;
+			}
 		}
 	}
 
@@ -65,7 +85,7 @@
 		}
 		.annotation-comments{
 			margin-top: 10px;
-    		border-top: 1px solid #9013FE;
+    		border-top: 1px solid $primary-color;
 
 			.user-comment{
 				text-align: left;
@@ -82,4 +102,5 @@
 			margin-top: 20px;
 		}
 	}
+
 }
