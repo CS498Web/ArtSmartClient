@@ -17,7 +17,7 @@ angular.module('anotareApp')
         scope.showDropdown = true;
 
         //prevent default right click function
-        window.oncontextmenu = function() { return false;};
+        // window.oncontextmenu = function() { return false;};
 
         var shapeLastClicked, canvasWidth, canvasHeight;
 
