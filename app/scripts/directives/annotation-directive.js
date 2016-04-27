@@ -224,13 +224,13 @@ angular.module('anotareApp')
         if (scope.addMode) {
             var eventPointXRelativeCanvas = event.point.x - scope.canvas.offsetLeft;
             var eventPointYRelativeCanvas = event.point.y - scope.canvas.offsetTop;
-            console.log(newAnnotation);
             newAnnotation.relative_x = eventPointXRelativeCanvas / canvasWidth;
             newAnnotation.relative_y = eventPointYRelativeCanvas / canvasHeight;
             newShape = scope.drawAnnotation(newAnnotation);
             shapeLastClicked = newShape;
             scope.safeApply(scope.switchEditMode);
             newShape.onClick();
+            scope.switchToEditAnnotationText();
             newShape = undefined;
           }
         }
@@ -622,20 +622,17 @@ angular.module('anotareApp')
         };
 
         scope.switchToEditAnnotationText = function() {
-          var $annotation = $("#annotation-description");
           scope.isEditingAnnotation = true;
           annotationTextBeforeEdit = scope.annotationText;
-          $annotation.prop('contenteditable', scope.isEditingAnnotation).focus();
+          angular.element("#annotation-description > textarea").prop("disabled", false).focus();
         }
 
 
         scope.cancelEditAnnotationText = function () {
           scope.isEditingAnnotation = false;
-          //somehow angular binding is not working...
-          console.log(annotationTextBeforeEdit);
+          angular.element("#annotation-description > textarea").prop("disabled", true);
           if (annotationTextBeforeEdit.trim().length > 0) {
             scope.annotationText = annotationTextBeforeEdit;
-            // $("#annotation-description > span").text(scope.annotationText);
           }
           annotationTextBeforeEdit = "";
         }
@@ -647,8 +644,8 @@ angular.module('anotareApp')
 
         scope.updateEditAnnotationText = function () {
           scope.isEditingAnnotation = false;
-          //somehow angular binding is not working...
-          // scope.annotationText = $("#annotation-description > span").text();
+          shapeLastClicked.text = scope.annotationText;
+          angular.element("#annotation-description > textarea").prop("disabled", true);
           annotationTextBeforeEdit = ""
         }
 
@@ -657,4 +654,30 @@ angular.module('anotareApp')
         
       }
     };
-  });
+  })
+.directive('elastic', [
+    '$timeout',
+    function($timeout) {
+        return {
+            restrict: 'A',
+            require    : 'ngModel',
+            link: function(scope, element) {
+              var ngModelCtrl = element.controller('ngModel');
+
+              var resize = function(event) {
+                var actualScrollHeight = (element.height(1))[0].scrollHeight;
+                element.height(actualScrollHeight);
+              }
+
+              scope.$watch(function () {
+                return ngModelCtrl.$modelValue;
+              }, function() {
+                $timeout(resize, 0); // wait until the dom responds to the model change
+              },
+              false // deepwatch is not required
+              );
+
+            }
+        };
+    }
+]);

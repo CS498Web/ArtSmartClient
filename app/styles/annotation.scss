@@ -145,35 +145,44 @@
 		}
 
 		#annotation-description{
+			width: 100%;
 			text-align: right;
 			font-size: 18px;
-			padding-left: 5px;
-			padding-right: 5px;
 			margin-bottom: 10px;
-		}
+			&:hover {
+				cursor: default;
+			}
+			
+			textarea {
+				width: 100%;
+				padding-left: 10px;
+				padding-right: 10px;
+				border: none;
+				outline: none;
+				resize: none;
+			}
 
-
-
-		.highlight-annotation {
-			&:focus {
+			&.highlight-annotation {
 				outline-color: $primary-color;
 				outline-style: auto;
 				outline-width: 5px;
-			}
-			span {
-				background-color: $hover-color;
 				&:hover {
-					cursor: text;
-				}	
+					cursor: type;
+				}
 			}
+
 		}
+
+
+
+		
 		.annotation-comments{
 			margin-top: 10px;
     		border-top: 1px solid $primary-color;
 
 			.user-comment{
 				text-align: left;
-				font-size: 14px;
+				font-size: 12px;
 				font-style: italic;
 				font-weight: 900;
 			}

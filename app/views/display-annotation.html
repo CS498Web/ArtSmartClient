@@ -41,7 +41,7 @@
             <div class='col-md-12' id="annotation-header">annotation</div>
             <div class='col-md-12' id="annotation-description-container">
                 <div ng-class="isEditingAnnotation ? 'highlight-annotation' : '' " id="annotation-description">
-                    <span>{{annotationText}}</span>
+                    <textarea disabled=true elastic ng-model="annotationText"></textarea>
                 </div>
                 <button type="submit" class="btn btn-default pull-right" ng-if="isEditingAnnotation===false" ng-click="switchToEditAnnotationText()">edit</button>
                 
@@ -50,8 +50,7 @@
                 <button type="submit" ng-if="isEditingAnnotation" class="btn btn-default pull-right" ng-click="cancelEditAnnotationText()">cancel</button>
             </div>
             <div class="col-md-12 annotation-comments" ng-repeat="comment in comments">
-                <div class="user-comment">{{comment.user}}</div>
-                <div class="text-comment">{{comment.text}}</div>
+                <div class="text-comment">{{comment.text}} <span class="user-comment">- {{comment.user}}</span></div>
             </div>
             <div class="col-md-12 form-group">
                 <textarea id="annotation-submit" class="form-control" rows="4" id="exampleInputEmail1" placeholder="Comment something..."></textarea>
