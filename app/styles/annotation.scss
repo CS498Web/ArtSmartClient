@@ -1,4 +1,5 @@
 @import "./color.scss";
+@import "./position.scss";
 
 #annotation-body {
 
@@ -21,10 +22,11 @@
 			&:hover {
 				cursor: pointer;
 			}
-			span {
-				position: relative;
-				top: 12px;
-				/*font-size: 20px;*/
+			i {
+				font-size: 20px;
+			}
+			i, img {
+				@include vertical-align();
 			}
 		}
 
@@ -35,14 +37,17 @@
 		}
 
 		.tool-icon-box {
-			padding: 0;
+			>div {
+				padding: 0;
+				&:first-child > div {
+					border-top: 0;
+				}
+			}
 		}
 		
 		.button-inactive {
 			background-color: white;
-			span {
-	      		color: black;
-			}
+	    color: black;
 			&:hover {
 				background-color: $hover-color;
 			}
@@ -50,11 +55,71 @@
 
 		.button-active {
 			background-color: $primary-color;
-			span {
-	      		color: white;
+	    color: white;
+			&:hover {
+				background-color: lighten($primary-color, 15%);
 			}
 		}
 	}
+
+/*	#dropdown-context{
+   position: absolute;
+   background-color: white;
+   padding: 10px 15px;
+
+  #shape-list p, #shape-list hr{
+    display: inline-block;
+    vertical-align: middle;
+   }
+  #shape-list hr{
+    margin-top: 9px;
+    margin-left: 10px;
+    height: 2px;
+    border: none;
+   }
+
+  .list-group-horizontal{
+    display: inline-block;
+
+    img{
+      margin: 0 1.5em; 
+      &:first-child{
+        margin-left: 0;
+      }
+      &:last-child{
+        margin-right: 0;
+      }
+    }
+  }
+
+  #annotation-text{
+    border-left-style: none;
+    border-right-style: none;
+  }
+  button{
+    border: none;
+    float: right;
+  }
+}*/
+
+/*#annotation-body{
+  margin-top: 5%;
+  
+  .editing-menu{
+    background: #E8E6E3;
+    border: 1px black solid;
+    position: fixed;
+    left: 0;
+  }
+  canvas{
+    float: left;
+    // border: 1px black solid;
+  }
+  #annotation-text{
+    border: 1px black solid;
+    float: left;
+  }
+}*/
 
 	#canvas-column{
 		#main-canvas {
@@ -74,14 +139,33 @@
 		#annotation-header{
 			font-style: italic;
 			font-size: 14px;
-			margin-top: 10px;
-			margin-bottom: -20px;
 		}
-		#annotation-description{
-			margin-top: -10px;
+		#annotation-description-container{
 			margin-bottom: 20px;
+		}
+
+		#annotation-description{
 			text-align: right;
 			font-size: 18px;
+			padding-left: 5px;
+			padding-right: 5px;
+			margin-bottom: 10px;
+		}
+
+
+
+		.highlight-annotation {
+			&:focus {
+				outline-color: $primary-color;
+				outline-style: auto;
+				outline-width: 5px;
+			}
+			span {
+				background-color: $hover-color;
+				&:hover {
+					cursor: text;
+				}	
+			}
 		}
 		.annotation-comments{
 			margin-top: 10px;

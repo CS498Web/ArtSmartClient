@@ -355,7 +355,7 @@ module.exports = function (grunt) {
         }, {
           expand: true,
           cwd: '.',
-          src: 'bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/*',
+          src: 'bower_components/components-font-awesome/fonts/*',
           dest: '<%= yeoman.dist %>'
         }]
       },

@@ -15,7 +15,8 @@
     "easeljs": "~0.8.0",
     "angular-ui-router": "~0.2.13",
     "paper": "~0.9.22",
-    "bootstrap-less": "~3.3.4"
+    "bootstrap-less": "~3.3.4",
+    "components-font-awesome": "^4.5.0"
   },
   "devDependencies": {
     "angular-mocks": "1.2.16",

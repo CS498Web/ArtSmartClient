@@ -15,13 +15,17 @@ angular.module('anotareApp')
         scope.addMode = false;
         scope.showAnnotation = false;
         scope.showDropdown = true;
+        scope.isEditingAnnotation = false;
+        scope.annotationText = "";
 
         //prevent default right click function
         // window.oncontextmenu = function() { return false;};
 
-        var shapeLastClicked, canvasWidth, canvasHeight;
+        var shapeLastClicked, canvasWidth, canvasHeight, raster;
 
         var toolSelected, newAnnotation, newShape;
+
+        var annotationTextBeforeEdit = "";
 
         // initialize the page
         var init = function() {
@@ -108,7 +112,8 @@ angular.module('anotareApp')
           // draw frame boundary for shape last clicked
           if (typeof shapeLastClicked !== 'undefined') {
             if (scope.editMode) {
-              drawFrameOn(shapeLastClicked, 'makeNew');
+              // drawFrameOn(shapeLastClicked, 'makeNew');
+              shapeLastClicked.onClick();
             }
             else {
               shapeLastClicked.removeSegments();
@@ -122,6 +127,7 @@ angular.module('anotareApp')
           // turn off edit mode if it is on
           if (scope.editMode){
             scope.switchEditMode();
+            raster.onClick(); //hack to clear previously shaped click
           }
 
           scope.addMode = !scope.addMode;
@@ -129,6 +135,12 @@ angular.module('anotareApp')
           if (!scope.addMode) {
             toolSelected = '';
           }
+
+
+          // if (typeof shapeLastClicked !== 'undefined') {
+          //   shapeLastClicked.removeSegments();
+          //   shapeLastClicked.frame.remove();
+          // }
           
           // get array of shapes
           var shapes = paper.project.getActiveLayer().children;
@@ -185,7 +197,7 @@ angular.module('anotareApp')
           }
 
           // initialize raster
-          var raster = new paper.Raster(scope.imageScope.src);
+          raster = new paper.Raster(scope.imageScope.src);
           raster.type = 'main-image';
           raster.onLoad = resizeRaster;
           raster.position = paper.view.center;
@@ -193,9 +205,11 @@ angular.module('anotareApp')
           raster.onClick = function(event){
 
             //hide annotation
-            scope.$apply(function() {
+            scope.safeApply(function() {
               scope.showAnnotation = false;
             });
+
+            resetEditAnnotationText();
 
             // if raster is clicked, turn shapes into style standard
             if (typeof shapeLastClicked !== 'undefined') {
@@ -210,11 +224,12 @@ angular.module('anotareApp')
         if (scope.addMode) {
             var eventPointXRelativeCanvas = event.point.x - scope.canvas.offsetLeft;
             var eventPointYRelativeCanvas = event.point.y - scope.canvas.offsetTop;
+            console.log(newAnnotation);
             newAnnotation.relative_x = eventPointXRelativeCanvas / canvasWidth;
             newAnnotation.relative_y = eventPointYRelativeCanvas / canvasHeight;
             newShape = scope.drawAnnotation(newAnnotation);
             shapeLastClicked = newShape;
-            scope.$apply(scope.switchEditMode);
+            scope.safeApply(scope.switchEditMode);
             newShape.onClick();
             newShape = undefined;
           }
@@ -255,8 +270,20 @@ angular.module('anotareApp')
                 strokeColor: 'blue',
                 strokeWidth: 1,
                 onMouseDrag : function(event){
+                  if (event.point.y <= shape.frame.segments[5].point.y + 10) {
+                    event.point.y = shape.frame.segments[5].point.y + 10;
+                  } 
+                  if (event.point.x >= shape.frame.segments[5].point.x - 10) {
+                    event.point.x = shape.frame.segments[5].point.x - 10;
+                  }
                   shape.bounds.setBottomLeft(event.point);
                   drawFrameOn(shape, 'updateAll');
+                },
+                onMouseEnter: function() {
+                  $('html,body').css('cursor','nesw-resize');
+                },
+                onMouseLeave: function() {
+                  $('html,body').css('cursor','default');
                 }
               });
 
@@ -269,8 +296,20 @@ angular.module('anotareApp')
                 strokeColor: 'blue',
                 strokeWidth: 1,
                 onMouseDrag : function(event){
+                  if (event.point.y >= shape.frame.segments[6].point.y - 10) {
+                    event.point.y = shape.frame.segments[6].point.y - 10;
+                  } 
+                  if (event.point.x >= shape.frame.segments[6].point.x - 10) {
+                    event.point.x = shape.frame.segments[6].point.x - 10;
+                  }
                   shape.bounds.setTopLeft(event.point);
                   drawFrameOn(shape, 'updateAll');
+                },
+                onMouseEnter: function() {
+                  $('html,body').css('cursor','nwse-resize');
+                },
+                onMouseLeave: function() {
+                  $('html,body').css('cursor','default');
                 }
               });
 
@@ -283,8 +322,20 @@ angular.module('anotareApp')
                 strokeColor: 'blue',
                 strokeWidth: 1,
                 onMouseDrag : function(event){
+                  if (event.point.y >= shape.frame.segments[0].point.y - 10) {
+                    event.point.y = shape.frame.segments[0].point.y - 10;
+                  } 
+                  if (event.point.x <= shape.frame.segments[0].point.x + 10) {
+                    event.point.x = shape.frame.segments[0].point.x + 10;
+                  }
                   shape.bounds.setTopRight(event.point);
                   drawFrameOn(shape, 'updateAll');
+                },
+                onMouseEnter: function() {
+                  $('html,body').css('cursor','nesw-resize');
+                },
+                onMouseLeave: function() {
+                  $('html,body').css('cursor','default');
                 }
               });
 
@@ -297,8 +348,20 @@ angular.module('anotareApp')
                 strokeColor: 'blue',
                 strokeWidth: 1,
                 onMouseDrag : function(event){
+                  if (event.point.y <= shape.frame.segments[1].point.y + 10) {
+                    event.point.y = shape.frame.segments[1].point.y + 10;
+                  } 
+                  if (event.point.x <= shape.frame.segments[1].point.x + 10) {
+                    event.point.x = shape.frame.segments[1].point.x + 10;
+                  }
                   shape.bounds.setBottomRight(event.point);
                   drawFrameOn(shape, 'updateAll');
+                },
+                onMouseEnter: function() {
+                  $('html,body').css('cursor','nwse-resize');
+                },
+                onMouseLeave: function() {
+                  $('html,body').css('cursor','default');
                 }
               });
 
@@ -321,6 +384,12 @@ angular.module('anotareApp')
                   shape.frame.topLeftSegment.rotate(rotateAngle);
                   shape.frame.rotateSegment.rotate(rotateAngle);
                 },
+                onMouseEnter: function() {
+                  $('html,body').css('cursor','all-scroll');
+                },
+                onMouseLeave: function() {
+                  $('html,body').css('cursor','default');
+                }
               });
             }
 
@@ -364,7 +433,11 @@ angular.module('anotareApp')
           var mouseActionsOn = function(shape){
             //hover effect
             var mouseEnterEffect = function(shape){
-              $('html,body').css('cursor','pointer');
+              if (scope.editMode) {
+                $('html,body').css('cursor','move');
+              } else {
+                $('html,body').css('cursor','pointer');
+              }
               if (!shape.active){
                 shape.style = styleHover;
               }
@@ -386,19 +459,24 @@ angular.module('anotareApp')
             //only activated when editMode is true
             var mouseDragEffect = function(event, shape) {
 
+              $('html,body').css('cursor','move');
+
               //prevent dragging shapes outside of the canvas
               var dragBound = function(point,shape){
                 var halfHeight = shape.bounds.height/2;
                 var halfWidth = shape.bounds.width/2;
 
                 if(point.x < shape.bounds || point.x > canvasWidth - halfWidth || 
-                  point.y < halfHeight || point.y > canvasHeight - halfHeight)
+                  point.y < halfHeight || point.y > canvasHeight - halfHeight) {
                   return false;
+                } else {
+                  return true;
+                }
 
-                return true;
               }
 
-              if (shape === newShape || (scope.editMode && dragBound(event.point,shape)) ){
+              // if (shape === newShape || (scope.editMode && dragBound(event.point,shape)) ){
+              if (scope.editMode && dragBound(event.point,shape)){
                 shape.position = event.point;
                 drawFrameOn(shape, 'updateAll');
               }
@@ -415,6 +493,7 @@ angular.module('anotareApp')
                   shapeLastClicked.style = styleDefault;
                 }
                 shapeLastClicked.active = false;
+                resetEditAnnotationText();
                 if (shape === newShape || scope.editMode){
                   shapeLastClicked.removeSegments();
                   shapeLastClicked.frame.remove();
@@ -428,7 +507,7 @@ angular.module('anotareApp')
 
               //show the text corresponding to the shape
               scope.showAnnotation=true;
-              scope.$apply(function() {
+              scope.safeApply(function() {
                 scope.annotationText = shape.text;
                 scope.comments = shape.comments;
               });
@@ -447,7 +526,7 @@ angular.module('anotareApp')
             shape.onMouseDrag   = function(event) { mouseDragEffect  ( event, shape ) };
             shape.onMouseEnter  = function() { mouseEnterEffect ( shape ) };
             shape.onMouseLeave  = function() { mouseLeaveEffect ( shape ) };
-            shape.onClick       = function(event) {mouseClickEffect ( event, shape); return false;}
+            shape.onClick   = function(event) {mouseClickEffect ( event, shape); return false;}
 
           };
           //end mouseActionsOn
@@ -478,7 +557,7 @@ angular.module('anotareApp')
             if (typeof shape.relative_width === 'undefined' || typeof shape.relative_height === 'undefined'){
               ellipse = new paper.Path.Ellipse({
                 width: 70,
-                height: 50,
+                height: 70,
                 style: styleDefault
               });
             }
@@ -541,6 +620,37 @@ angular.module('anotareApp')
             }); 
           });
         };
+
+        scope.switchToEditAnnotationText = function() {
+          var $annotation = $("#annotation-description");
+          scope.isEditingAnnotation = true;
+          annotationTextBeforeEdit = scope.annotationText;
+          $annotation.prop('contenteditable', scope.isEditingAnnotation).focus();
+        }
+
+
+        scope.cancelEditAnnotationText = function () {
+          scope.isEditingAnnotation = false;
+          //somehow angular binding is not working...
+          console.log(annotationTextBeforeEdit);
+          if (annotationTextBeforeEdit.trim().length > 0) {
+            scope.annotationText = annotationTextBeforeEdit;
+            // $("#annotation-description > span").text(scope.annotationText);
+          }
+          annotationTextBeforeEdit = "";
+        }
+
+        var resetEditAnnotationText = function() {
+          annotationTextBeforeEdit = "";
+          scope.cancelEditAnnotationText();
+        }
+
+        scope.updateEditAnnotationText = function () {
+          scope.isEditingAnnotation = false;
+          //somehow angular binding is not working...
+          // scope.annotationText = $("#annotation-description > span").text();
+          annotationTextBeforeEdit = ""
+        }
 
         //setup canvas
         scope.getImage(init);
