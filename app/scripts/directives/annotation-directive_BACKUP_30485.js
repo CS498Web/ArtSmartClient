@@ -48,6 +48,11 @@ angular.module('anotareApp')
 
                 drawAll();
             });
+<<<<<<< HEAD
+
+=======
+
+>>>>>>> 1d723cc2735bce59eb592125f042fcac4a75220c
         }
 
         //global styles to be used on the shapes
@@ -129,6 +134,10 @@ angular.module('anotareApp')
             raster.onClick(); //hack to clear previously shaped click
           }
 
+<<<<<<< HEAD
+          scope.viewMode = !scope.viewMode;
+
+=======
           scope.addMode = !scope.addMode;
 
           if (!scope.addMode) {
@@ -141,6 +150,7 @@ angular.module('anotareApp')
           //   shapeLastClicked.frame.remove();
           // }
 
+>>>>>>> 1d723cc2735bce59eb592125f042fcac4a75220c
           // get array of shapes
           var shapes = paper.project.getActiveLayer().children;
 

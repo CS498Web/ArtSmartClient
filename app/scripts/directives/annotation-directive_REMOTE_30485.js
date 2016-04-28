@@ -48,6 +48,7 @@ angular.module('anotareApp')
 
                 drawAll();
             });
+            
         }
 
         //global styles to be used on the shapes
@@ -86,7 +87,7 @@ angular.module('anotareApp')
         };
 
 
-        // turn on/off edit mode
+        // turn on/off edit mode        
         scope.switchEditMode = function(){
           // turn off view mode if it is on
           if (scope.addMode)
@@ -140,7 +141,7 @@ angular.module('anotareApp')
           //   shapeLastClicked.removeSegments();
           //   shapeLastClicked.frame.remove();
           // }
-
+          
           // get array of shapes
           var shapes = paper.project.getActiveLayer().children;
 
@@ -166,13 +167,13 @@ angular.module('anotareApp')
           // newShape.remove();
           changeCursorType();
           if (toolName === 'circle-tool'){
-            newAnnotation =
+            newAnnotation = 
             {
               "type":"ellipse",
             }
           }
           else if (toolName === 'square-tool'){
-            newAnnotation =
+            newAnnotation = 
             {
               "type":"rectangle",
             }
@@ -271,7 +272,7 @@ angular.module('anotareApp')
                 onMouseDrag : function(event){
                   if (event.point.y <= shape.frame.segments[5].point.y + 10) {
                     event.point.y = shape.frame.segments[5].point.y + 10;
-                  }
+                  } 
                   if (event.point.x >= shape.frame.segments[5].point.x - 10) {
                     event.point.x = shape.frame.segments[5].point.x - 10;
                   }
@@ -297,7 +298,7 @@ angular.module('anotareApp')
                 onMouseDrag : function(event){
                   if (event.point.y >= shape.frame.segments[6].point.y - 10) {
                     event.point.y = shape.frame.segments[6].point.y - 10;
-                  }
+                  } 
                   if (event.point.x >= shape.frame.segments[6].point.x - 10) {
                     event.point.x = shape.frame.segments[6].point.x - 10;
                   }
@@ -323,7 +324,7 @@ angular.module('anotareApp')
                 onMouseDrag : function(event){
                   if (event.point.y >= shape.frame.segments[0].point.y - 10) {
                     event.point.y = shape.frame.segments[0].point.y - 10;
-                  }
+                  } 
                   if (event.point.x <= shape.frame.segments[0].point.x + 10) {
                     event.point.x = shape.frame.segments[0].point.x + 10;
                   }
@@ -349,7 +350,7 @@ angular.module('anotareApp')
                 onMouseDrag : function(event){
                   if (event.point.y <= shape.frame.segments[1].point.y + 10) {
                     event.point.y = shape.frame.segments[1].point.y + 10;
-                  }
+                  } 
                   if (event.point.x <= shape.frame.segments[1].point.x + 10) {
                     event.point.x = shape.frame.segments[1].point.x + 10;
                   }
@@ -423,7 +424,7 @@ angular.module('anotareApp')
             }
 
           };
-
+        
 
         //draw shapes on the image/Raster
         scope.drawAnnotation = function( annotation ){
@@ -438,7 +439,6 @@ angular.module('anotareApp')
                 $('html,body').css('cursor','pointer');
               }
               if (!shape.active){
-                console.log(shape);
                 shape.style = styleHover;
               }
             }
@@ -447,7 +447,6 @@ angular.module('anotareApp')
             var mouseLeaveEffect = function(shape){
               $('html,body').css('cursor','default');
               if (!shape.active){
-                console.log(shape);
                 if (shape.type === 'pin') {
                   shape.style = stylePin;
                 }
@@ -467,7 +466,7 @@ angular.module('anotareApp')
                 var halfHeight = shape.bounds.height/2;
                 var halfWidth = shape.bounds.width/2;
 
-                if(point.x < shape.bounds || point.x > canvasWidth - halfWidth ||
+                if(point.x < shape.bounds || point.x > canvasWidth - halfWidth || 
                   point.y < halfHeight || point.y > canvasHeight - halfHeight) {
                   return false;
                 } else {
@@ -572,22 +571,6 @@ angular.module('anotareApp')
             return ellipse;
           };
 
-          // draw line
-          var drawLine = function( shape ){
-            var line = new paper.Path.Line({
-              from : [shape.relative_x_start * canvasWidth,shape.relative_y_start * canvasHeight],
-              to : [ shape.relative_x_end * canvasHeight,shape.relative_y_end * canvasHeight],
-              style : styleDefault
-            });
-            line.style = styleDefault;
-            var pin = new paper.Path.Circle({
-              radius: 3,
-              style: stylePin
-            });
-            console.log(line);
-            return pin;
-          }
-
           //draw pin
           var drawPin = function( shape ){
             var pin = new paper.Path.Circle({
@@ -609,12 +592,10 @@ angular.module('anotareApp')
           else if(annotation.type === 'pin'){
             shape = drawPin(annotation);
           }
-          //else if(annotation.type === 'line'){
-            //shape = drawLine(annotation);
-          //}
-//
+
           //creating the frame and overriding mouse actions on every shape
           if (typeof shape !== 'undefined') {
+
             shape.type = annotation.type;
             shape.position.setX(annotation.relative_x * canvasWidth);
             shape.position.setY(annotation.relative_y *  canvasHeight);
@@ -636,7 +617,7 @@ angular.module('anotareApp')
           drawImage( function() {
             scope.imageScope.annotations.forEach(function(annotation){
               scope.drawAnnotation(annotation);
-            });
+            }); 
           });
         };
 
@@ -670,7 +651,7 @@ angular.module('anotareApp')
 
         //setup canvas
         scope.getImage(init);
-
+        
       }
     };
   })
