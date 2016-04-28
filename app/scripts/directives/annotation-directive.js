@@ -339,6 +339,7 @@ angular.module('anotareApp')
             var mouseEnterEffect = function(shape){
               $('html,body').css('cursor','pointer');
               if (!shape.active){
+                console.log(shape);
                 shape.style = styleHover;
               }
             }
@@ -347,6 +348,7 @@ angular.module('anotareApp')
             var mouseLeaveEffect = function(shape){
               $('html,body').css('cursor','default');
               if (!shape.active){
+                console.log(shape);
                 if (shape.type === 'pin') {
                   shape.style = stylePin;
                 }
@@ -472,12 +474,18 @@ angular.module('anotareApp')
 
           // draw line
           var drawLine = function( shape ){
-            console.log(shape.relative_x_end);
-            var line = new Paper.Path([
-              new Point(shape.relative_x_start,shape.relative_y_start),
-              new Point(shape.relative_x_end,shape.relative_y_end)
-            ])
-            return line;
+            var line = new paper.Path.Line({
+              from : [shape.relative_x_start * canvasWidth,shape.relative_y_start * canvasHeight],
+              to : [ shape.relative_x_end * canvasHeight,shape.relative_y_end * canvasHeight],
+              style : styleDefault
+            });
+            line.style = styleDefault;
+            var pin = new paper.Path.Circle({
+              radius: 3,
+              style: stylePin
+            });
+            console.log(line);
+            return pin;
           }
 
           //draw pin
@@ -501,13 +509,12 @@ angular.module('anotareApp')
           else if(annotation.type === 'pin'){
             shape = drawPin(annotation);
           }
-          else if(annotation.type === 'line'){
+          //else if(annotation.type === 'line'){
             //shape = drawLine(annotation);
-          }
-
+          //}
+//
           //creating the frame and overriding mouse actions on every shape
           if (typeof shape !== 'undefined') {
-
             shape.type = annotation.type;
             shape.position.setX(annotation.relative_x * canvasWidth);
             shape.position.setY(annotation.relative_y *  canvasHeight);
