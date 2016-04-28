@@ -15,7 +15,7 @@ angular.module('anotareApp')
         scope.addMode = false;
         scope.showAnnotation = false;
         scope.showDropdown = true;
-        scope.isEditingAnnotation = false;
+        isEditingAnnotation = false;
         scope.annotationText = "";
 
         //prevent default right click function
@@ -26,6 +26,10 @@ angular.module('anotareApp')
         var toolSelected, newAnnotation, newShape;
 
         var annotationTextBeforeEdit = "";
+
+        var isAddingNewAnnotation = false;
+        var isEditingAnnotation = false;
+
 
         // initialize the page
         var init = function() {
@@ -89,6 +93,11 @@ angular.module('anotareApp')
 
         // turn on/off edit mode        
         scope.switchEditMode = function(){
+
+          if (scope.editMode && isAddingNewAnnotation && !scope.destroyNewAnnotation()) {
+            return;
+          }
+
           // turn off view mode if it is on
           if (scope.addMode)
           {
@@ -125,6 +134,10 @@ angular.module('anotareApp')
         // turn on/off view mode
         scope.switchAddMode = function () {
           // turn off edit mode if it is on
+          if (scope.editMode && isAddingNewAnnotation && !scope.destroyNewAnnotation()) {
+            return;
+          }
+
           if (scope.editMode){
             scope.switchEditMode();
             raster.onClick(); //hack to clear previously shaped click
@@ -148,14 +161,14 @@ angular.module('anotareApp')
         }
 
         var changeCursorType = function() {
-          if (scope.addMode && !!toolSelected) {
+          if (scope.checkIsToolSelected()) {
             $('html,body').css('cursor','crosshair');
           } else {
             $('html,body').css('cursor','default');
           }
         }
 
-        scope.isToolSelected = function(toolName) {
+        scope.isEqualToToolSelected = function(toolName) {
           return toolSelected === toolName;
         }
         // when clicking the shapes on the dropdown menu
@@ -202,6 +215,12 @@ angular.module('anotareApp')
           raster.onLoad = resizeRaster;
           raster.position = paper.view.center;
 
+          raster.onMouseEnter = function () {
+            if (scope.checkIsToolSelected()) {
+              $('html,body').css('cursor','crosshair');
+            }
+          }
+
           raster.onClick = function(event){
 
             //hide annotation
@@ -221,7 +240,8 @@ angular.module('anotareApp')
               }
             }
 
-        if (scope.addMode) {
+        if (scope.checkIsToolSelected()) {
+            toolSelected = '';
             var eventPointXRelativeCanvas = event.point.x - scope.canvas.offsetLeft;
             var eventPointYRelativeCanvas = event.point.y - scope.canvas.offsetTop;
             newAnnotation.relative_x = eventPointXRelativeCanvas / canvasWidth;
@@ -231,7 +251,9 @@ angular.module('anotareApp')
             scope.safeApply(scope.switchEditMode);
             newShape.onClick();
             scope.switchToEditAnnotationText();
-            newShape = undefined;
+            isAddingNewAnnotation = true;
+            isEditingAnnotation = false;
+            // newShape = undefined;
           }
         }
       }
@@ -283,6 +305,7 @@ angular.module('anotareApp')
                   $('html,body').css('cursor','nesw-resize');
                 },
                 onMouseLeave: function() {
+                  $('html,body').css('cursor','default');
                   $('html,body').css('cursor','default');
                 }
               });
@@ -433,11 +456,17 @@ angular.module('anotareApp')
           var mouseActionsOn = function(shape){
             //hover effect
             var mouseEnterEffect = function(shape){
+              if (scope.checkIsToolSelected()) {
+                return;
+              }
+
               if (scope.editMode) {
                 $('html,body').css('cursor','move');
-              } else {
+              }
+              else {
                 $('html,body').css('cursor','pointer');
               }
+
               if (!shape.active){
                 shape.style = styleHover;
               }
@@ -445,7 +474,9 @@ angular.module('anotareApp')
 
             //unhover effect
             var mouseLeaveEffect = function(shape){
-              $('html,body').css('cursor','default');
+              if (!scope.checkIsToolSelected()) {
+                $('html,body').css('cursor','default');
+              }
               if (!shape.active){
                 if (shape.type === 'pin') {
                   shape.style = stylePin;
@@ -485,6 +516,10 @@ angular.module('anotareApp')
             //give an active effect when shape is clicked, show frame only when editMode is true
             //shapeLastClicked is a 'global' variable to determine which shape was last clicked
             var mouseClickEffect = function(event, shape) {
+              if (scope.checkIsToolSelected() || isAddingNewAnnotation && !scope.destroyNewAnnotation()) {
+                return;
+              }
+
               if (typeof shapeLastClicked !== 'undefined' && shapeLastClicked !== shape ){
                 if (shapeLastClicked.type === 'pin') {
                     shapeLastClicked.style = stylePin;
@@ -494,7 +529,7 @@ angular.module('anotareApp')
                 }
                 shapeLastClicked.active = false;
                 resetEditAnnotationText();
-                if (shape === newShape || scope.editMode){
+                if (scope.editMode){
                   shapeLastClicked.removeSegments();
                   shapeLastClicked.frame.remove();
                 }
@@ -512,7 +547,7 @@ angular.module('anotareApp')
                 scope.comments = shape.comments;
               });
 
-              if (shape === newShape || scope.editMode){
+              if (scope.editMode){
                 if (!shape.frame){
                   drawFrameOn(shape, 'makeNew');
                 }
@@ -622,14 +657,26 @@ angular.module('anotareApp')
         };
 
         scope.switchToEditAnnotationText = function() {
-          scope.isEditingAnnotation = true;
+          isEditingAnnotation = true;
           annotationTextBeforeEdit = scope.annotationText;
           angular.element("#annotation-description > textarea").prop("disabled", false).focus();
         }
 
+        scope.submitNewAnnotationText = function () {
+          if (scope.annotationText && scope.annotationText.trim().length > 0) {
+            shapeLastClicked.text = scope.annotationText;
+            isAddingNewAnnotation = false;
+            isEditingAnnotation = false;
+            scope.switchEditMode();
+          } else {
+            alert("You can't submit an empty annotation.");
+          }
+          
+        }
+
 
         scope.cancelEditAnnotationText = function () {
-          scope.isEditingAnnotation = false;
+          isEditingAnnotation = false;
           angular.element("#annotation-description > textarea").prop("disabled", true);
           if (annotationTextBeforeEdit.trim().length > 0) {
             scope.annotationText = annotationTextBeforeEdit;
@@ -643,10 +690,41 @@ angular.module('anotareApp')
         }
 
         scope.updateEditAnnotationText = function () {
-          scope.isEditingAnnotation = false;
+          isEditingAnnotation = false;
           shapeLastClicked.text = scope.annotationText;
           angular.element("#annotation-description > textarea").prop("disabled", true);
           annotationTextBeforeEdit = ""
+        }
+
+        scope.checkIsToolSelected = function() {
+          return !!toolSelected;
+        }
+
+        scope.shouldShowSubmitAnnotation = function() {
+          return isAddingNewAnnotation;
+        }
+
+        scope.shouldShowEditAnnotation = function() {
+          return !isEditingAnnotation && !isAddingNewAnnotation;
+        }
+
+        scope.shouldShowUpdateAnnotation = function() {
+          return isEditingAnnotation;
+        }
+
+        scope.destroyNewAnnotation = function() {
+          if (confirm("Are you sure you want to delete this annotation?")) {
+            isAddingNewAnnotation = false;
+            if (newShape.frame) newShape.frame.remove();
+            newShape.removeSegments();
+            newShape.remove();
+            newShape = undefined;
+            scope.showAnnotation = false;
+            return true;
+          } else {
+            return false;
+          }
+
         }
 
         //setup canvas
