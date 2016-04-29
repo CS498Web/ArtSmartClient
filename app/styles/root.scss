@@ -1,6 +1,7 @@
+@import "./color.scss";
+
 .navbar{
-	/*padding: 0 100px;*/
-	background-color: rgba(30, 30, 30, 0.1);
+	background-color: $light-grey;
 	li{
 		a{
 			color: white;
@@ -9,7 +10,7 @@
 
 			&:hover{
 				background:none;
-				color: #9013FE;
+				color: $primary-color;
 			}
 		}
 	}

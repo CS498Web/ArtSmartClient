@@ -38,8 +38,8 @@
     name: 'circle-tool'
   },
   {
-    url: '/images/tool-trig.png',
-    name: 'trig-tool'
+    url: '/images/tool-triangle.png',
+    name: 'triangle-tool'
   }
   ];
 
