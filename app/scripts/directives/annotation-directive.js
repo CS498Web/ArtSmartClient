@@ -5,7 +5,7 @@
  */
 
 angular.module('anotareApp')
-  .directive('displayAnnotation', function () {
+  .directive('displayAnnotation', ['$timeout', function ($timeout) {
     return {
       restrict : 'E',
       replace : true,
@@ -145,6 +145,7 @@ angular.module('anotareApp')
               shapeLastClicked.removeSegments();
               shapeLastClicked.frame.remove();
             }
+            paper.view.draw();
           }
         }
 
@@ -287,7 +288,6 @@ angular.module('anotareApp')
             if (scope.checkIsToolSelected()) {
               var eventPointXRelativeCanvas = event.point.x - scope.canvas.offsetLeft;
               var eventPointYRelativeCanvas = event.point.y - scope.canvas.offsetTop;
-              console.log(toolSelected);
               if (toolSelected === 'line-tool') {
                 newAnnotation.relative_x1 = (eventPointXRelativeCanvas - 25) / canvasWidth;
                 newAnnotation.relative_y1 = (eventPointYRelativeCanvas + 25) / canvasWidth;
@@ -306,15 +306,19 @@ angular.module('anotareApp')
               }
               toolSelected = '';
               
+              console.log("lol");
               
               newShape = scope.drawAnnotation(newAnnotation);
               shapeLastClicked = newShape;
-              scope.safeApply(scope.switchEditMode);
+              scope.switchEditMode();
               newShape.onClick(null, 'force-update');
               scope.switchToEditAnnotationText();
-              isAddingNewAnnotation = true;
-              scope.annotationHeader = "adding new annotation";
-              isEditingAnnotation = false;
+              scope.safeApply(function() {
+                isAddingNewAnnotation = true;
+                scope.annotationHeader = "adding new annotation";
+                isEditingAnnotation = false;
+              })
+              
               // newShape = undefined;
             }
         }
@@ -470,10 +474,10 @@ angular.module('anotareApp')
                   shape.frame.rotateSegment.rotate(rotateAngle);
                 },
                 onMouseEnter: function() {
-                  $('html,body').css('cursor','url(/images/cursor-rotate.png),auto');
+                  $('html,body').css('cursor','all-scroll');
                 },
                 onMouseLeave: function() {
-                  $('html,body').css('cursor','url(/images/cursor-rotate.png),auto');
+                  $('html,body').css('cursor', 'default');
                 }
               });
             }
@@ -832,16 +836,16 @@ angular.module('anotareApp')
         }
 
         function destroyAnnotation(shape) {
-          scope.safeApply(function () {
-            if (shape.frame) shape.frame.remove();
-            shape.removeSegments();
-            shape.remove();
-            shape = undefined;
-            scope.showAnnotation = false;
-            isAddingNewAnnotation = false;
-            shouldShowDeleteButton = false;
-            scope.annotationHeader = "1 annotation";
-          });
+          if (shape.frame) shape.frame.remove();
+          shape.removeSegments();
+          shape.remove();
+          shape = undefined;
+          scope.showAnnotation = false;
+          isAddingNewAnnotation = false;
+          shouldShowDeleteButton = false;
+          shapeLastClicked = undefined;
+          scope.annotationHeader = "1 annotation";
+          paper.view.draw();
         }
 
 
@@ -877,7 +881,9 @@ angular.module('anotareApp')
 
         scope.showCommentTextArea = function() {
           shouldShowCommentTextArea = true;
-          // $(".add-comment-textarea").focus();
+          $timeout(function() {
+            $(".add-comment-textarea").focus();
+          })
         }
 
         function resetAddingComment() {
@@ -901,12 +907,16 @@ angular.module('anotareApp')
           }
         }
 
+        scope.shouldShowAddAComment = function() {
+          return !shouldShowCommentTextArea && !isAddingNewAnnotation;
+        }
+
         //setup canvas
         scope.getImage(init);
         
       }
     };
-  })
+  }])
 .directive('elastic', [
     '$timeout',
     function($timeout) {

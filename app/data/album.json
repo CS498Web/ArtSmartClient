@@ -176,12 +176,12 @@
             },
             {
                 "type":"triangle",
-                "relative_x1": 0.105,
-                "relative_y1": 0.255,
+                "relative_x1": 0.205,
+                "relative_y1": 0.855,
                 "relative_x2": 0.455,
-                "relative_y2": 0.355,
-                "relative_x3": 0.755,
-                "relative_y3": 0.105,
+                "relative_y2": 0.755,
+                "relative_x3": 0.355,
+                "relative_y3": 0.505,
                 "text": "This triangle is awesome",
                 "comments":
                 [

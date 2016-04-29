@@ -1,5 +1,4 @@
-@import "./color.scss";
-@import "./position.scss";
+@import "./mixin.scss";
 
 #annotation-body {
 
@@ -17,6 +16,10 @@
 		i {
 			font-size: 23px;
 		}
+    img {
+      width: 25px;
+      height: 25px;
+    }
 		i, img {
 			@include vertical-align();
 		}
@@ -76,7 +79,7 @@
 			.button-delete {
 				border-radius: 50%;
 				background-color: $danger-color;
-				color: $grey;
+				color: $light-grey;
 				&:hover{
 					cursor: pointer;
 					opacity: 0.8;
@@ -85,64 +88,6 @@
 		}
 	}
 
-/*	#dropdown-context{
-   position: absolute;
-   background-color: white;
-   padding: 10px 15px;
-
-  #shape-list p, #shape-list hr{
-    display: inline-block;
-    vertical-align: middle;
-   }
-  #shape-list hr{
-    margin-top: 9px;
-    margin-left: 10px;
-    height: 2px;
-    border: none;
-   }
-
-  .list-group-horizontal{
-    display: inline-block;
-
-    img{
-      margin: 0 1.5em; 
-      &:first-child{
-        margin-left: 0;
-      }
-      &:last-child{
-        margin-right: 0;
-      }
-    }
-  }
-
-  #annotation-text{
-    border-left-style: none;
-    border-right-style: none;
-  }
-  button{
-    border: none;
-    float: right;
-  }
-}*/
-
-/*#annotation-body{
-  margin-top: 5%;
-  
-  .editing-menu{
-    background: #E8E6E3;
-    border: 1px black solid;
-    position: fixed;
-    left: 0;
-  }
-  canvas{
-    float: left;
-    // border: 1px black solid;
-  }
-  #annotation-text{
-    border: 1px black solid;
-    float: left;
-  }
-}*/
 
 	#canvas-column{
 		#main-canvas {
@@ -151,13 +96,13 @@
 			height: 100%;
 		}
 		#canvas-description {
-			font-family: 'EB Garamond', serif;
+			font-family: $font-serif;
 			font-size: 26px;
 		}
 	}
 
 	#annotation-column{
-		font-family: 'EB Garamond', serif;
+		font-family: $font-sans;
 
     .add-comment-textarea {
       width: 100%;
@@ -171,13 +116,15 @@
       &:focus {
         outline-color: $active-color;
         outline-style: auto;
-        outline-width: 5px;
+        outline-width: 3px;
       }
     }
 
 		#annotation-header{
-			font-style: italic;
-			font-size: 14px;
+			font-size: 18px;
+      font-weight: 300;
+      margin-bottom: 10px;
+      border-bottom: 1.5px solid $dark-grey;
 		}
 		#annotation-description-container{
       margin-bottom: 5px;
@@ -186,14 +133,14 @@
 		#annotation-description{
 			width: 100%;
 			text-align: right;
-			font-size: 18px;
+			font-size: 15px;
+      line-height: 20px;
 			&:hover {
 				cursor: default;
 			}
 
 			textarea {
 				width: 100%;
-				padding-left: 10px;
         padding-right: 10px;
 				border: none;
 				outline: none;
@@ -204,7 +151,7 @@
 			&.highlight-annotation {
 				outline-color: $active-color;
 				outline-style: auto;
-				outline-width: 5px;
+				outline-width: 3px;
 				&:hover {
 					cursor: type;
 				}
@@ -213,27 +160,39 @@
 		}
 
 
+    .annotation-comments-container{
+      padding-left: 30px;
+      padding-right: 0;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
 
+    .edit-text-annotation {
+      font-size: 13px;
+    }
+  
 		
 		.annotation-comments{
-			margin-top: 10px;
-      margin-bottom: 10px;
-    	border-top: 1px solid $light-grey;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      padding-left: 0;
+      border-top: 1px solid $light-grey;
+      font-size: 13px;
+      line-height: 15px;
+      text-align: left;
 
 			.user-comment{
-				text-align: left;
-				font-size: 15px;
-				font-weight: 900;
-        color: $dark-grey
+        color: $grey;
 			}
 			.text-comment{
-				text-align: left;
-				font-size: 15px;
+        color: $dark-grey;
 			}
 		}
-		.form-group{
-			margin-top: 20px;
-		}
+		
 	}
+
+  .action-divider {
+    color: $light-grey;
+  }
 
 }
