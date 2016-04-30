@@ -39,16 +39,14 @@
                 </div>
             </div>
             <div class="row">
-                <div class='col-sm-12' id="canvas-description-container">
-                    <div class='col-sm-12'>
-                        <input elastic class="canvas-description image-artist" ng-model="imageScope.artist"></input>
-                    </div>
-                    <div class='col-sm-12'>
-                        <input elastic class="canvas-description image-title" ng-model="imageScope.title"></input>
-                    </div>
-                    <div class='col-sm-12'>
-                        <input elastic class="canvas-description image-medium" ng-model="imageScope.medium"></input>
-                    </div>
+                <div class='col-sm-12'>
+                    <input type="text" pu-elastic-input class="canvas-description image-artist" ng-model="imageScope.artist"></input>
+                </div>
+                <div class='col-sm-12'>
+                    <input type="text" pu-elastic-input class="canvas-description image-title" ng-model="imageScope.title"></input>, <input type="text" pu-elastic-input class="canvas-description image-year"  ng-model="imageScope.year"></input>
+                </div>
+                <div class='col-sm-12'>
+                    <input type="text" pu-elastic-input class="canvas-description image-medium" ng-model="imageScope.medium"></input>
                 </div>
             </div>
         	

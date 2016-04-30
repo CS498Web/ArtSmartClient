@@ -41,7 +41,7 @@ angular.module('anotareApp')
         // initialize the page
         var init = function() {
             var canvasContainer = $("#canvas-container");
-            scope.canvas = document.getElementById("main-canvas");
+            scope.canvas = $("#main-canvas");
             var buttonColumn = $("#button-column");
 
             var img = new Image();
@@ -929,9 +929,7 @@ angular.module('anotareApp')
               var ngModelCtrl = element.controller('ngModel');
 
               var resize = function(event) {
-                if (element.prop("tagName") === 'INPUT') {
-                  element.size(element.val().length);
-                } else if (element.prop("tagName") === 'TEXTAREA') {
+                if (element.prop("tagName") === 'TEXTAREA') {
                   var actualScrollHeight = (element.height(1))[0].scrollHeight;
                   element.height(actualScrollHeight - 7);
                 } else {

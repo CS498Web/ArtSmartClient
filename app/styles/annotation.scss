@@ -95,12 +95,22 @@
 			width:100%;
 			height: 100%;
 		}
-		#canvas-description-container {
-      .canvas-description {
-        border: none;
-        outline: none;
+    .canvas-description {
+      border: none;
+      outline: none;
+      &.image-artist {
+        font-size: 18px;
+        font-weight: bold;
       }
-		}
+      &.image-title {
+        font-size: 18px;
+        font-weight: 700;
+        font-style: italic;
+      }
+      &.image-year {
+        font-size: 18px;
+      }
+    }
 	}
 
 	#annotation-column{

@@ -15,7 +15,8 @@ angular
     'ngResource',
     'ngSanitize',
     'ngTouch',
-    'ui.router'
+    'ui.router',
+    'puElasticInput'
   ])
     .config(function($stateProvider, $urlRouterProvider) {
   //
