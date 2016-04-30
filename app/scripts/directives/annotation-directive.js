@@ -54,13 +54,12 @@ angular.module('anotareApp')
                 buttonColumn.height(canvasContainerHeight);
                 // canvas.setAttribute("width", screen.availWidth * 0.55);
 
-                window.onload = function() {
+                $(document).ready(function() {
                   paper.setup(scope.canvas);
                   scope.paper = paper;
                   //ajax http get method to get image object from database
-
                   drawAll();
-                };
+                })
                 // canvas.height =  screen.availHeight * 0.85;
 
                 
@@ -231,8 +230,22 @@ angular.module('anotareApp')
         //draw the image
         var drawImage = function(next){
 
-          //resize the image to max in the canvas
-          var resizeRaster = function(){
+          // //resize the image to max in the canvas
+          // var resizeRaster = function(callback){
+          //   var rasterHeight = this.getHeight();
+          //   var rasterWidth = this.getWidth();
+          //   canvasHeight = parseFloat(scope.canvas.style.height, 10);
+          //   canvasWidth = parseFloat(scope.canvas.style.width, 10);
+          //   var scale = Math.min(canvasHeight/rasterHeight, canvasWidth/rasterWidth);
+
+          //   this.scale(scale);
+          //   callback();
+          // }
+
+          // initialize raster
+          raster = new paper.Raster(scope.imageScope.src);
+          raster.type = 'main-image';
+          raster.onLoad = function() {
             var rasterHeight = this.getHeight();
             var rasterWidth = this.getWidth();
             canvasHeight = parseFloat(scope.canvas.style.height, 10);
@@ -240,14 +253,9 @@ angular.module('anotareApp')
             var scale = Math.min(canvasHeight/rasterHeight, canvasWidth/rasterWidth);
 
             this.scale(scale);
+            this.position = paper.view.center;
             next();
           }
-
-          // initialize raster
-          raster = new paper.Raster(scope.imageScope.src);
-          raster.type = 'main-image';
-          raster.onLoad = resizeRaster;
-          raster.position = paper.view.center;
 
           raster.onMouseEnter = function () {
             if (scope.checkIsToolSelected()) {
