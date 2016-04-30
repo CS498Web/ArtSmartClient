@@ -5,11 +5,13 @@
             "src": "images/picasso1.jpg",
             "title": "Les Demoiselles d'Avignon",
             "artist": "Pablo Picasso",
-            "location": "Museum of Modern Art",
+            "description": "Les Demoiselles d’Avignon marks a radical break from traditional composition and perspective in painting. It depicts five naked women with figures composed of flat, splintered planes and faces inspired by Iberian sculpture and African masks.",
+            "current_location": "Museum of Modern Art",
             "period": "Cubism",
-            "year": "1907–1907",
-            "media": "Oil paint",
-            "size": ["96", "92", "in"],
+            "year": "1907",
+            "origin_location": "Paris",
+            "medium": "Oil on canvas",
+            "dimensions": ["96", "92", "in"],
             "annotations":
             [
 			{

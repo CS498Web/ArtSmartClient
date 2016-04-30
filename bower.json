@@ -12,9 +12,8 @@
     "angular-sanitize": "1.2.16",
     "angular-animate": "1.2.16",
     "angular-touch": "1.2.16",
-    "easeljs": "~0.8.0",
     "angular-ui-router": "~0.2.13",
-    "paper": "~0.9.22",
+    "paper": "~0.9.25",
     "bootstrap-less": "~3.3.4",
     "components-font-awesome": "^4.5.0",
     "underscore": "^1.8.3"

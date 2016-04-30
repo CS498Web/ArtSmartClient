@@ -18,7 +18,7 @@ angular.module('anotareApp')
         isEditingAnnotation = false;
         scope.annotationText = "";
         scope.newComment = "";
-        scope.annotationHeader = "1 annotation";
+        scope.annotationHeader = "annotation"; //TODO change number of annotations dynamically
 
         //prevent default right click function
         // window.oncontextmenu = function() { return false;};
@@ -127,7 +127,7 @@ angular.module('anotareApp')
 
           // draw frame on the first shape if edit mode is activated and
           // shapeLastClicked is not defined.
-          // TODO: draw on the biggest shape
+          // TODO: draw on the biggest shape instead of getting the first one
           if (scope.editMode && typeof shapeLastClicked === 'undefined') {
             // only if children contains more than one (it contains annotation)
             if (paper.project.getActiveLayer().children.length > 1) {
@@ -306,8 +306,6 @@ angular.module('anotareApp')
               }
               toolSelected = '';
               
-              console.log("lol");
-              
               newShape = scope.drawAnnotation(newAnnotation);
               shapeLastClicked = newShape;
               scope.switchEditMode();
@@ -325,7 +323,6 @@ angular.module('anotareApp')
       }
 
         // find angle for rotation of shape
-        // TODO: detect when it is counterclockwise rotation
         var findAngle = function (centerPoint, rotatePoint, eventPoint ){
           return eventPoint.subtract(centerPoint).angle - rotatePoint.subtract(centerPoint).angle;
         }
@@ -570,27 +567,26 @@ angular.module('anotareApp')
             //only activated when editMode is true
             var mouseDragEffect = function(event, shape) {
 
-              $('html,body').css('cursor','move');
+              if (scope.editMode) {
 
-              //prevent dragging shapes outside of the canvas
-              var dragBound = function(point,shape){
-                var halfHeight = shape.bounds.height/2;
-                var halfWidth = shape.bounds.width/2;
+                $('html,body').css('cursor','move');
 
-                if(point.x < shape.bounds || point.x > canvasWidth - halfWidth || 
-                  point.y < halfHeight || point.y > canvasHeight - halfHeight) {
-                  return false;
-                } else {
-                  return true;
+                if (event.point.x < raster.bounds.x) {
+                  event.point.x = raster.bounds.x;
+                } else if (event.point.x > raster.bounds.x + raster.bounds.width) {
+                  event.point.x = raster.bounds.x + raster.bounds.width;
                 }
 
-              }
+                if (event.point.y < raster.bounds.y) {
+                  event.point.y = raster.bounds.y;
+                } else if (event.point.y > raster.bounds.y + raster.bounds.height) {
+                  event.point.y = raster.bounds.y + raster.bounds.height;
+                }
 
-              // if (shape === newShape || (scope.editMode && dragBound(event.point,shape)) ){
-              if (scope.editMode && dragBound(event.point,shape)){
                 shape.position = event.point;
                 drawFrameOn(shape, 'updateAll');
               }
+
             }
 
             //give an active effect when shape is clicked, show frame only when editMode is true
@@ -647,6 +643,7 @@ angular.module('anotareApp')
             }
 
             //override the mouse actions of shape
+            //TODO make backend api to update
             shape.onMouseDrag   = function(event) { mouseDragEffect  ( event, shape ) };
             shape.onMouseEnter  = function() { mouseEnterEffect ( shape ) };
             shape.onMouseLeave  = function() { mouseLeaveEffect ( shape ) };
@@ -789,7 +786,7 @@ angular.module('anotareApp')
             shapeLastClicked.text = scope.annotationText;
             isAddingNewAnnotation = false;
             isEditingAnnotation = false;
-            scope.annotationHeader = "1 annotation";
+            scope.annotationHeader = "annotation";
             scope.switchEditMode();
           } else {
             alert("You can't submit an empty annotation.");
@@ -813,10 +810,15 @@ angular.module('anotareApp')
         }
 
         scope.updateEditAnnotationText = function () {
-          isEditingAnnotation = false;
-          shapeLastClicked.text = scope.annotationText;
-          angular.element("#annotation-description > textarea").prop("disabled", true);
-          annotationTextBeforeEdit = ""
+          if (scope.annotationText.trim().length > 0) {
+            isEditingAnnotation = false;
+            shapeLastClicked.text = scope.annotationText;
+            angular.element("#annotation-description > textarea").prop("disabled", true);
+            annotationTextBeforeEdit = ""
+          } else {
+            alert("You can't submit an empty annotation.");
+          }
+          
         }
 
         scope.checkIsToolSelected = function() {
@@ -844,7 +846,7 @@ angular.module('anotareApp')
           isAddingNewAnnotation = false;
           shouldShowDeleteButton = false;
           shapeLastClicked = undefined;
-          scope.annotationHeader = "1 annotation";
+          scope.annotationHeader = "annotation";
           paper.view.draw();
         }
 
@@ -899,7 +901,7 @@ angular.module('anotareApp')
           if (typeof scope.newComment === "string" && scope.newComment.trim().length > 0) {
             shapeLastClicked.comments.push({
               text: scope.newComment,
-              user: "bla" //change to current user
+              user: "bla" //TODO: change to current user
             });
             resetAddingComment();
           } else {
@@ -927,8 +929,14 @@ angular.module('anotareApp')
               var ngModelCtrl = element.controller('ngModel');
 
               var resize = function(event) {
-                var actualScrollHeight = (element.height(1))[0].scrollHeight;
-                element.height(actualScrollHeight - 7);
+                if (element.prop("tagName") === 'INPUT') {
+                  element.size(element.val().length);
+                } else if (element.prop("tagName") === 'TEXTAREA') {
+                  var actualScrollHeight = (element.height(1))[0].scrollHeight;
+                  element.height(actualScrollHeight - 7);
+                } else {
+                  console.warn("directive elastic is only for input and textarea element");
+                }
               }
 
               scope.$watch(function () {

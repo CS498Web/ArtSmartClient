@@ -33,11 +33,23 @@
         </div>
         <!-- <div id="canvas-column"> -->
         <div class='col-md-6 col-lg-5' id="canvas-column">
-            <div id="canvas-container">
-        	   <canvas id='main-canvas'></canvas>
+            <div class="row">
+                <div class="col-sm-12" id="canvas-container">
+            	   <canvas id='main-canvas'></canvas>
+                </div>
             </div>
-            <div id="canvas-description">
-                Les Demoiselles d'Avignon - Pablo Picasso
+            <div class="row">
+                <div class='col-sm-12' id="canvas-description-container">
+                    <div class='col-sm-12'>
+                        <input elastic class="canvas-description image-artist" ng-model="imageScope.artist"></input>
+                    </div>
+                    <div class='col-sm-12'>
+                        <input elastic class="canvas-description image-title" ng-model="imageScope.title"></input>
+                    </div>
+                    <div class='col-sm-12'>
+                        <input elastic class="canvas-description image-medium" ng-model="imageScope.medium"></input>
+                    </div>
+                </div>
             </div>
         	
         </div>
@@ -47,7 +59,7 @@
             <div class='col-md-12 text-right' id="annotation-header">{{annotationHeader}}</div>
             <div class='col-md-12' id="annotation-description-container">
                 <div ng-class="shouldShowUpdateAnnotation() || shouldShowSubmitAnnotation() ? 'highlight-annotation' : '' " id="annotation-description">
-                    <textarea disabled=true elastic ng-model="annotationText"></textarea>
+                    <textarea elastic placeholder="Type in your annotation..." disabled=true ng-model="annotationText"></textarea>
                 </div>
             </div>
             <div class='edit-text-annotation col-md-12' ng-show="showAnnotation">
