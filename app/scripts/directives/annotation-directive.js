@@ -54,13 +54,16 @@ angular.module('anotareApp')
                 buttonColumn.height(canvasContainerHeight);
                 // canvas.setAttribute("width", screen.availWidth * 0.55);
 
-                paper.setup(scope.canvas);
+                window.onload = function() {
+                  paper.setup(scope.canvas);
+                  scope.paper = paper;
+                  //ajax http get method to get image object from database
+
+                  drawAll();
+                };
                 // canvas.height =  screen.availHeight * 0.85;
 
-                scope.paper = paper;
-                //ajax http get method to get image object from database
-
-                drawAll();
+                
             });
             
         }
