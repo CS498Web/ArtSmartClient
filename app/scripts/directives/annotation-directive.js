@@ -41,7 +41,7 @@ angular.module('anotareApp')
         // initialize the page
         var init = function() {
             var canvasContainer = $("#canvas-container");
-            scope.canvas = $("#main-canvas");
+            scope.canvas = document.getElementById("main-canvas");
             var buttonColumn = $("#button-column");
 
             var img = new Image();
