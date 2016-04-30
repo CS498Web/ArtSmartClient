@@ -1,0 +1,64 @@
+<nav class="navbar navbar-fixed-top">
+    <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="container-fluid">
+    <div class="navbar-header">
+
+      <a class="navbar-brand" ui-sref="welcome"><img src="/images/anotare-logo.png" style="width:200px; margin-top: -8px;"></a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+      <ul class="nav navbar-nav navbar-right">
+        <li><a ng-href="" data-toggle="modal" data-target="#myModal">Upload</a></li>
+        <li><a ng-href="">Explore</a></li>
+        <li ng-show="loggedIn == false"><a ng-href="" data-toggle="modal" data-target="#myModal">Login</a></li>
+        <li ng-show="loggedIn == true" class="dropdown">
+          <a href="" class="dropdown-toggle" data-toggle="dropdown" role="hover" aria-haspopup="true" aria-expanded="false">{{name}}<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Edit</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#">My Uploads</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#">My Annotations</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#">Favorites</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#">Logout</a></li>
+            </ul>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+
+  </div><!-- /.navbar-collapse -->
+</nav>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">{{modalTitle}}</h4>
+      </div>
+
+      <div ng-show="loggingIn==true" class="loginForm">
+        <div class="form-group expand-input">
+          <input type="text" class="form-control" placeholder="Username" id="user">
+        </div>
+        <div class="form-group expand-input">
+          <input type="password" class="form-control" placeholder="Password" id="password">
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg btn-block">Login</button>
+      </div>
+
+      <div ng-show"signingUp==true" class="signupForm">
+
+      </div>
+
+      <div ng-show="uploading==true" class="uploadForm">
+
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -23,7 +23,7 @@
       this.$apply(fn);
     }
   };
-  
+
   $scope.toolIcons = [
   {
     url: '/images/tool-line.png',
@@ -55,8 +55,8 @@
           },
         //error function
         function(result) {
-          console.log("Failed to get the image, result is " + result.toString()); 
+          console.log("Failed to get the image, result is " + result.toString());
         });
     };
-    
+
   });
