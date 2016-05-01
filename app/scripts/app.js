@@ -28,7 +28,7 @@ angular
     .state('welcome', {
       url: '/',
       templateUrl: 'views/welcome.html',
-      controller: 'GalleryCtrl'
+      controller: 'loginController'
     })
     .state('signup', {
       url: '/signup',
@@ -54,4 +54,5 @@ angular
       });
 
 });
+
 

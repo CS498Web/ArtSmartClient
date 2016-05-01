@@ -247,10 +247,19 @@ angular.module('anotareApp')
           // }
 
           // initialize raster
+<<<<<<< HEAD
           raster = new paper.Raster('canvas-image');
 
             var rasterHeight = raster.getHeight();
             var rasterWidth = raster.getWidth();
+=======
+          raster = new paper.Raster(scope.imageScope.src);
+          raster.type = 'main-image';
+          raster.onLoad = function() {
+            console.log("here");
+            var rasterHeight = this.getHeight();
+            var rasterWidth = this.getWidth();
+>>>>>>> d596be1ce4fc78f32f09e0e6b0801cf4312375dd
             canvasHeight = parseFloat(scope.canvas.style.height, 10);
             canvasWidth = parseFloat(scope.canvas.style.width, 10);
             var scale = Math.min(canvasHeight/rasterHeight, canvasWidth/rasterWidth);
