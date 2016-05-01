@@ -246,6 +246,7 @@ angular.module('anotareApp')
           raster = new paper.Raster(scope.imageScope.src);
           raster.type = 'main-image';
           raster.onLoad = function() {
+            console.log("here");
             var rasterHeight = this.getHeight();
             var rasterWidth = this.getWidth();
             canvasHeight = parseFloat(scope.canvas.style.height, 10);
