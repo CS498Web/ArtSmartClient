@@ -47,15 +47,18 @@ angular.module('anotareApp')
 
         // initialize the page
         var init = function() {
-            $(document).ready(function(){
-              var canvasContainer = $("#canvas-container");
-              scope.canvas = document.getElementById("main-canvas");
-              var buttonColumn = $("#button-column");
-              var canvasImage = document.getElementById("canvas-image");
+            // $(document).ready(function(){
+              
               scope.imageDescription = _.pick(scope.imageScope,
                 'artist', 'title', 'description', 'current_location', 'period', 'year', 'origin_location', 'medium', 'dimensions');
 
+              var canvasImage = document.getElementById("canvas-image");
+
               canvasImage.addEventListener('load', function() {
+                var canvasContainer = $("#canvas-container");
+                scope.canvas = document.getElementById("main-canvas");
+                var buttonColumn = $("#button-column");
+                console.log("image has loaded");
                 var scaleCanvas = this.naturalHeight / this.naturalWidth;
                 var canvasContainerHeight = canvasContainer.width() * scaleCanvas;
                 canvasContainer.height(canvasContainerHeight);
@@ -67,7 +70,7 @@ angular.module('anotareApp')
                 drawAll();
               });
               
-            });
+            // });
             
         }
 
@@ -234,20 +237,12 @@ angular.module('anotareApp')
         //draw the image
         var drawImage = function(next){
 
-          // //resize the image to max in the canvas
-          // var resizeRaster = function(callback){
-          //   var rasterHeight = this.getHeight();
-          //   var rasterWidth = this.getWidth();
-          //   canvasHeight = parseFloat(scope.canvas.style.height, 10);
-          //   canvasWidth = parseFloat(scope.canvas.style.width, 10);
-          //   var scale = Math.min(canvasHeight/rasterHeight, canvasWidth/rasterWidth);
-
-          //   this.scale(scale);
-          //   callback();
-          // }
-
           // initialize raster
           raster = new paper.Raster('canvas-image');
+
+          raster.on('load', function() {
+
+            console.log(raster);
 
             var rasterHeight = raster.getHeight();
             var rasterWidth = raster.getWidth();
@@ -328,12 +323,14 @@ angular.module('anotareApp')
                   scope.annotationHeader = "adding new annotation";
                   isEditingAnnotation = false;
                 })
-                
-                // newShape = undefined;
+                  
+                  // newShape = undefined;
               }
             }
 
             next();
+          });
+
         }
 
         // find angle for rotation of shape
