@@ -4,6 +4,7 @@
 
 	a {
     text-decoration: none;
+    font-size: 13px;
     color: $link-color;
     &:hover {
       opacity: 0.8;
@@ -98,18 +99,58 @@
     .canvas-description {
       border: none;
       outline: none;
+      font-size: 15px;
+      padding: 0;
+      max-width: none !important; /*overriding pu-elastic-input */
       &.image-artist {
-        font-size: 18px;
+        font-size: 21px;
         font-weight: bold;
       }
       &.image-title {
-        font-size: 18px;
-        font-weight: 700;
+        font-size: 21px;
+        font-weight: bold;
         font-style: italic;
       }
       &.image-year {
-        font-size: 18px;
+        font-size: 21px;
       }
+
+    }
+
+    textarea {
+      width: 100%;
+      resize: none;
+    }
+
+    .edit-canvas-description {
+      border: 1px solid $light-grey;
+      border-radius: 2%;
+      &:focus {
+        outline-color: $active-color;
+        outline-style: auto;
+        outline-width: 3px;
+      }  
+    }
+
+    .description-group {
+      width: 100%;
+    }
+
+    .description-group-inline {
+      width: auto;
+      display: inline-block;
+    }
+
+    .description-label {
+      display: block;
+      font-size: 11px;
+      font-weight: normal;
+      margin-bottom: 0;
+      margin-top: 10px;
+    }
+
+    .label-dimensions {
+      margin-top: 0;
     }
 	}
 
@@ -178,10 +219,6 @@
       margin-top: 10px;
       margin-bottom: 10px;
     }
-
-    .edit-text-annotation {
-      font-size: 13px;
-    }
   
 		
 		.annotation-comments{
@@ -202,6 +239,9 @@
 		}
 		
 	}
+
+  
+
 
   .action-divider {
     color: $light-grey;

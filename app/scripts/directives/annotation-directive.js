@@ -20,6 +20,9 @@ angular.module('anotareApp')
         scope.newComment = "";
         scope.annotationHeader = "annotation"; //TODO change number of annotations dynamically
 
+        var shouldShowMoreDescription = false;
+        var shouldShowEditImageDescription = true;
+
         //prevent default right click function
         // window.oncontextmenu = function() { return false;};
 
@@ -37,32 +40,33 @@ angular.module('anotareApp')
         var shouldShowCommentTextArea = false;
         var shouldShowDeleteButton = false;
 
+        var imageDescriptionBeforeEdit = {};
+
+        scope.imageDescription = {};
+
 
         // initialize the page
         var init = function() {
-            var canvasContainer = $("#canvas-container");
-            scope.canvas = document.getElementById("main-canvas");
-            var buttonColumn = $("#button-column");
+            $(document).ready(function(){
+              var canvasContainer = $("#canvas-container");
+              scope.canvas = document.getElementById("main-canvas");
+              var buttonColumn = $("#button-column");
+              var canvasImage = document.getElementById("canvas-image");
+              scope.imageDescription = _.pick(scope.imageScope,
+                'artist', 'title', 'description', 'current_location', 'period', 'year', 'origin_location', 'medium', 'dimensions');
 
-            var img = new Image();
-            img.src = scope.imageScope.src;
-
-            img.addEventListener("load", function(){
+              canvasImage.addEventListener('load', function() {
                 var scaleCanvas = this.naturalHeight / this.naturalWidth;
                 var canvasContainerHeight = canvasContainer.width() * scaleCanvas;
                 canvasContainer.height(canvasContainerHeight);
                 buttonColumn.height(canvasContainerHeight);
-                // canvas.setAttribute("width", screen.availWidth * 0.55);
 
-                window.onload = function(){
-                  paper.setup(scope.canvas);
-                  scope.paper = paper;
-                  //ajax http get method to get image object from database
-                  drawAll();
-                }
-                // canvas.height =  screen.availHeight * 0.85;
-
-                
+                paper.setup(scope.canvas);
+                scope.paper = paper;
+                //ajax http get method to get image object from database
+                drawAll();
+              });
+              
             });
             
         }
@@ -243,95 +247,94 @@ angular.module('anotareApp')
           // }
 
           // initialize raster
-          raster = new paper.Raster(scope.imageScope.src);
-          raster.type = 'main-image';
-          raster.onLoad = function() {
-            var rasterHeight = this.getHeight();
-            var rasterWidth = this.getWidth();
+          raster = new paper.Raster('canvas-image');
+
+            var rasterHeight = raster.getHeight();
+            var rasterWidth = raster.getWidth();
             canvasHeight = parseFloat(scope.canvas.style.height, 10);
             canvasWidth = parseFloat(scope.canvas.style.width, 10);
             var scale = Math.min(canvasHeight/rasterHeight, canvasWidth/rasterWidth);
+            raster.scale(scale);
+            raster.position = paper.view.center;
+            raster.type = 'main-image';
 
-            this.scale(scale);
-            this.position = paper.view.center;
-            next();
-          }
-
-          raster.onMouseEnter = function () {
-            if (scope.checkIsToolSelected()) {
-              $('html,body').css('cursor','crosshair');
-            }
-          }
-
-          raster.onClick = function(event){
-
-            if (isAddingNewAnnotation && !scope.tryDestroySelectedAnnotation()) {
-              return;
-            }
-            //hide annotation
-            scope.safeApply(function() {
-              scope.showAnnotation = false;
-            });
-
-            resetEditAnnotationText();
-            resetAddingComment();
-
-            stickyShowAnnotation = false;
-            shouldShowTextAnnotationTools = false;
-            scope.safeApply(function() {
-              shouldShowDeleteButton = false;
-            });
-
-            // if raster is clicked, turn shapes into style standard
-            if (typeof shapeLastClicked !== 'undefined') {
-              if (shapeLastClicked.type === 'line') {
-                shapeLastClicked.style = styleLine;
-              } else {
-                shapeLastClicked.style = styleDefault;
-              }
-              shapeLastClicked.active = false;
-              if (shapeLastClicked.frame) {
-                shapeLastClicked.removeSegments();
-                shapeLastClicked.frame.remove();
+            raster.onMouseEnter = function () {
+              if (scope.checkIsToolSelected()) {
+                $('html,body').css('cursor','crosshair');
               }
             }
 
-            if (scope.checkIsToolSelected()) {
-              var eventPointXRelativeCanvas = event.point.x - scope.canvas.offsetLeft;
-              var eventPointYRelativeCanvas = event.point.y - scope.canvas.offsetTop;
-              if (toolSelected === 'line-tool') {
-                newAnnotation.relative_x1 = (eventPointXRelativeCanvas - 25) / canvasWidth;
-                newAnnotation.relative_y1 = (eventPointYRelativeCanvas + 25) / canvasWidth;
-                newAnnotation.relative_x2 = (eventPointXRelativeCanvas + 25) / canvasWidth;
-                newAnnotation.relative_y2 = (eventPointYRelativeCanvas - 25) / canvasWidth;
-              } else if (toolSelected === 'triangle-tool') {
-                newAnnotation.relative_x1 = (eventPointXRelativeCanvas - 25) / canvasWidth;
-                newAnnotation.relative_y1 = (eventPointYRelativeCanvas + 25) / canvasWidth;
-                newAnnotation.relative_x2 = (eventPointXRelativeCanvas + 25) / canvasWidth;
-                newAnnotation.relative_y2 = (eventPointYRelativeCanvas + 25) / canvasWidth;
-                newAnnotation.relative_x3 = eventPointXRelativeCanvas / canvasWidth;
-                newAnnotation.relative_y3 = (eventPointYRelativeCanvas - 13) / canvasWidth;
-              } else {
-                newAnnotation.relative_x = eventPointXRelativeCanvas / canvasWidth;
-                newAnnotation.relative_y = eventPointYRelativeCanvas / canvasHeight;
+            raster.onClick = function(event){
+
+              if (isAddingNewAnnotation && !scope.tryDestroySelectedAnnotation()) {
+                return;
               }
-              toolSelected = '';
-              
-              newShape = scope.drawAnnotation(newAnnotation);
-              shapeLastClicked = newShape;
-              scope.switchEditMode();
-              newShape.onClick(null, 'force-update');
-              scope.switchToEditAnnotationText();
+              //hide annotation
               scope.safeApply(function() {
-                isAddingNewAnnotation = true;
-                scope.annotationHeader = "adding new annotation";
-                isEditingAnnotation = false;
-              })
-              
-              // newShape = undefined;
+                scope.showAnnotation = false;
+              });
+
+              resetEditAnnotationText();
+              resetAddingComment();
+
+              stickyShowAnnotation = false;
+              shouldShowTextAnnotationTools = false;
+              scope.safeApply(function() {
+                shouldShowDeleteButton = false;
+              });
+
+              // if raster is clicked, turn shapes into style standard
+              if (typeof shapeLastClicked !== 'undefined') {
+                if (shapeLastClicked.type === 'line') {
+                  shapeLastClicked.style = styleLine;
+                } else {
+                  shapeLastClicked.style = styleDefault;
+                }
+                shapeLastClicked.active = false;
+                if (shapeLastClicked.frame) {
+                  shapeLastClicked.removeSegments();
+                  shapeLastClicked.frame.remove();
+                }
+              }
+
+              if (scope.checkIsToolSelected()) {
+                var eventPointXRelativeCanvas = event.point.x - scope.canvas.offsetLeft;
+                var eventPointYRelativeCanvas = event.point.y - scope.canvas.offsetTop;
+                if (toolSelected === 'line-tool') {
+                  newAnnotation.relative_x1 = (eventPointXRelativeCanvas - 25) / canvasWidth;
+                  newAnnotation.relative_y1 = (eventPointYRelativeCanvas + 25) / canvasWidth;
+                  newAnnotation.relative_x2 = (eventPointXRelativeCanvas + 25) / canvasWidth;
+                  newAnnotation.relative_y2 = (eventPointYRelativeCanvas - 25) / canvasWidth;
+                } else if (toolSelected === 'triangle-tool') {
+                  newAnnotation.relative_x1 = (eventPointXRelativeCanvas - 25) / canvasWidth;
+                  newAnnotation.relative_y1 = (eventPointYRelativeCanvas + 25) / canvasWidth;
+                  newAnnotation.relative_x2 = (eventPointXRelativeCanvas + 25) / canvasWidth;
+                  newAnnotation.relative_y2 = (eventPointYRelativeCanvas + 25) / canvasWidth;
+                  newAnnotation.relative_x3 = eventPointXRelativeCanvas / canvasWidth;
+                  newAnnotation.relative_y3 = (eventPointYRelativeCanvas - 13) / canvasWidth;
+                } else {
+                  newAnnotation.relative_x = eventPointXRelativeCanvas / canvasWidth;
+                  newAnnotation.relative_y = eventPointYRelativeCanvas / canvasHeight;
+                }
+                toolSelected = '';
+                
+                newShape = scope.drawAnnotation(newAnnotation);
+                shapeLastClicked = newShape;
+                scope.switchEditMode();
+                newShape.onClick(null, 'force-update');
+                scope.switchToEditAnnotationText();
+                scope.safeApply(function() {
+                  isAddingNewAnnotation = true;
+                  scope.annotationHeader = "adding new annotation";
+                  isEditingAnnotation = false;
+                })
+                
+                // newShape = undefined;
+              }
             }
+
+            next();
         }
-      }
 
         // find angle for rotation of shape
         var findAngle = function (centerPoint, rotatePoint, eventPoint ){
@@ -924,6 +927,49 @@ angular.module('anotareApp')
           return !shouldShowCommentTextArea && !isAddingNewAnnotation;
         }
 
+        scope.shouldShowMoreInfo = function() {
+          return !shouldShowMoreDescription && shouldShowEditImageDescription;
+        }
+
+        scope.shouldShowLessInfo = function() {
+          return shouldShowMoreDescription && shouldShowEditImageDescription;
+        }
+
+        scope.shouldShowEditImageDescription = function() {
+          return shouldShowEditImageDescription;
+        }
+
+        scope.showMoreInfo = function() {
+          shouldShowMoreDescription = true;
+        }
+
+        scope.showLessInfo = function() {
+          shouldShowMoreDescription = false;
+        }
+
+        scope.editImageDescription = function () {
+          imageDescriptionBeforeEdit = _.clone(scope.imageDescription);
+          shouldShowEditImageDescription = false;
+        }
+
+        scope.updateImageDescription = function () {
+          _.extendOwn(scope.imageScope, scope.imageDescription);
+          shouldShowEditImageDescription = true;
+        }
+
+        scope.cancelImageDescription = function () {
+          _.extendOwn(scope.imageDescription, imageDescriptionBeforeEdit);
+          shouldShowEditImageDescription = true;
+        }
+
+        scope.shouldShowDescriptionLabels = function() {
+          return !shouldShowEditImageDescription;
+        }
+
+        scope.shouldShowMoreDescription = function() {
+          return shouldShowMoreDescription;
+        }
+
         //setup canvas
         scope.getImage(init);
         
@@ -942,14 +988,14 @@ angular.module('anotareApp')
               var resize = function(event) {
                 if (element.prop("tagName") === 'TEXTAREA') {
                   var actualScrollHeight = (element.height(1))[0].scrollHeight;
-                  element.height(actualScrollHeight - 7);
+                  element.height(actualScrollHeight);
                 } else {
-                  console.warn("directive elastic is only for input and textarea element");
+                  console.warn("directive elastic is only for textarea element");
                 }
               }
 
               scope.$watch(function () {
-                return ngModelCtrl.$modelValue;
+                return ngModelCtrl.$modelValue + element.attr('class');
               }, function() {
                 $timeout(resize, 0); // wait until the dom responds to the model change
               },
