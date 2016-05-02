@@ -1,0 +1,359 @@
+{
+  "_id": "5726caf78e8163031e0e256d",
+  "__v": 45,
+  "annotations": [
+    {
+      "_id": "5726caf78e8163031e0e25a1",
+      "comments": [
+        {
+          "_id": "5726caf78e8163031e0e25a5",
+          "text": "great annotation. now i understand better!",
+          "dateCreated": "2016-05-02T03:35:19.448Z"
+        },
+        {
+          "_id": "5726caf78e8163031e0e25a4",
+          "text": "I think you dont understand what you are saying",
+          "dateCreated": "2016-05-02T03:35:19.447Z"
+        },
+        {
+          "_id": "5726caf78e8163031e0e25a3",
+          "text": "I really like how you say about that painting",
+          "dateCreated": "2016-05-02T03:35:19.447Z"
+        },
+        {
+          "_id": "5726caf78e8163031e0e25a2",
+          "text": "Doesn't make sense to me. I think you are just talking rubbish",
+          "dateCreated": "2016-05-02T03:35:19.446Z"
+        }
+      ],
+      "text": "Facing away, shows ignorance",
+      "relativeSegmentPoints": [
+        {
+          "_id": "5726cb7e8e8163031e0e28b9",
+          "y": 0.1515130722373845,
+          "x": 0.17601260126012602
+        },
+        {
+          "_id": "5726cb7e8e8163031e0e28b8",
+          "y": 0.1515130722373845,
+          "x": 0.276012601260126
+        },
+        {
+          "_id": "5726cb7e8e8163031e0e28b7",
+          "y": 0.2468037732029855,
+          "x": 0.276012601260126
+        },
+        {
+          "_id": "5726cb7e8e8163031e0e28b6",
+          "y": 0.2468037732029855,
+          "x": 0.17601260126012602
+        }
+      ],
+      "shapeType": "ellipse",
+      "annotationCreator": ""
+    },
+    {
+      "_id": "5726caf78e8163031e0e2598",
+      "comments": [
+        {
+          "_id": "5726caf78e8163031e0e259c",
+          "text": "bad text. wont read again. i am sick of reading this",
+          "dateCreated": "2016-05-02T03:35:19.442Z"
+        },
+        {
+          "_id": "5726caf78e8163031e0e259b",
+          "text": "Wow! very insightful, but you are a little bit inaccurate",
+          "dateCreated": "2016-05-02T03:35:19.442Z"
+        },
+        {
+          "_id": "5726caf78e8163031e0e259a",
+          "text": "I think I want to go to the market.",
+          "dateCreated": "2016-05-02T03:35:19.441Z"
+        },
+        {
+          "_id": "5726caf78e8163031e0e2599",
+          "text": "Totally make sense! Lorem Ipsum!!!",
+          "dateCreated": "2016-05-02T03:35:19.441Z"
+        }
+      ],
+      "text": "Represents a mask, African art's influence on Picasso's work",
+      "relativeSegmentPoints": [
+        {
+          "_id": "5726cb7e8e8163031e0e28b5",
+          "y": 0.050089801407660645,
+          "x": 0.7482448244824482
+        },
+        {
+          "_id": "5726cb7e8e8163031e0e28b4",
+          "y": 0.050089801407660645,
+          "x": 0.8746062106210621
+        },
+        {
+          "_id": "5726cb7e8e8163031e0e28b3",
+          "y": 0.2178563280401679,
+          "x": 0.8746062106210621
+        },
+        {
+          "_id": "5726cb7e8e8163031e0e28b2",
+          "y": 0.2178563280401679,
+          "x": 0.7482448244824482
+        }
+      ],
+      "shapeType": "rectangle",
+      "annotationCreator": ""
+    },
+    {
+      "_id": "5726caf78e8163031e0e258f",
+      "comments": [
+        {
+          "_id": "5726caf78e8163031e0e2593",
+          "text": "great annotation. now i understand better!",
+          "dateCreated": "2016-05-02T03:35:19.439Z"
+        },
+        {
+          "_id": "5726caf78e8163031e0e2592",
+          "text": "I think you dont understand what you are saying",
+          "dateCreated": "2016-05-02T03:35:19.439Z"
+        },
+        {
+          "_id": "5726caf78e8163031e0e2591",
+          "text": "I really like how you say about that painting",
+          "dateCreated": "2016-05-02T03:35:19.433Z"
+        },
+        {
+          "_id": "5726caf78e8163031e0e2590",
+          "text": "Doesn't make sense to me. I think you are just talking rubbish",
+          "dateCreated": "2016-05-02T03:35:19.433Z"
+        }
+      ],
+      "text": "a scything blade of melon with testicular grapes, an apple and a pear",
+      "relativeSegmentPoints": [
+        {
+          "_id": "5726cb7e8e8163031e0e28b1",
+          "y": 0.7976362621197937,
+          "x": 0.48115353904460345
+        },
+        {
+          "_id": "5726cb7e8e8163031e0e28b0",
+          "y": 0.7976362621197937,
+          "x": 0.5957458149315661
+        },
+        {
+          "_id": "5726cb7e8e8163031e0e28af",
+          "y": 0.9809088809559594,
+          "x": 0.5957458149315661
+        },
+        {
+          "_id": "5726cb7e8e8163031e0e28ae",
+          "y": 0.9809088809559594,
+          "x": 0.48115353904460345
+        }
+      ],
+      "shapeType": "ellipse",
+      "annotationCreator": ""
+    },
+    {
+      "_id": "5726caf78e8163031e0e2586",
+      "comments": [
+        {
+          "_id": "5726caf78e8163031e0e258a",
+          "text": "great annotation. now i understand better!",
+          "dateCreated": "2016-05-02T03:35:19.430Z"
+        },
+        {
+          "_id": "5726caf78e8163031e0e2589",
+          "text": "I think you dont understand what you are saying",
+          "dateCreated": "2016-05-02T03:35:19.430Z"
+        },
+        {
+          "_id": "5726caf78e8163031e0e2588",
+          "text": "I really like how you say about that painting",
+          "dateCreated": "2016-05-02T03:35:19.430Z"
+        },
+        {
+          "_id": "5726caf78e8163031e0e2587",
+          "text": "Doesn't make sense to me. I think you are just talking rubbish",
+          "dateCreated": "2016-05-02T03:35:19.429Z"
+        }
+      ],
+      "text": "Facing back and stares directly to the audience",
+      "relativeSegmentPoints": [
+        {
+          "_id": "5726cb7e8e8163031e0e28ad",
+          "y": 0.43130624090050595,
+          "x": 0.769012954700572
+        },
+        {
+          "_id": "5726cb7e8e8163031e0e28ac",
+          "y": 0.43130624090050595,
+          "x": 0.8655497598531474
+        },
+        {
+          "_id": "5726cb7e8e8163031e0e28ab",
+          "y": 0.5663179539285518,
+          "x": 0.8655497598531474
+        },
+        {
+          "_id": "5726cb7e8e8163031e0e28aa",
+          "y": 0.5663179539285518,
+          "x": 0.769012954700572
+        }
+      ],
+      "shapeType": "ellipse",
+      "annotationCreator": ""
+    },
+    {
+      "_id": "5726caf78e8163031e0e257d",
+      "comments": [
+        {
+          "_id": "5726caf78e8163031e0e2581",
+          "text": "great annotation. now i understand better!",
+          "dateCreated": "2016-05-02T03:35:19.428Z"
+        },
+        {
+          "_id": "5726caf78e8163031e0e2580",
+          "text": "I think you dont understand what you are saying",
+          "dateCreated": "2016-05-02T03:35:19.428Z"
+        },
+        {
+          "_id": "5726caf78e8163031e0e257f",
+          "text": "I really like how you say about that painting",
+          "dateCreated": "2016-05-02T03:35:19.428Z"
+        },
+        {
+          "_id": "5726caf78e8163031e0e257e",
+          "text": "Doesn't make sense to me. I think you are just talking rubbish",
+          "dateCreated": "2016-05-02T03:35:19.427Z"
+        }
+      ],
+      "text": "Intimidating the audience by staring",
+      "relativeSegmentPoints": [
+        {
+          "_id": "5726cb7e8e8163031e0e28a9",
+          "y": 0.22475202776130013,
+          "x": 0.3496840119762096
+        },
+        {
+          "_id": "5726cb7e8e8163031e0e28a8",
+          "y": 0.22475202776130013,
+          "x": 0.4248944277830969
+        },
+        {
+          "_id": "5726cb7e8e8163031e0e28a7",
+          "y": 0.3257273972912006,
+          "x": 0.4248944277830969
+        },
+        {
+          "_id": "5726cb7e8e8163031e0e28a6",
+          "y": 0.3257273972912006,
+          "x": 0.3496840119762096
+        }
+      ],
+      "shapeType": "ellipse",
+      "annotationCreator": ""
+    },
+    {
+      "_id": "5726caf78e8163031e0e2576",
+      "comments": [
+        {
+          "_id": "5726caf78e8163031e0e257a",
+          "text": "great annotation!!!!!!!!. now i understand better!",
+          "dateCreated": "2016-05-02T03:35:19.423Z"
+        },
+        {
+          "_id": "5726caf78e8163031e0e2579",
+          "text": "I think you dont understand what you are saying",
+          "dateCreated": "2016-05-02T03:35:19.423Z"
+        },
+        {
+          "_id": "5726caf78e8163031e0e2578",
+          "text": "I really like how you say about that painting. not.",
+          "dateCreated": "2016-05-02T03:35:19.421Z"
+        },
+        {
+          "_id": "5726caf78e8163031e0e2577",
+          "text": "Doesn't make sense to me. I think you are just talking gibberish",
+          "dateCreated": "2016-05-02T03:35:19.421Z"
+        }
+      ],
+      "text": "Straight arm, showing strength",
+      "relativeSegmentPoints": [
+        {
+          "_id": "5726cb7e8e8163031e0e28a5",
+          "y": 0.5849528178086398,
+          "x": 0.07352610261026103
+        },
+        {
+          "_id": "5726cb7e8e8163031e0e28a4",
+          "y": 0.33039001096457515,
+          "x": 0.15398655013533707
+        }
+      ],
+      "shapeType": "line",
+      "annotationCreator": ""
+    },
+    {
+      "_id": "5726caf78e8163031e0e256e",
+      "comments": [
+        {
+          "_id": "5726caf78e8163031e0e2572",
+          "text": "great annotation!!!!!!!!. now i understand better!",
+          "dateCreated": "2016-05-02T03:35:19.420Z"
+        },
+        {
+          "_id": "5726caf78e8163031e0e2571",
+          "text": "I think you dont understand what you are saying",
+          "dateCreated": "2016-05-02T03:35:19.420Z"
+        },
+        {
+          "_id": "5726caf78e8163031e0e2570",
+          "text": "I really like how you say about that painting. not.",
+          "dateCreated": "2016-05-02T03:35:19.420Z"
+        },
+        {
+          "_id": "5726caf78e8163031e0e256f",
+          "text": "Doesn't make sense to me. I think you are just talking gibberish",
+          "dateCreated": "2016-05-02T03:35:19.419Z"
+        }
+      ],
+      "text": "Basic triangle shape, showing early form of cubism.",
+      "relativeSegmentPoints": [
+        {
+          "_id": "5726cb7e8e8163031e0e28a3",
+          "y": 0.35849395052149857,
+          "x": 0.5260024842841449
+        },
+        {
+          "_id": "5726cb7e8e8163031e0e28a2",
+          "y": 0.339737407394176,
+          "x": 0.5973784878487849
+        },
+        {
+          "_id": "5726cb7e8e8163031e0e28a1",
+          "y": 0.27446466524745566,
+          "x": 0.549418574499468
+        }
+      ],
+      "shapeType": "triangle",
+      "annotationCreator": ""
+    }
+  ],
+  "uploadedBy": "",
+  "dateCreated": "2016-05-02T03:35:19.418Z",
+  "src": "images/picasso1.jpg",
+  "actualSize": {
+    "unit": "in",
+    "height": 96,
+    "width": 92
+  },
+  "medium": "Oil on canvas",
+  "year": 1907,
+  "period": "Cubism",
+  "currentLocation": "Museum of Modern Art",
+  "originLocation": "Paris",
+  "artists": [
+    "Pablo Picasso"
+  ],
+  "description": "Les Demoiselles d’Avignon marks a radical break from traditional composition and perspective in painting. It depicts five naked women with figures composed of flat, splintered planes and faces inspired by Iberian sculpture and African masks.",
+  "title": "Les Demoiselles d'Avignon"
+}
