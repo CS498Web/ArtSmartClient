@@ -1,4 +1,4 @@
-<div ng-controller='profileController'>
+<div ng-controller='loginController'>
   <div class="jumbotron" id="welcome">
     <div id="logo-on-photo">
       <photo-slider>
@@ -31,8 +31,8 @@
       <input ng-model="userEmail" type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
       <input ng-model="userPassword" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
     </div>
-    <button type="submit" ng-click="login" class="btn btn-default active">Login</button>
-    <button type="submit" ng-click="signup" class="btn btn-default">Sign up</button>
+    <button type="submit" ng-click="login()" class="btn btn-default active">Login</button>
+    <button type="submit" ng-click="signup()" class="btn btn-default">Sign up</button>
   </form>
 </div>
 </div>

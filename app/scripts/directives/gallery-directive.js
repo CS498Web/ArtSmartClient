@@ -67,7 +67,7 @@ angular.module('anotareApp')
                 }
             });
 
-            scope.getImage();
+            //scope.getImage();
             //animation to change the pictures
             $interval(scope.next, 5000);
 

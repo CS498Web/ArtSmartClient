@@ -44,19 +44,19 @@
   ];
 
     // Call the async method and then do stuff with what is returned inside the function
-    $scope.getImage = function(next) {
-      AlbumService.getImage()
-      .then(
-        //success function
-        function (asyncImageData) {
-            // console.log(asyncImageData.data);
-            $scope.imageScope = asyncImageData.data.Album[0];
-            next();
-          },
-        //error function
-        function(result) {
-          console.log("Failed to get the image, result is " + result.toString()); 
-        });
-    };
+    // $scope.getImage = function(next) {
+    //   AlbumService.getImage()
+    //   .then(
+    //     //success function
+    //     function (asyncImageData) {
+    //         // console.log(asyncImageData.data);
+    //         $scope.imageScope = asyncImageData.data.Album[0];
+    //         next();
+    //       },
+    //     //error function
+    //     function(result) {
+    //       console.log("Failed to get the image, result is " + result.toString()); 
+    //     });
+    // };
     
   });

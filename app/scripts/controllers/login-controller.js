@@ -7,32 +7,32 @@
  * # AboutCtrl
  * Controller of the anotareApp
  */
-
-
-angular.module('anotareApp')
- .controller('loginController', function ($scope, $http, UserService) {
+ angular.module('anotareApp')
+ .controller('loginController', ['$scope', '$http', 'UserService', '$location'], function ($scope, $http, UserService, $location) {
 
  	$scope.login = function() {
- 		var user = { 
- 			"email": $scope.userEmail,
- 			"password": $scope.userPassword
- 	};
- 	UserService.getSingleUser(user).success(function(){
- 		
- 	}).error(Function(){});
-
- }
- $scope.signup = function() {
- 	var newUser = {
- 			"name" = $scopeUsername
+ 		var user = {
  			"email": $scope.userEmail,
  			"password": $scope.userPassword
  		}
- 	UserService.put().success(function(){
 
- 	}).error(Function(){});
+ 		UserService.login(user).success(function(data){
+ 			$location.replace("/explore");
+ 		}).error(function(){});
+
+ 	}
+ 	$scope.signup = function() {
+ 		var newUser = {
+ 			"name": $scopeUsername,
+ 			"email": $scope.userEmail,
+ 			"password": $scope.userPassword
+ 		}
+ 		UserService.signup(user).success(function(){
+ 			//$location.replace("/sign");
+ 		}).error(function(){});
  	}
 
+ });
 
 
-});
+
