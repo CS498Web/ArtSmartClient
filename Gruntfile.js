@@ -138,7 +138,8 @@ module.exports = function (grunt) {
           src: [
             '.tmp',
             '<%= yeoman.dist %>/{,*/}*',
-            '!<%= yeoman.dist %>/.git*'
+            '!<%= yeoman.dist %>/.git',
+            '!<%= yeoman.dist %>/.git/**/*'
           ]
         }]
       },
@@ -225,6 +226,7 @@ module.exports = function (grunt) {
         flow: {
           html: {
             steps: {
+              // js: ['concat'],
               js: ['concat', 'uglifyjs'],
               css: ['cssmin']
             },
