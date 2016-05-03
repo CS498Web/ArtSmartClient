@@ -12,7 +12,6 @@ angular.module('anotareApp')
   .directive("imgurl", ['$http', function($http) {
     return {
       restrict: 'A',
-      require: '^navigation-bar',
       link: function($scope, element, attributes) {
         $scope.validateUrl = function() {
           if ($scope.urlValue !== "") {

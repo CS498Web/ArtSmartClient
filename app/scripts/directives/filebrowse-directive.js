@@ -11,7 +11,6 @@ angular.module('anotareApp')
       scope: {
         fileread: "="
       },
-      require: '^navigation-bar',
       link: function($scope, element, attributes) {
         element.bind("change", function(changeEvent) {
           var reader = new FileReader();
