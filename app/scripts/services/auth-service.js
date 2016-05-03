@@ -33,10 +33,8 @@ angular.module('anotareApp')
             }).error(error);
         },
         login: function(data, success, error){
-          console.log("login");
           $http.post(baseURL + "login/", $.param(data), formHeader).success(function(user){
               changeUser(user);
-              console.log(user);
               success(user);
           }).error(error);
         },
