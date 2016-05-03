@@ -142,6 +142,11 @@ angular.module('anotareApp')
         // turn on/off edit mode        
         scope.switchEditMode = function(){
 
+          if (!scope.isLoggedIn()) {
+            alert("You have to log in to comment!");
+            return;
+          } 
+
           if (scope.editMode && isAddingNewAnnotation && !scope.tryDestroySelectedAnnotation()) {
             return;
           }
@@ -182,6 +187,10 @@ angular.module('anotareApp')
 
         // turn on/off view mode
         scope.switchAddMode = function () {
+          if (!scope.isLoggedIn()) {
+            alert("You have to log in to comment!");
+            return;
+          }
           // turn off edit mode if it is on
           if (scope.editMode && isAddingNewAnnotation && !scope.tryDestroySelectedAnnotation()) {
             return;
@@ -824,9 +833,13 @@ angular.module('anotareApp')
         }
 
         scope.switchToEditAnnotationText = function() {
-          isEditingAnnotation = true;
-          annotationTextBeforeEdit = scope.annotationText;
-          angular.element("#annotation-description > textarea").prop("disabled", false).focus();
+          if (!scope.isLoggedIn()) {
+            alert("You have to log in to comment!");
+          } else {
+            isEditingAnnotation = true;
+            annotationTextBeforeEdit = scope.annotationText;
+            angular.element("#annotation-description > textarea").prop("disabled", false).focus();
+          }
         }
 
         scope.submitNewAnnotation = function () {
@@ -928,6 +941,11 @@ angular.module('anotareApp')
 
 
         scope.tryDestroySelectedAnnotation = function() {
+          if (!scope.isLoggedIn()) {
+            alert("You have to log in to comment!");
+            return;
+          }
+          
           var confirmMessage;
 
           if (newShape === shapeLastClicked) {
@@ -958,7 +976,7 @@ angular.module('anotareApp')
         }
 
         scope.showCommentTextArea = function() {
-          if (!scope.isLoggedIn(scope.currentUser)) {
+          if (!scope.isLoggedIn()) {
             alert("You have to log in to comment!");
           } else {
             shouldShowCommentTextArea = true;
@@ -1019,8 +1037,12 @@ angular.module('anotareApp')
         }
 
         scope.editImageDescription = function () {
-          imageDescriptionBeforeEdit = _.clone(scope.imageDescription);
-          shouldShowEditImageDescription = false;
+          if (!scope.isLoggedIn()) {
+            alert("You have to log in to comment!");
+          } else {
+            imageDescriptionBeforeEdit = _.clone(scope.imageDescription);
+            shouldShowEditImageDescription = false;
+          }
         }
 
         scope.updateImageDescription = function () {
