@@ -49,14 +49,14 @@ angular.module('anotareApp')
                 },100);
             };
 
-            scope.getImage();
-            scope.$watch('imageScope', function(newVal, oldVal) {
-                if (typeof newVal !== 'undefined' && newVal.length > 0 && firstLoad)
-                {   
-                    firstLoad = false;
-                    scope.loadMore();
-                }
-            });
+            // scope.getImage();
+            // scope.$watch('imageScope', function(newVal, oldVal) {
+            //     if (typeof newVal !== 'undefined' && newVal.length > 0 && firstLoad)
+            //     {   
+            //         firstLoad = false;
+            //         scope.loadMore();
+            //     }
+            // });
 
 
             element.bind('scroll', function() {

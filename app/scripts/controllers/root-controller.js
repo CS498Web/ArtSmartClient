@@ -8,29 +8,33 @@
  * Controller of the anotareApp
  */
  angular.module('anotareApp')
- .controller('RootCtrl', ['$scope', '$http', 'UserService', '$location',
-             function ($scope, $http, UserService, $location) {
+ .controller('RootCtrl', ['$scope', '$http', 'UserService', 'AuthService', '$location',
+             function ($scope, $http, UserService, AuthService, $location) {
 
- 	$scope.login = function() {
+ 	$scope.login = function(user, success, error) {
  		var user = {
- 			"email": $scope.userEmail,
- 			"password": $scope.userPassword
+ 			"email": user.email,
+ 			"password": user.password
  		}
- 		UserService.login(user).success(function(data){
- 			$location.replace("/explore");
- 		}).error(function(){});
+ 		AuthService.login(user, success, error);
+ 	}
 
- 	}
- 	$scope.signup = function() {
+ 	$scope.signup = function(user, success, error) {
  		var newUser = {
- 			"name": "$scope.userName",
- 			"email": $scope.userEmail,
- 			"password": $scope.userPassword
+ 			"name": user.name,
+ 			"email": user.email,
+ 			"password": user.password
  		}
- 		UserService.signup(newUser).success(function(){
- 			//$location.replace("/sign");
- 		}).error(function(){});
+        AuthService.signup(newUser, success, error);
  	}
+
+    $scope.isLoggedIn = function() {
+        return AuthService.isLoggedIn();
+    }
+
+    $scope.getCurrentUser = function() {
+        return AuthService.user;
+    }
 
  }]);
 

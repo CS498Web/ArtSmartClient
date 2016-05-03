@@ -32,15 +32,14 @@ angular
       controller: 'RootCtrl'
     })
     .state('root.landing', {
-      parent: 'root',
       url: '/landing',
-      controller: 'RootCtrl',
+      controller: 'LandingCtrl',
       templateUrl: 'views/landing.html'
     })
     .state('root.explore', {
       url: '/explore',
       templateUrl: 'views/explore.html',
-      controller: 'ArtworkCtrl'
+      controller: 'ExploreCtrl'
     })
     .state('root.artwork', {
       url: '/artworks/{artwork_id}',
