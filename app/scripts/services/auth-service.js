@@ -35,7 +35,6 @@ angular.module('anotareApp')
         login: function(data, success, error){
           $http.post(baseURL + "login/", $.param(data), formHeader).success(function(user){
               changeUser(user);
-              console.log(user);
               success(user);
           }).error(error);
         },
