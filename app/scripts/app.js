@@ -48,9 +48,10 @@ angular
         templateUrl: 'views/explore.html',
         controller: 'GalleryCtrl'
       })
-      .state('root.annotation', {
-        url: '/annotation',
-        templateUrl: 'views/annotation.html'
+      .state('root.artwork', {
+        url: '/artworks/{artwork_id}',
+        templateUrl: 'views/annotation.html',
+        controller: 'AnnotationCtrl'
       });
 
 });
