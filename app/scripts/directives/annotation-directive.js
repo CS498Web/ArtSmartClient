@@ -20,6 +20,7 @@ angular.module('anotareApp')
         scope.newComment = "";
         scope.annotationHeader = "annotation"; //TODO change number of annotations dynamically
         scope.annotationShapes = [];
+        var currentUser = scope.getCurrentUser();
 
         var shouldShowMoreDescription = false;
         var shouldShowEditImageDescription = true;
@@ -957,10 +958,14 @@ angular.module('anotareApp')
         }
 
         scope.showCommentTextArea = function() {
-          shouldShowCommentTextArea = true;
-          $timeout(function() {
-            $(".add-comment-textarea").focus();
-          })
+          if (!scope.isLoggedIn(scope.currentUser)) {
+            alert("You have to log in to comment!");
+          } else {
+            shouldShowCommentTextArea = true;
+            $timeout(function() {
+              $(".add-comment-textarea").focus();
+            })
+          }
         }
 
         function resetAddingComment() {
@@ -978,7 +983,7 @@ angular.module('anotareApp')
               if(annotation._id === shapeLastClicked.key) {
                 annotation.comments.push({
                   text: scope.newComment,
-                  user: "bla" //TODO: change to current user
+                  user: currentUser.name
                 });
               }
             });

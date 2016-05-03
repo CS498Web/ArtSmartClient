@@ -30,24 +30,10 @@ angular.module('anotareApp')
         },
         delete : function(id) { 
           return $http.delete(baseURL+'users/'+id);
-        },
-        login: function(data){
-          var url = baseURL + "login/"
-          return $http.post(url, $.param(data), formHeader);
-        },
-        signup: function(data){
-          var url = baseURL + "signup/"
-          return $http.post(url, data);
-        },
-        isAuthenticated: function(req, res) {
-          var url = baseURL + "authenticate/"
-          var authenticatedUser = $http.post(url, data);
-          if(authenticated!=false){
-            //authenticatedUser should hold the user data.
-          }
-         }
 
-  }
+        }
+        
+    }
 
     return UserService;
 });

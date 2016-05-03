@@ -9,28 +9,25 @@
  */
  angular.module('anotareApp')
 
- .controller('RootCtrl', ['$scope', '$http', 'UserService', '$location',
-             function ($scope, $http, UserService, $location) {
+ .controller('RootCtrl', ['$scope', '$http', 'UserService', 'AuthService', '$location',
+             function ($scope, $http, UserService, AuthService, $location) {
 
- 	$scope.login = function() {
+ 	$scope.login = function(user, success, error) {
  		var user = {
- 			"email": $scope.userEmail,
- 			"password": $scope.userPassword
+ 			"email": user.email,
+ 			"password": user.password
  		}
- 		UserService.login(user).success(function(data){
- 			console.log(data);
- 		}).error(function(){});
 
+ 		AuthService.login(user, success, error);
  	}
- 	$scope.signup = function() {
+
+ 	$scope.signup = function(user, success, error) {
  		var newUser = {
- 			"name": "$scope.userName",
- 			"email": $scope.userEmail,
- 			"password": $scope.userPassword
+ 			"name": user.name,
+ 			"email": user.email,
+ 			"password": user.password
  		}
- 		UserService.signup(newUser).success(function(){
- 			//$location.replace("/sign");
- 		}).error(function(){});
+        AuthService.signup(newUser, success, error);
  	}
  	$scope.authenticate = function() {
  		var user = {
@@ -42,6 +39,39 @@
  			//$location.replace("/sign");
  		}).error(function(){});
  	}
+
+    $scope.isLoggedIn = function() {
+        return AuthService.isLoggedIn();
+    }
+
+    $scope.getCurrentUser = function() {
+        return AuthService.user;
+    }
+
+    $scope.modalTitle = "Upload New Image";
+    $scope.username = "Roger";
+    $scope.loggedIn = false;
+    $scope.loggingIn = true;
+    $scope.signingUp = false;
+    $scope.uploading = false;
+    $scope.imageLoaded = false;
+    $scope.fileToUpload = "";
+    $scope.valid = false;
+    $scope.loginName = "";
+    $scope.passwordName ="";
+    $scope.title = "";
+    $scope.artist="";
+    $scope.description="";
+    $scope.location="";
+    $scope.medium="";
+    $scope.navbarLogin = function(){
+        $scope.loggingIn = true;
+        $scope.uploading = false;
+    }
+    $scope.upload = function(){
+        $scope.loggingIn = false;
+        $scope.uploading = true;
+    }
 
  }]);
 

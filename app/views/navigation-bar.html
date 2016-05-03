@@ -1,0 +1,139 @@
+<nav class="navbar navbar-fixed-top">
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="container-fluid">
+    <div class="navbar-header">
+
+      <a class="navbar-brand" ui-sref="welcome"><img src="/images/anotare-logo.png" style="width:200px; margin-top: -8px;"></a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+      <ul class="nav navbar-nav navbar-right">
+        <li><a ng-href="" data-toggle="modal" data-target="#myModal" ng-click="upload()">Upload</a></li>
+        <li><a ng-href="">Explore</a></li>
+        <li ng-show="loggedIn == false"><a ng-href="" data-toggle="modal" data-target="#myModal" ng-click="navbarLogin()">Login</a></li>
+        <li ng-show="loggedIn == true" class="dropdown">
+          <a href="" class="dropdown-toggle" data-toggle="dropdown" role="hover" aria-haspopup="true" aria-expanded="false">{{username}}<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Edit</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">My Uploads</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">My Annotations</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Favorites</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Logout</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <!-- /.navbar-collapse -->
+
+  </div>
+  <!-- /.navbar-collapse -->
+</nav>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">{{modalTitle}}</h4>
+        <h4>{{file}}</h4>
+      </div>
+      <div class="modal-body">
+
+        <div ng-show="loggingIn==true" class="loginForm">
+          <div class="form-group expand-input">
+            <input type="text" class="form-control" placeholder="Username" ng-model="loginName" id="user">
+          </div>
+          <div class="form-group expand-input">
+            <input type="password" class="form-control" placeholder="Password" ng-model="loginPassword" id="password">
+          </div>
+          <button type="submit" class="btn btn-primary btn-lg btn-block">Login</button>
+        </div>
+
+        <div ng-show "signingUp==true" class="signupForm">
+
+        </div>
+
+        <div ng-show="uploading==true" class="uploadForm">
+          <div class="row">
+            <div class="col-sm-12 form-group expand-input">
+              <label for="imgDrop">Upload by Drag & Drop</label>
+              <img dropbox id="imgDrop" class="center-block imgUpload" src={{fileToUpload}} />
+            </div>
+          </div>
+          <div ng-show="imageLoaded==false" class="row">
+            <div class="col-sm-6 form-group expand-input">
+              <label for="imgUrl">Upload by URL</label>
+              <input imgurl ng-change="validateUrl()" ng-model="urlValue" type="text" class="form-control" placeholder="URL" id="imgUrl">
+            </div>
+            <div class="col-sm-6 btn-group expand-input">
+              <div class="row">
+                <div class="col-sm-12">
+                  <label for="imgBrowse">Upload Local File</label>
+                </div>
+              </div>
+
+              <div class="row">
+
+                <div class="col-sm-12">
+                  <span class="btn btn-default btn-file btn-block btn-info">
+                      Browse <input type="file" filebrowse="files">
+                  </span> {{filebrowse}} {{files}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr />
+          <div class="row">
+            <div class="col-sm-6 form-group expand-input">
+
+              <label for="titleInput">Title</label>
+              <input type="text" class="form-control" placeholder="Title" ng-model="title" id="titleInput" />
+
+            </div>
+            <div class="col-sm-6 form-group expand-input">
+
+
+              <label for="artistInput">Artist</label>
+              <input type="text" class="form-control" placeholder="Artist" ng-model="artist" id="artistInput" />
+
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6 form-group expand-input">
+
+              <label for="titleInput">Description</label>
+              <input type="text" class="form-control" placeholder="Description" ng-model="description" id="descriptionInput" />
+
+            </div>
+            <div class="col-sm-6 form-group expand-input">
+
+              <label for="artistInput">Location</label>
+              <input type="text" class="form-control" placeholder="Location" ng-model="location" id="locationInput" />
+
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4 form-group expand-input">
+
+              <label for="mediumInput">Medium</label>
+              <input type="text" class="form-control" placeholder="Medium" ng-model="medium" id="mediumInput" />
+
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 expand-input">
+
+              <button type="submit" class="btn btn-success btn-lg btn-block">Upload</button>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
