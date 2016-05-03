@@ -8,7 +8,6 @@ angular.module('anotareApp')
   .directive('dropbox', function() {
     return {
       restrict: 'A',
-      require: '^navigation-bar',
       link: function($scope, element) {
         $scope.uploadImgSrc = "images/graybox.jpg"
         element.bind('error', function(){
