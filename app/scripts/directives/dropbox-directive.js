@@ -12,6 +12,7 @@ angular.module('anotareApp')
       link: function($scope, element) {
         $scope.uploadImgSrc = "images/graybox.jpg"
         element.bind('error', function(){
+          $scope.fileToUpload = "";
           //console.log("dsfdsaf");
         })
         element.bind('dragover', function(e) {
@@ -52,6 +53,7 @@ angular.module('anotareApp')
 
               element.removeClass('highlight-border');
               $scope.fileToUpload = e.target.result;
+              $scope.urlValue = "";
               //$scope.$parent.fileToUpload = e.target.result;
 
             });

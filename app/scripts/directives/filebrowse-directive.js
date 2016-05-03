@@ -18,6 +18,7 @@ angular.module('anotareApp')
           reader.onload = function(e) {
             $scope.$apply(function() {
               $scope.$parent.fileToUpload = e.target.result;
+              $scope.$parent.urlValue = "";
             });
           }
           reader.readAsDataURL(changeEvent.target.files[0]);

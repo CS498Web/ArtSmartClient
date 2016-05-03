@@ -15,7 +15,7 @@ angular.module('anotareApp')
       require: '^navigation-bar',
       link: function($scope, element, attributes) {
         $scope.validateUrl = function() {
-          if ($scope.urlValue != "") {
+          if ($scope.urlValue !== "") {
             $http({
               method: 'GET',
               url: $scope.urlValue,
@@ -26,14 +26,12 @@ angular.module('anotareApp')
                 $scope.valid = true;
                 var url = URL.createObjectURL(response.data);
                 $scope.fileToUpload = url
-              } else {
-                $scope.fileToUpload = ""
               }
             }, function errorCallback(response) {
 
               console.log('failed');
             });
-          } else {
+          } else {  
             $scope.fileToUpload = ""
           }
 
