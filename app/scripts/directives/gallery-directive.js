@@ -5,9 +5,12 @@
  */
 
 angular.module('anotareApp')
-.directive('navigationBar', function ($interval) {
+.directive('photoSlider', function ($interval) {
     return {
         restrict : 'EA',
+        //TODO : use local scope variables instead of polluting the global scope
+        link: function(scope) {
+            scope.currentIndex = 0;
 
             scope.loadToItem = function() {
                 for (var i = 1; i < 5; i++) {

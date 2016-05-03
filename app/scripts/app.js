@@ -33,16 +33,19 @@ angular
     })
     .state('root.landing', {
       url: '/landing',
+      parent: 'root',
       controller: 'LandingCtrl',
       templateUrl: 'views/landing.html'
     })
     .state('root.explore', {
       url: '/explore',
+      parent: 'root',
       templateUrl: 'views/explore.html',
       controller: 'ExploreCtrl'
     })
     .state('root.artwork', {
       url: '/artworks/{artwork_id}',
+      parent: 'root',
       templateUrl: 'views/annotation.html',
       controller: 'ArtworkCtrl'
     });

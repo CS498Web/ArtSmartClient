@@ -12,6 +12,7 @@
              function ($scope, $http, UserService, AuthService, $location) {
 
  	$scope.login = function(user, success, error) {
+        console.log("lololol");
  		var user = {
  			"email": user.email,
  			"password": user.password
@@ -20,6 +21,7 @@
  	}
 
  	$scope.signup = function(user, success, error) {
+        console.log("whafasf");
  		var newUser = {
  			"name": user.name,
  			"email": user.email,

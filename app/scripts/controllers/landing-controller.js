@@ -16,6 +16,8 @@
     }
 
     $scope.landingLogin = function() {
+        console.log("what");
+        console.log($scope.login);
         $scope.login({
             email: $scope.userEmail,
             password: $scope.userPassword

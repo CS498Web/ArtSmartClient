@@ -25,7 +25,7 @@ angular.module('anotareApp')
     $scope.description="";
     $scope.location="";
     $scope.medium="";
-    $scope.login = function(){
+    $scope.navbarLogin = function(){
         $scope.loggingIn = true;
         $scope.uploading = false;
     }
