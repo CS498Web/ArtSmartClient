@@ -80,10 +80,6 @@ angular.module('anotareApp')
                 var canvasContainer = $("#canvas-container");
                 scope.canvas = document.getElementById("main-canvas");
                 var buttonColumn = $("#button-column");
-<<<<<<< HEAD
-                console.log("image has loaded");
-=======
->>>>>>> 02b9260d8555a55287c85ae103ad7dccfbb7a125
                 var scaleCanvas = this.naturalHeight / this.naturalWidth;
                 var canvasContainerHeight = canvasContainer.width() * scaleCanvas;
                 canvasContainer.height(canvasContainerHeight);
