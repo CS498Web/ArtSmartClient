@@ -19,12 +19,44 @@
 	}
 }
 
+hr{
+  margin-top: 8px;
+  margin-bottom: 10px;
+  border: 0;
+  border-top: 1px solid #dce0e0;
+}
+
 .loginForm{
   padding:20px;
 }
 
 .expand-input{
   input{
-    height:64px;
+    height:35px;
   }
+}
+
+.imgUpload{
+  height:300px;
+  width:300px;
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
 }
