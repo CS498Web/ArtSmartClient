@@ -1,5 +1,4 @@
-<div ng-controller='loginController'>
-  <div class="jumbotron" id="welcome">
+<div class="jumbotron" id="welcome">
     <div id="logo-on-photo">
       <photo-slider>
       <div>
@@ -10,10 +9,10 @@
           <img id="left-arrow" src="images/right-arrow.png"/>
         </a>
 
-        <a ui-sref="root.annotation">
+        <!-- <a ui-sref="root.annotation">
           <img parallax id="logo-large-rect" offset-parallax="5" direction-parallax="reverse" ng-src="images/anotare-icon.png"/>
           <img parallax class="logo-gallery" ng-repeat="photo in imageScope" offset-parallax="15" style="" ng-src={{photo.src}} ng-show="photo.visible"/>
-        </a>
+        </a> -->
       </div>
     </photo-slider>
   </div>
@@ -34,5 +33,4 @@
     <button type="submit" ng-click="login()" class="btn btn-default active">Login</button>
     <button type="submit" ng-click="signup()" class="btn btn-default">Sign up</button>
   </form>
-</div>
 </div>

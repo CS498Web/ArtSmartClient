@@ -2,13 +2,14 @@
 
 /**
  * @ngdoc function
- * @name anotareApp.controller:AnnotationCtrl
+ * @name anotareApp.controller:RootCtrl
  * @description
- * # AboutCtrl
+ * # RootCtrl
  * Controller of the anotareApp
  */
  angular.module('anotareApp')
- .controller('loginController', ['$scope', '$http', 'UserService', '$location'], function ($scope, $http, UserService, $location) {
+ .controller('RootCtrl', ['$scope', '$http', 'UserService', '$location',
+             function ($scope, $http, UserService, $location) {
 
  	$scope.login = function() {
  		var user = {
@@ -32,7 +33,7 @@
  		}).error(function(){});
  	}
 
- });
+ }]);
 
 
 

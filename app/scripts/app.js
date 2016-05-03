@@ -18,42 +18,38 @@ angular
     'ui.router',
     'puElasticInput'
   ])
-    .config(function($stateProvider, $urlRouterProvider) {
+
+  .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider){
   //
   // For any unmatched url, redirect to /state1
-  $urlRouterProvider.otherwise('/');
+  $urlRouterProvider.otherwise('/main/landing');
   //
   // Now set up the states
   $stateProvider
-    .state('welcome', {
-      url: '/',
-      templateUrl: 'views/welcome.html',
-      controller: 'loginController'
-    })
-    .state('signup', {
-      url: '/signup',
-      templateUrl: 'views/signup.html',
-      controller: 'GalleryCtrl'
-  })
-
     .state('root', {
       url: '/main',
       templateUrl: 'views/root.html',
-      controller: 'AnnotationCtrl'
-
+      controller: 'RootCtrl'
+    })
+    .state('root.landing', {
+      url: '/landing',
+      templateUrl: 'views/landing.html'
     })
 
-      .state('root.explore', {
+    .state('root.annotation', {
+      url: '/annotation',
+      controller: 'AnnotationCtrl'
+    })
+
+      .state('root.annotation.explore', {
         url: '/explore',
         templateUrl: 'views/explore.html',
-        controller: 'GalleryCtrl'
       })
-      .state('root.artwork', {
+      .state('root.annotation.artwork', {
         url: '/artworks/{artwork_id}',
-        templateUrl: 'views/annotation.html',
-        controller: 'AnnotationCtrl'
+        templateUrl: 'views/annotation.html'
       });
 
-});
+}]);
 
 
