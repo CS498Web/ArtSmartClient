@@ -8,7 +8,10 @@ angular.module('anotareApp')
   
   .factory('UserService', function ($http) {
     var baseURL = "http://localhost:4000/api/"
+    var formHeader = {headers:{ 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}}
 
+    //service to get json file from database
+    
     var UserService = {
 
         getAllUsers : function() {
@@ -30,7 +33,7 @@ angular.module('anotareApp')
         },
         login: function(data){
           var url = baseURL + "login/"
-          return $http.post(url, data);
+          return $http.post(url, $.param(data), formHeader);
         },
         signup: function(data){
           var url = baseURL + "signup/"

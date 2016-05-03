@@ -17,7 +17,6 @@
  			"email": $scope.userEmail,
  			"password": $scope.userPassword
  		}
-console.log(user);
  		UserService.login(user).success(function(data){
  			$location.replace("/explore");
  		}).error(function(){});
@@ -25,11 +24,11 @@ console.log(user);
  	}
  	$scope.signup = function() {
  		var newUser = {
- 			"name": $scope.Username,
+ 			"name": "$scope.userName",
  			"email": $scope.userEmail,
  			"password": $scope.userPassword
  		}
- 		UserService.signup(user).success(function(){
+ 		UserService.signup(newUser).success(function(){
  			//$location.replace("/sign");
  		}).error(function(){});
  	}
