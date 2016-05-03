@@ -8,8 +8,7 @@ angular.module('anotareApp')
   
   .factory('UserService', function ($http) {
     var baseURL = "http://localhost:4000/api/"
-    //service to get json file from database
-    
+
     var UserService = {
 
         getAllUsers : function() {
@@ -36,7 +35,10 @@ angular.module('anotareApp')
         signup: function(data){
           var url = baseURL + "signup/"
           return $http.post(url, data);
-        }
+        },
+        isAuthenticated: function(req, res) {
+          var url = baseURL + "authenticate/"
+          return $http.post(url, data);
     }
 
     return UserService;

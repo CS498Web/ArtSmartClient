@@ -28,7 +28,7 @@ angular
     .state('welcome', {
       url: '/',
       templateUrl: 'views/welcome.html',
-      controller: 'loginController'
+      controller: 'LoginController'
     })
     .state('signup', {
       url: '/signup',
