@@ -12,7 +12,6 @@
              function ($scope, $http, UserService, AuthService, $location) {
 
  	$scope.login = function(user, success, error) {
-        console.log(user);
  		AuthService.login(user, success, error);
  	}
 

@@ -16,7 +16,7 @@ angular.module('anotareApp')
         scope.showAnnotation = false;
         scope.showDropdown = true;
         isEditingAnnotation = false;
-        scope.annotationText = "";
+        scope.currentAnnotation = {};
         scope.newComment = "";
         scope.annotationHeader = "annotation"; //TODO change number of annotations dynamically
         scope.annotationShapes = [];
@@ -588,7 +588,7 @@ angular.module('anotareApp')
               if (!stickyShowAnnotation) {
                 scope.showAnnotation=true;
                 scope.safeApply(function() {
-                  scope.annotationText = shape.text;
+                  scope.currentAnnotation = _.pick(shape, 'text', 'comments', 'creatorName', 'dateCreated');
                   scope.comments = shape.comments;
                 });
               }
@@ -647,9 +647,15 @@ angular.module('anotareApp')
             //give an active effect when shape is clicked, show frame only when editMode is true
             //shapeLastClicked is a 'global' variable to determine which shape was last clicked
             var mouseDownEffect = function(event, shape, clickType) {
-              if (scope.checkIsToolSelected() || 
-                  (isAddingNewAnnotation && (shape !== newShape) && !scope.tryDestroySelectedAnnotation()) ) {
-                return;
+
+              var shouldAllowDragging = true;
+
+              if (scope.checkIsToolSelected() || (isAddingNewAnnotation && (shape !== newShape)) ) {
+                shouldAllowDragging = false;
+                if ( !scope.tryDestroySelectedAnnotation() ) {
+                  // prevent click bubble, returning false prevents mouse drag effect on different shape to be executed
+                  return shouldAllowDragging; 
+                }
               }
 
               if (typeof shapeLastClicked !== 'undefined' && shapeLastClicked !== shape ){
@@ -673,7 +679,7 @@ angular.module('anotareApp')
                   (typeof clickType !== 'undefined' && clickType === 'force-update')) {
                 scope.showAnnotation=true;
                 scope.safeApply(function() {
-                  scope.annotationText = shape.text;
+                  scope.currentAnnotation = _.pick(shape, 'text', 'comments', 'creatorName', 'dateCreated');
                   scope.comments = shape.comments;
                 });
               }
@@ -695,15 +701,20 @@ angular.module('anotareApp')
                   drawFrameOn(shape, 'updateAll');
                 }
               }
+
+              return shouldAllowDragging; // allow mouse dragging
             }
 
+            // var mouseUpEffect = function() {
+            //   return false;
+            // }
             //override the mouse actions of shape
             //TODO make backend api to update
-            shape.onMouseDown   = function(event, clickType) {mouseDownEffect ( event, shape, clickType)}
+            shape.onMouseDown   = function(event, clickType) {return mouseDownEffect ( event, shape, clickType);}
             shape.onMouseEnter  = function() { mouseEnterEffect ( shape ) };
             shape.onMouseDrag  = function(event) { mouseDragEffect  ( event, shape ) };
             shape.onMouseLeave  = function() { mouseLeaveEffect ( shape ) };
-            // shape.onMouseUp   = function(event, clickType) {mouseUpEffect ( event, shape, clickType); return false;}
+            // shape.onMouseUp   = function(event, clickType) {return mouseUpEffect ( event, shape, clickType);}
             // shape.onClick   = function(event, clickType) {mouseClickEffect ( event, shape, clickType); return false;}
 
           };
@@ -806,6 +817,8 @@ angular.module('anotareApp')
             // }
 
             shape.text = annotation.text;
+            shape.dateCreated = annotation.dateCreated;
+            shape.creatorName = annotation.creatorName;
             shape.comments = annotation.comments;
             shape.active = false;
             shape.key = annotation._id;
@@ -837,15 +850,22 @@ angular.module('anotareApp')
             alert("You have to log in to comment!");
           } else {
             isEditingAnnotation = true;
-            annotationTextBeforeEdit = scope.annotationText;
+            annotationTextBeforeEdit = scope.currentAnnotation.text;
             angular.element("#annotation-description > textarea").prop("disabled", false).focus();
           }
         }
 
         scope.submitNewAnnotation = function () {
-          if (scope.annotationText && scope.annotationText.trim().length > 0) {
-            shapeLastClicked.text = scope.annotationText;
-            newAnnotation.text = scope.annotationText;
+          if (scope.currentAnnotation.text && scope.currentAnnotation.text.trim().length > 0) {
+            newAnnotation.text = scope.currentAnnotation.text;
+            newAnnotation.creatorName = currentUser.name;
+            newAnnotation.creatorId = currentUser.id;
+            newAnnotation.dateCreated = Date.now();
+
+            _.extend(shapeLastClicked, newAnnotation);
+            _.extend(scope.currentAnnotation, newAnnotation);
+
+            console.log(scope.currentAnnotation);
 
             var newRelativeSegmentPoints = [];
             _.each(shapeLastClicked.segments, function(elem) {
@@ -875,7 +895,7 @@ angular.module('anotareApp')
           isEditingAnnotation = false;
           angular.element("#annotation-description > textarea").prop("disabled", true);
           if (annotationTextBeforeEdit.trim().length > 0) {
-            scope.annotationText = annotationTextBeforeEdit;
+            scope.currentAnnotation.text = annotationTextBeforeEdit;
           }
           annotationTextBeforeEdit = "";
         }
@@ -886,9 +906,9 @@ angular.module('anotareApp')
         }
 
         scope.updateEditAnnotationText = function () {
-          if (scope.annotationText.trim().length > 0) {
+          if (scope.currentAnnotation.text.trim().length > 0) {
             isEditingAnnotation = false;
-            shapeLastClicked.text = scope.annotationText;
+            shapeLastClicked.text = scope.currentAnnotation.text;
             angular.element("#annotation-description > textarea").prop("disabled", true);
             annotationTextBeforeEdit = "";
 
@@ -1001,7 +1021,9 @@ angular.module('anotareApp')
               if(annotation._id === shapeLastClicked.key) {
                 annotation.comments.push({
                   text: scope.newComment,
-                  user: currentUser.name
+                  userName: currentUser.name,
+                  userId: currentUser.id,
+                  dateCreated: Date.now()
                 });
               }
             });
@@ -1087,6 +1109,9 @@ angular.module('anotareApp')
               var resize = function(event) {
                 if (element.prop("tagName") === 'TEXTAREA') {
                   var actualScrollHeight = (element.height(1))[0].scrollHeight;
+                  if (actualScrollHeight < 25) {
+                    actualScrollHeight = 25;
+                  }
                   element.height(actualScrollHeight);
                 } else {
                   console.warn("directive elastic is only for textarea element");
