@@ -12,6 +12,10 @@
     }
 	}
 
+  #canvas-image {
+    display: none;
+  }
+
 	.button-mode-container {
 
 		i {
@@ -96,10 +100,12 @@
 			width:100%;
 			height: 100%;
 		}
+    .image-medium-container {
+      margin-bottom: 5px;
+    }
     .canvas-description {
       border: none;
       outline: none;
-      font-size: 15px;
       padding: 0;
       max-width: none !important; /*overriding pu-elastic-input */
       &.image-artist {
@@ -113,6 +119,12 @@
       }
       &.image-year {
         font-size: 21px;
+      }
+      &.image-medium {
+        font-size: 18px;
+      }
+      &.image-others {
+        font-size: 15px;
       }
 
     }
@@ -145,12 +157,12 @@
       display: block;
       font-size: 11px;
       font-weight: normal;
-      margin-bottom: 0;
-      margin-top: 10px;
+      margin-bottom: -2px;
+      margin-top: 3px;
     }
 
     .label-dimensions {
-      margin-top: 0;
+      margin-top: -2px;
     }
 	}
 

@@ -19,6 +19,7 @@ angular.module('anotareApp')
         scope.annotationText = "";
         scope.newComment = "";
         scope.annotationHeader = "annotation"; //TODO change number of annotations dynamically
+        scope.annotationShapes = [];
 
         var shouldShowMoreDescription = false;
         var shouldShowEditImageDescription = true;
@@ -44,13 +45,34 @@ angular.module('anotareApp')
 
         scope.imageDescription = {};
 
+        $("#main-canvas").on("mouseup", function(event) {
+          if (scope.editMode && !isAddingNewAnnotation) {
+            _.map(scope.imageScope.annotations, function(annotation){
+              if(annotation._id === shapeLastClicked.key) {
+                var newRelativeSegmentPoints = [];
+                _.each(shapeLastClicked.segments, function(elem) {
+                  newRelativeSegmentPoints.push({
+                    x: elem.point.x / canvasWidth,
+                    y: elem.point.y / canvasHeight
+                  })
+                })
+                annotation.relativeSegmentPoints = newRelativeSegmentPoints;
+              }
+            });
+
+            scope.updateImage();
+            
+          }
+        })
 
         // initialize the page
         var init = function() {
             // $(document).ready(function(){
               
               scope.imageDescription = _.pick(scope.imageScope,
-                'artist', 'title', 'description', 'current_location', 'period', 'year', 'origin_location', 'medium', 'dimensions');
+                'artists', 'title', 'description', 'currentLocation', 'period', 'year', 'originLocation', 'medium', 'actualSize');
+              scope.imageDescription.artists = scope.imageDescription.artists.join(", ");
+              var canvasImage = document.getElementById("canvas-image");
 
               var canvasImage = document.getElementById("canvas-image");
 
@@ -58,7 +80,6 @@ angular.module('anotareApp')
                 var canvasContainer = $("#canvas-container");
                 scope.canvas = document.getElementById("main-canvas");
                 var buttonColumn = $("#button-column");
-                console.log("image has loaded");
                 var scaleCanvas = this.naturalHeight / this.naturalWidth;
                 var canvasContainerHeight = canvasContainer.width() * scaleCanvas;
                 canvasContainer.height(canvasContainerHeight);
@@ -104,7 +125,7 @@ angular.module('anotareApp')
         var styleActive = {
           strokeColor: new paper.Color(0.9,0.1,0.1,1),
           strokeWidth: 3.0,
-          fillColor: new paper.Color(0,0,0,0)
+          fillColor: new paper.Color(0,0,0,0.00000001) //hack so that it's still filled
         };
         var styleFrame = {
           strokeColor: new paper.Color(0,0,1,1),
@@ -148,7 +169,7 @@ angular.module('anotareApp')
           if (typeof shapeLastClicked !== 'undefined') {
             if (scope.editMode) {
               // drawFrameOn(shapeLastClicked, 'makeNew');
-              shapeLastClicked.onClick(null, 'force-update');
+              shapeLastClicked.onMouseDown(null, 'force-update');
             }
             else {
               shapeLastClicked.removeSegments();
@@ -183,7 +204,7 @@ angular.module('anotareApp')
           // }
           
           // get array of shapes
-          var shapes = paper.project.getActiveLayer().children;
+          // var shapes = paper.project.getActiveLayer().children;
 
         }
 
@@ -209,25 +230,25 @@ angular.module('anotareApp')
           if (toolName === 'circle-tool'){
             newAnnotation = 
             {
-              "type":"ellipse",
+              "shapeType":"ellipse",
               "comments": []
             }
           } else if (toolName === 'square-tool'){
             newAnnotation = 
             {
-              "type":"rectangle",
+              "shapeType":"rectangle",
               "comments": []
             }
           } else if (toolName === 'line-tool'){
             newAnnotation = 
             {
-              "type":"line",
+              "shapeType":"line",
               "comments": []
             }
           } else if (toolName === 'triangle-tool'){
             newAnnotation = 
             {
-              "type":"triangle",
+              "shapeType":"triangle",
               "comments": []
             }
           }
@@ -241,9 +262,6 @@ angular.module('anotareApp')
           raster = new paper.Raster('canvas-image');
 
           raster.on('load', function() {
-
-            console.log(raster);
-
             var rasterHeight = raster.getHeight();
             var rasterWidth = raster.getWidth();
             canvasHeight = parseFloat(scope.canvas.style.height, 10);
@@ -280,7 +298,7 @@ angular.module('anotareApp')
 
               // if raster is clicked, turn shapes into style standard
               if (typeof shapeLastClicked !== 'undefined') {
-                if (shapeLastClicked.type === 'line') {
+                if (shapeLastClicked.shapeType === 'line') {
                   shapeLastClicked.style = styleLine;
                 } else {
                   shapeLastClicked.style = styleDefault;
@@ -296,27 +314,43 @@ angular.module('anotareApp')
                 var eventPointXRelativeCanvas = event.point.x - scope.canvas.offsetLeft;
                 var eventPointYRelativeCanvas = event.point.y - scope.canvas.offsetTop;
                 if (toolSelected === 'line-tool') {
-                  newAnnotation.relative_x1 = (eventPointXRelativeCanvas - 25) / canvasWidth;
-                  newAnnotation.relative_y1 = (eventPointYRelativeCanvas + 25) / canvasWidth;
-                  newAnnotation.relative_x2 = (eventPointXRelativeCanvas + 25) / canvasWidth;
-                  newAnnotation.relative_y2 = (eventPointYRelativeCanvas - 25) / canvasWidth;
+                  newAnnotation.relativeSegmentPoints = [
+                    {
+                      x: (eventPointXRelativeCanvas - 25) / canvasWidth,
+                      y: (eventPointYRelativeCanvas + 25) / canvasHeight
+                    },
+                    {
+                      x: (eventPointXRelativeCanvas + 25) / canvasWidth,
+                      y: (eventPointYRelativeCanvas - 25) / canvasHeight
+                    }
+                  ];
                 } else if (toolSelected === 'triangle-tool') {
-                  newAnnotation.relative_x1 = (eventPointXRelativeCanvas - 25) / canvasWidth;
-                  newAnnotation.relative_y1 = (eventPointYRelativeCanvas + 25) / canvasWidth;
-                  newAnnotation.relative_x2 = (eventPointXRelativeCanvas + 25) / canvasWidth;
-                  newAnnotation.relative_y2 = (eventPointYRelativeCanvas + 25) / canvasWidth;
-                  newAnnotation.relative_x3 = eventPointXRelativeCanvas / canvasWidth;
-                  newAnnotation.relative_y3 = (eventPointYRelativeCanvas - 13) / canvasWidth;
+                  newAnnotation.relativeSegmentPoints = [
+                    {
+                      x: (eventPointXRelativeCanvas - 25) / canvasWidth,
+                      y: (eventPointYRelativeCanvas + 25) / canvasHeight
+                    },
+                    {
+                      x: (eventPointXRelativeCanvas + 25) / canvasWidth,
+                      y: (eventPointYRelativeCanvas + 25) / canvasHeight
+                    },
+                    {
+                      x: (eventPointXRelativeCanvas     ) / canvasWidth,
+                      y: (eventPointYRelativeCanvas - 13) / canvasHeight
+                    }
+                  ];
                 } else {
-                  newAnnotation.relative_x = eventPointXRelativeCanvas / canvasWidth;
-                  newAnnotation.relative_y = eventPointYRelativeCanvas / canvasHeight;
+                  newAnnotation.relativeX = eventPointXRelativeCanvas / canvasWidth;
+                  newAnnotation.relativeY = eventPointYRelativeCanvas / canvasHeight;
+                  newAnnotation.relativeHeight = 0.05;
+                  newAnnotation.relativeWidth = 0.05 * canvasHeight / canvasWidth;
                 }
                 toolSelected = '';
                 
-                newShape = scope.drawAnnotation(newAnnotation);
+                newShape = scope.drawAnnotation(newAnnotation, 'tool');
                 shapeLastClicked = newShape;
                 scope.switchEditMode();
-                newShape.onClick(null, 'force-update');
+                newShape.onMouseDown(null, 'force-update');
                 scope.switchToEditAnnotationText();
                 scope.safeApply(function() {
                   isAddingNewAnnotation = true;
@@ -524,7 +558,7 @@ angular.module('anotareApp')
         
 
         //draw shapes on the image/Raster
-        scope.drawAnnotation = function( annotation ){
+        scope.drawAnnotation = function( annotation, drawType){
 
           // mouse actions to be applied on shapes
           var mouseActionsOn = function(shape){
@@ -567,7 +601,7 @@ angular.module('anotareApp')
               }
 
               if (!shape.active){
-                if (shape.type === 'line') {
+                if (shape.shapeType === 'line') {
                   shape.style = styleLine;
                 } else {
                   shape.style = styleDefault;
@@ -577,7 +611,6 @@ angular.module('anotareApp')
 
             //only activated when editMode is true
             var mouseDragEffect = function(event, shape) {
-
               if (scope.editMode) {
 
                 $('html,body').css('cursor','move');
@@ -594,7 +627,8 @@ angular.module('anotareApp')
                   event.point.y = raster.bounds.y + raster.bounds.height;
                 }
 
-                shape.position = event.point;
+                shape.position.x += event.delta.x;
+                shape.position.y += event.delta.y;
                 drawFrameOn(shape, 'updateAll');
               }
 
@@ -602,14 +636,14 @@ angular.module('anotareApp')
 
             //give an active effect when shape is clicked, show frame only when editMode is true
             //shapeLastClicked is a 'global' variable to determine which shape was last clicked
-            var mouseClickEffect = function(event, shape, clickType) {
+            var mouseDownEffect = function(event, shape, clickType) {
               if (scope.checkIsToolSelected() || 
                   (isAddingNewAnnotation && (shape !== newShape) && !scope.tryDestroySelectedAnnotation()) ) {
                 return;
               }
 
               if (typeof shapeLastClicked !== 'undefined' && shapeLastClicked !== shape ){
-                if (shapeLastClicked.type === 'line') {
+                if (shapeLastClicked.shapeType === 'line') {
                     shapeLastClicked.style = styleLine;
                 } else {
                   shapeLastClicked.style = styleDefault;
@@ -655,119 +689,121 @@ angular.module('anotareApp')
 
             //override the mouse actions of shape
             //TODO make backend api to update
-            shape.onMouseDrag   = function(event) { mouseDragEffect  ( event, shape ) };
+            shape.onMouseDown   = function(event, clickType) {mouseDownEffect ( event, shape, clickType)}
             shape.onMouseEnter  = function() { mouseEnterEffect ( shape ) };
+            shape.onMouseDrag  = function(event) { mouseDragEffect  ( event, shape ) };
             shape.onMouseLeave  = function() { mouseLeaveEffect ( shape ) };
-            shape.onClick   = function(event, clickType) {mouseClickEffect ( event, shape, clickType); return false;}
+            // shape.onMouseUp   = function(event, clickType) {mouseUpEffect ( event, shape, clickType); return false;}
+            // shape.onClick   = function(event, clickType) {mouseClickEffect ( event, shape, clickType); return false;}
 
           };
           //end mouseActionsOn
 
           // draw rectangle
-          var drawRect = function( shape ){
-            var rect;
-            if (typeof shape.relative_width === 'undefined' || typeof shape.relative_height === 'undefined'){
-              rect = new paper.Path.Rectangle({
-                width: 70,
-                height: 70,
-                style: styleDefault
+          var drawRect = function( shape, drawType ){
+            if (typeof drawType !== 'undefined' && drawType === 'tool') {
+              var rect = new paper.Path.Rectangle({
+                width: shape.relativeWidth * canvasWidth,
+                height: shape.relativeHeight * canvasHeight,
+                style: styleDefault,
+              });
+              rect.position.setX(annotation.relativeX * canvasWidth);
+              rect.position.setY(annotation.relativeY *  canvasHeight);
+              return rect;
+            } else {
+              return new paper.Path({
+                segments: shape.actualSegments,
+                style: styleDefault,
+                closed: true
               });
             }
-            else {
-              rect = new paper.Path.Rectangle({
-                width: shape.relative_width * canvasWidth,
-                height: shape.relative_height * canvasHeight,
-                style: styleDefault
-              });
-            }
-            return rect;
+            
           };
 
           // draw ellipse
-          var drawEllipse = function( shape ){
-            var ellipse;
-            if (typeof shape.relative_width === 'undefined' || typeof shape.relative_height === 'undefined'){
-              ellipse = new paper.Path.Ellipse({
-                width: 70,
-                height: 70,
+          var drawEllipse = function( shape, drawType ){
+            if (typeof drawType !== 'undefined' && drawType === 'tool') {
+              var ellipse = new paper.Path.Ellipse({
+                width: shape.relativeWidth * canvasWidth,
+                height: shape.relativeHeight * canvasHeight,
                 style: styleDefault
               });
-            }
-            else {
-              ellipse = new paper.Path.Ellipse({
-                width: shape.relative_width * canvasWidth,
-                height: shape.relative_height * canvasHeight,
+              ellipse.position.setX(annotation.relativeX * canvasWidth);
+              ellipse.position.setY(annotation.relativeY *  canvasHeight);
+              return ellipse;
+            } else {
+              var ellipse = new paper.Path({
+                segments: shape.actualSegments,
+                closed: true,
                 style: styleDefault
               });
-            }
-            return ellipse;
-          };
 
-          //draw pin
-          // var drawPin = function( shape ){
-          //   var pin = new paper.Path.Circle({
-          //     radius: 3,
-          //     style: stylePin
-          //   });
-          //   return pin;
-          // };
+              ellipse.smooth();
+              return ellipse;
+            }
+          };
 
           //draw line
-          var drawLine = function( shape ){
-            var from = new paper.Point(shape.relative_x1 * canvasWidth, shape.relative_y1 * canvasHeight);
-            var to = new paper.Point(shape.relative_x2 * canvasWidth, shape.relative_y2 * canvasHeight);
-            var line = new paper.Path.Line(from, to);
-            line.style = styleLine;
-
-            return line;
+          var drawLine = function( shape, drawType ){
+            return new paper.Path({
+              segments: shape.actualSegments,
+              style: styleLine
+            });
           };
 
-          var drawTriangle = function( shape ){
-            var point1 = new paper.Point(shape.relative_x1 * canvasWidth, shape.relative_y1 * canvasHeight);
-            var point2 = new paper.Point(shape.relative_x2 * canvasWidth, shape.relative_y2 * canvasHeight);
-            var point3 = new paper.Point(shape.relative_x3 * canvasWidth, shape.relative_y3 * canvasHeight);
-            var triangle = new paper.Path({
-              segments: [point1, point2, point3],
+          var drawTriangle = function( shape, drawType ){
+            return new paper.Path({
+              segments: shape.actualSegments,
               style: styleDefault,
               closed: true
             });
-            return triangle;
           };
 
           //draw every annotation from annotations
           var shape;
 
-          if (annotation.type === 'rectangle'){
-            shape = drawRect(annotation);
+          annotation.actualSegments = [];
+
+          _.each(annotation.relativeSegmentPoints, function(element, index) {
+            annotation.actualSegments.push({
+              x: element.x * canvasWidth,
+              y: element.y * canvasWidth
+            });
+          });
+
+          if (annotation.shapeType === 'rectangle'){
+            shape = drawRect(annotation, drawType);
           }
-          else if (annotation.type === 'ellipse'){
-            shape = drawEllipse(annotation);
+          else if (annotation.shapeType === 'ellipse'){
+            shape = drawEllipse(annotation, drawType);
           }
-          else if(annotation.type === 'line'){
-            shape = drawLine(annotation);
+          else if(annotation.shapeType === 'line'){
+            shape = drawLine(annotation, drawType);
           }
-          else if(annotation.type === 'triangle'){
-            shape = drawTriangle(annotation);
+          else if(annotation.shapeType === 'triangle'){
+            shape = drawTriangle(annotation, drawType);
           }
 
           //creating the frame and overriding mouse actions on every shape
           if (typeof shape !== 'undefined') {
 
-            shape.type = annotation.type;
+            shape.shapeType = annotation.shapeType;
 
-            if ( !_.contains(['line', 'triangle'], shape.type) ) {
-              shape.position.setX(annotation.relative_x * canvasWidth);
-              shape.position.setY(annotation.relative_y *  canvasHeight);
-            }
+            // if ( !_.contains(['line', 'triangle'], shape.shapeType) ) {
+            //   shape.position.setX(annotation.relativeX * canvasWidth);
+            //   shape.position.setY(annotation.relativeY *  canvasHeight);
+            //   shape.rotate(annotation.rotateAngle);
+            // }
 
             shape.text = annotation.text;
             shape.comments = annotation.comments;
             shape.active = false;
+            shape.key = annotation._id;
             mouseActionsOn(shape);
             return shape;
           }
           else { //shape is unidentified
-            console.log('Shape' + annotation.type + 'is unidentified');
+            console.log('Shape' + annotation.shapeType + 'is unidentified');
           }
 
         };
@@ -777,7 +813,7 @@ angular.module('anotareApp')
         var drawAll = function(){
           drawImage( function() {
             scope.imageScope.annotations.forEach(function(annotation){
-              scope.drawAnnotation(annotation);
+              scope.annotationShapes.push(scope.drawAnnotation(annotation));
             }); 
           });
         };
@@ -792,9 +828,24 @@ angular.module('anotareApp')
           angular.element("#annotation-description > textarea").prop("disabled", false).focus();
         }
 
-        scope.submitNewAnnotationText = function () {
+        scope.submitNewAnnotation = function () {
           if (scope.annotationText && scope.annotationText.trim().length > 0) {
             shapeLastClicked.text = scope.annotationText;
+            newAnnotation.text = scope.annotationText;
+
+            var newRelativeSegmentPoints = [];
+            _.each(shapeLastClicked.segments, function(elem) {
+              newRelativeSegmentPoints.push({
+                x: elem.point.x / canvasWidth,
+                y: elem.point.y / canvasHeight
+              })
+            });
+
+            newAnnotation.relativeSegmentPoints = newRelativeSegmentPoints;
+
+            scope.imageScope.annotations.push(newAnnotation);
+            scope.updateImage();
+            newAnnotation = {};
             isAddingNewAnnotation = false;
             isEditingAnnotation = false;
             scope.annotationHeader = "annotation";
@@ -825,7 +876,15 @@ angular.module('anotareApp')
             isEditingAnnotation = false;
             shapeLastClicked.text = scope.annotationText;
             angular.element("#annotation-description > textarea").prop("disabled", true);
-            annotationTextBeforeEdit = ""
+            annotationTextBeforeEdit = "";
+
+            _.map(scope.imageScope.annotations, function(annotation){
+              if(annotation._id === shapeLastClicked.key) {
+                annotation.text = shapeLastClicked.text;
+              }
+            });
+            scope.updateImage();
+
           } else {
             alert("You can't submit an empty annotation.");
           }
@@ -850,6 +909,11 @@ angular.module('anotareApp')
 
         function destroyAnnotation(shape) {
           if (shape.frame) shape.frame.remove();
+          if (!isAddingNewAnnotation) {
+            scope.imageScope.annotations = _.without(scope.imageScope.annotations,
+                                                     _.findWhere(scope.imageScope.annotations, {key: shape.key}));
+            scope.deleteAnnotation(shape.key);
+          }
           shape.removeSegments();
           shape.remove();
           shape = undefined;
@@ -910,10 +974,15 @@ angular.module('anotareApp')
 
         scope.submitNewComment = function() {
           if (typeof scope.newComment === "string" && scope.newComment.trim().length > 0) {
-            shapeLastClicked.comments.push({
-              text: scope.newComment,
-              user: "bla" //TODO: change to current user
+            _.map(scope.imageScope.annotations, function(annotation){
+              if(annotation._id === shapeLastClicked.key) {
+                annotation.comments.push({
+                  text: scope.newComment,
+                  user: "bla" //TODO: change to current user
+                });
+              }
             });
+            scope.updateImage();
             resetAddingComment();
           } else {
             alert("You can't submit an empty comment.");
@@ -950,7 +1019,13 @@ angular.module('anotareApp')
         }
 
         scope.updateImageDescription = function () {
+          scope.imageDescription.artists = scope.imageDescription.artists.split(",");
+          scope.imageDescription.artists.forEach(function (elem, index) {
+            scope.imageDescription.artists[index] = elem.trim();
+          })
           _.extendOwn(scope.imageScope, scope.imageDescription);
+          scope.imageDescription.artists = scope.imageDescription.artists.join(", ");
+          scope.updateImage();
           shouldShowEditImageDescription = true;
         }
 

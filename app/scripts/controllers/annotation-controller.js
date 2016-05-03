@@ -8,7 +8,8 @@
  * Controller of the anotareApp
  */
  angular.module('anotareApp')
- .controller('AnnotationCtrl', function ($scope, $http, AlbumService) {
+ .controller('AnnotationCtrl', [ '$scope', '$http', 'ArtworkService', '$stateParams',
+             function ($scope, $http, ArtworkService, $stateParams) {
   $scope.imageScope;
   $scope.editMode = false;
   $scope.annotationText = "";
@@ -43,20 +44,45 @@
   }
   ];
 
-    // Call the async method and then do stuff with what is returned inside the function
-    // $scope.getImage = function(next) {
-    //   AlbumService.getImage()
-    //   .then(
-    //     //success function
-    //     function (asyncImageData) {
-    //         // console.log(asyncImageData.data);
-    //         $scope.imageScope = asyncImageData.data.Album[0];
-    //         next();
-    //       },
-    //     //error function
-    //     function(result) {
-    //       console.log("Failed to get the image, result is " + result.toString()); 
-    //     });
-    // };
+    $scope.getImage = function(next) {
+      ArtworkService.getOne($stateParams.artwork_id)
+      .then(
+        //success function
+        function (response) {
+            $scope.imageScope = response.data;
+            next();
+          },
+        //error function
+        function(result) {
+          console.log("Failed to get the image, result is :");
+          console.log(result); 
+        });
+    };
+
+    $scope.updateImage = function() {
+      ArtworkService.putOne($stateParams.artwork_id, $scope.imageScope)
+      .then(
+        //success function
+        function (response) {
+          },
+        //error function
+        function(result) {
+          console.log("Failed to get the image, result is :");
+          console.log(result); 
+        });
+    };
+
+    $scope.deleteAnnotation = function(annotation_id) {
+      ArtworkService.deleteAnnotation($stateParams.artwork_id, annotation_id)
+      .then(
+        //success function
+        function (response) {
+          },
+        //error function
+        function(result) {
+          console.log("Failed to delete annotation, result is :");
+          console.log(result); 
+        });
+    };
     
-  });
+  }]);

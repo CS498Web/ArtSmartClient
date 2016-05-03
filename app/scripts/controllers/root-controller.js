@@ -2,20 +2,22 @@
 
 /**
  * @ngdoc function
- * @name anotareApp.controller:AnnotationCtrl
+ * @name anotareApp.controller:RootCtrl
  * @description
- * # AboutCtrl
+ * # RootCtrl
  * Controller of the anotareApp
  */
  angular.module('anotareApp')
- .controller('LoginController', ['$scope', '$http', 'UserService', '$location', function ($scope, $http, UserService, $location) {
+
+ .controller('RootCtrl', ['$scope', '$http', 'UserService', '$location',
+             function ($scope, $http, UserService, $location) {
 
  	$scope.login = function() {
  		var user = {
  			"email": $scope.userEmail,
  			"password": $scope.userPassword
  		}
-
+console.log(user);
  		UserService.login(user).success(function(data){
  			$location.replace("/explore");
  		}).error(function(){});
@@ -23,7 +25,7 @@
  	}
  	$scope.signup = function() {
  		var newUser = {
- 			"name": $scopeUsername,
+ 			"name": $scope.Username,
  			"email": $scope.userEmail,
  			"password": $scope.userPassword
  		}
@@ -33,7 +35,7 @@
  	}
  	$scope.authenticate = function() {
  		var user = {
- 			"name": $scopeUsername,
+ 			"name": $scope.Username,
  			"email": $scope.userEmail,
  			"password": $scope.userPassword
  		}
