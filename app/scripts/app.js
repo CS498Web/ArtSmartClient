@@ -32,23 +32,21 @@ angular
       controller: 'RootCtrl'
     })
     .state('root.landing', {
+      parent: 'root',
       url: '/landing',
+      controller: 'RootCtrl',
       templateUrl: 'views/landing.html'
     })
-
-    .state('root.annotation', {
-      url: '/annotation',
-      controller: 'AnnotationCtrl'
+    .state('root.explore', {
+      url: '/explore',
+      templateUrl: 'views/explore.html',
+      controller: 'ArtworkCtrl'
     })
-
-      .state('root.annotation.explore', {
-        url: '/explore',
-        templateUrl: 'views/explore.html',
-      })
-      .state('root.annotation.artwork', {
-        url: '/artworks/{artwork_id}',
-        templateUrl: 'views/annotation.html'
-      });
+    .state('root.artwork', {
+      url: '/artworks/{artwork_id}',
+      templateUrl: 'views/annotation.html',
+      controller: 'ArtworkCtrl'
+    });
 
 }]);
 
