@@ -12,7 +12,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li><a ng-href="" data-toggle="modal" data-target="#myModal" ng-click="upload()">Upload</a></li>
         <li><a ng-href="">Explore</a></li>
-        <li ng-show="loggedIn == false"><a ng-href="" data-toggle="modal" data-target="#myModal" ng-click="navbarLogin()">Login</a></li>
+        <li ng-show="loggedIn == false"><a ng-href="" data-toggle="modal" data-target="#myModal" ng-click="toggleLogin()">Login</a></li>
         <li ng-show="loggedIn == true" class="dropdown">
           <a href="" class="dropdown-toggle" data-toggle="dropdown" role="hover" aria-haspopup="true" aria-expanded="false">{{username}}<span class="caret"></span></a>
           <ul class="dropdown-menu">
@@ -52,7 +52,7 @@
           <div class="form-group expand-input">
             <input type="password" class="form-control" placeholder="Password" ng-model="loginPassword" id="password">
           </div>
-          <button type="submit" class="btn btn-primary btn-lg btn-block">Login</button>
+          <button ng-click="navbarLogin()" type="submit" class="btn btn-primary btn-lg btn-block">Login</button>
         </div>
 
         <div ng-show "signingUp==true" class="signupForm">

@@ -12,20 +12,12 @@
              function ($scope, $http, UserService, AuthService, $location) {
 
  	$scope.login = function(user, success, error) {
- 		var user = {
- 			"email": user.email,
- 			"password": user.password
- 		}
+        console.log(user);
  		AuthService.login(user, success, error);
  	}
 
  	$scope.signup = function(user, success, error) {
- 		var newUser = {
- 			"name": user.name,
- 			"email": user.email,
- 			"password": user.password
- 		}
-        AuthService.signup(newUser, success, error);
+        AuthService.signup(user, success, error);
  	}
 
     $scope.isLoggedIn = function() {
@@ -52,13 +44,23 @@
     $scope.description="";
     $scope.location="";
     $scope.medium="";
-    $scope.navbarLogin = function(){
+    $scope.toggleLogin = function(){
         $scope.loggingIn = true;
         $scope.uploading = false;
     }
     $scope.upload = function(){
         $scope.loggingIn = false;
         $scope.uploading = true;
+    }
+    $scope.navbarLogin = function() {
+        $scope.login({
+            email: $scope.loginName,
+            password: $scope.loginPassword
+        }, function() {
+            // $location.path('/main/explore');
+        }, function() {
+            alert("wrong credentials");
+        })
     }
 
  }]);
