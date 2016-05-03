@@ -38,14 +38,16 @@ angular.module('anotareApp')
         signup: function(data){
           var url = baseURL + "signup/"
           return $http.post(url, data);
-        }
-        // isAuthenticated: function(req, res) {
-        //   var url = baseURL + "authenticate/"
-        //   var authenticatedUser = $http.post(url, data);
-        //   if(authenticated!=false){
+        },
+        isAuthenticated: function(req, res) {
+          var url = baseURL + "authenticate/"
+          var authenticatedUser = $http.post(url, data);
+          if(authenticated!=false){
+            //authenticatedUser should hold the user data.
+          }
+         }
 
-        //   }
-    }
+  }
 
     return UserService;
 });

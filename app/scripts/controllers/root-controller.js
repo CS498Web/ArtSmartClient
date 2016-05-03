@@ -18,7 +18,7 @@
  			"password": $scope.userPassword
  		}
  		UserService.login(user).success(function(data){
- 			$location.replace("/explore");
+ 			console.log(data);
  		}).error(function(){});
 
  	}
