@@ -11,6 +11,9 @@ angular.module('anotareApp')
     // delete $http.defaults.headers.post['Content-type'];
     // delete $http.defaults.headers.delete['Content-type'];
     return {
+        getAll : function() {
+          return $http.get(baseURL + '/artworks/');
+        },
         getOne : function(artwork_id) {
             return $http.get(baseUrl + '/artworks/' + artwork_id);
         },

@@ -44,7 +44,6 @@
   }
   ];
 
-    // Call the async method and then do stuff with what is returned inside the function
     $scope.getImage = function(next) {
       ArtworkService.getOne($stateParams.artwork_id)
       .then(

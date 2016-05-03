@@ -74,6 +74,8 @@ angular.module('anotareApp')
               scope.imageDescription.artists = scope.imageDescription.artists.join(", ");
               var canvasImage = document.getElementById("canvas-image");
 
+              var canvasImage = document.getElementById("canvas-image");
+
               canvasImage.addEventListener('load', function() {
                 var canvasContainer = $("#canvas-container");
                 scope.canvas = document.getElementById("main-canvas");
@@ -260,7 +262,6 @@ angular.module('anotareApp')
           raster = new paper.Raster('canvas-image');
 
           raster.on('load', function() {
-
             var rasterHeight = raster.getHeight();
             var rasterWidth = raster.getWidth();
             canvasHeight = parseFloat(scope.canvas.style.height, 10);
