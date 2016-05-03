@@ -31,4 +31,3 @@ angular.module('anotareApp')
         }
     }
 });
->>>>>>> 02b9260d8555a55287c85ae103ad7dccfbb7a125
