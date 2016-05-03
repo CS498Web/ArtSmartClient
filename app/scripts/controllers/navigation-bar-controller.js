@@ -24,8 +24,6 @@ angular.module('anotareApp')
     $scope.artist="";
     $scope.description="";
     $scope.location="";
-    $scope.height="";
-    $scope.width="";
     $scope.medium="";
     $scope.login = function(){
         $scope.loggingIn = true;
