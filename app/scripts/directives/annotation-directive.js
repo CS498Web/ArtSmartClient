@@ -25,9 +25,6 @@ angular.module('anotareApp')
         var shouldShowMoreDescription = false;
         var shouldShowEditImageDescription = true;
 
-        //prevent default right click function
-        // window.oncontextmenu = function() { return false;};
-
         var shapeLastClicked, canvasWidth, canvasHeight, raster;
 
         var toolSelected, newAnnotation, newShape;
@@ -126,7 +123,7 @@ angular.module('anotareApp')
         var styleActive = {
           strokeColor: new paper.Color(0.9,0.1,0.1,1),
           strokeWidth: 3.0,
-          fillColor: new paper.Color(0,0,0,0.00000001) //hack so that it's still filled
+          fillColor: new paper.Color(0,0,0,0.0001) //hack so that it's still filled
         };
         var styleFrame = {
           strokeColor: new paper.Color(0,0,1,1),
@@ -865,8 +862,6 @@ angular.module('anotareApp')
             _.extend(shapeLastClicked, newAnnotation);
             _.extend(scope.currentAnnotation, newAnnotation);
 
-            console.log(scope.currentAnnotation);
-
             var newRelativeSegmentPoints = [];
             _.each(shapeLastClicked.segments, function(elem) {
               newRelativeSegmentPoints.push({
@@ -878,7 +873,9 @@ angular.module('anotareApp')
             newAnnotation.relativeSegmentPoints = newRelativeSegmentPoints;
 
             scope.imageScope.annotations.push(newAnnotation);
-            scope.updateImage();
+            scope.updateImage(function (annotation) {
+              scope.addWorkAnnotatedToUser(currentUser.id, annotation._id);
+            });
             newAnnotation = {};
             isAddingNewAnnotation = false;
             isEditingAnnotation = false;

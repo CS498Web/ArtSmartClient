@@ -91,7 +91,7 @@
                         <input ng-disabled="shouldShowEditImageDescription()" type="text" pu-elastic-input ng-class="shouldShowDescriptionLabels() ? 'edit-canvas-description' : ''" class="canvas-description image-others" ng-model="imageDescription.actualSize.unit"></input>
                     </div>
                 </div>
-                <div class='col-sm-12 text-left'>
+                <div class='col-sm-6 text-left'>
                     <a ng-click="showMoreInfo()" ng-show="shouldShowMoreInfo()">more info <i class="fa fa-angle-down" aria-hidden="true"></i></a>
                     <a ng-click="showLessInfo()" ng-show="shouldShowLessInfo()">less info <i class="fa fa-angle-up" aria-hidden="true"></i></a>
                     <a ng-click="cancelImageDescription()" ng-show="shouldShowEditImageDescription() === false">cancel</a>
@@ -100,6 +100,15 @@
 
                     <a ng-click="editImageDescription()" ng-show="shouldShowEditImageDescription()">edit</a>
                     <a ng-click="updateImageDescription()" ng-show="shouldShowEditImageDescription() === false">update</a>
+                </div>
+
+                <div class='col-sm-6 text-right text-comment'>
+                    <div>
+                        uploaded <span class="date-comment">{{imageScope.dateCreated | date:"MMM d ''''yy 'at' HH:mm"}}</span>
+                    </div>
+                    <div class="user-comment">
+                        {{imageScope.uploadedByName}}
+                    </div>
                 </div>
             </div>
         	

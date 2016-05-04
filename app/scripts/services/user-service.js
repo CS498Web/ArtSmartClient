@@ -19,14 +19,13 @@ angular.module('anotareApp')
         },
         getSingleUser : function(id) {
            var url = baseURL + 'users/' + id
-           console.log(url);
            return $http.get(url);
         },
         post : function(data) {
           return $http.post(baseURL+'users/', $.param(data));
         },
         put : function(id, data) {
-          return $http.put(baseURL+'users/'+id, $.param(data));
+          return $http.put(baseURL+'users/'+id, $.param(data), formHeader);
         },
         delete : function(id) { 
           return $http.delete(baseURL+'users/'+id);
