@@ -30,6 +30,7 @@ angular.module('anotareApp')
         },
         delete : function(id) { 
           return $http.delete(baseURL+'users/'+id);
+
         }
         
     }

@@ -27,6 +27,7 @@ angular
   //
   // Now set up the states
   $stateProvider
+
     .state('root', {
       url: '/main',
       templateUrl: 'views/root.html',
