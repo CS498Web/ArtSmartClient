@@ -12,6 +12,7 @@ angular
   .module('anotareApp', [
     'ngAnimate',
     'ngCookies',
+    'LocalStorageModule',
     'ngResource',
     'ngSanitize',
     'ngTouch',
