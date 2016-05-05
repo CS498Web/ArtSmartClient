@@ -2,6 +2,22 @@
 	height: 100%;
 	width: 100%;
 
+	#left
+    {
+      width: 20%;
+      float: left;
+    }
+
+    #right
+    {
+      margin-left: 20%; /* Change this to whatever the width of your left column is*/
+    }
+
+    .clear
+    {
+      clear: both;
+    }
+
 	.explore-header{
 		width: 100%;
 		height: 400px;

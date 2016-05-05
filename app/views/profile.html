@@ -1,0 +1,52 @@
+<div class="explore-container">
+
+	<div id="container">
+		<div id="left">
+				<div class="user information" style="text-align: center">
+					<p>Name: {{user.username}}</p>
+					<p>Email:  {{user.email}}</p>
+				</div>
+		</div>
+			<br/>
+
+
+			<div id="right">
+				<div class="container horizontal-gallery">
+					<div class="row">
+						<h4>Artwork Annotated</h4>
+						<div class="arrow-group">
+							<a href="" ng-mouseenter="scrollLeft()" ng-mouseleave="scrollEnd()">
+								<img class="arrow prev" src="/images/left-arrow.png"/>
+							</a>
+							<a href="" ng-mouseenter="scrollRight()" ng-mouseleave="scrollEnd()">
+								<img class="arrow next" src="/images/right-arrow.png"/>
+							</a>
+						</div>
+						<div class="scroll-gallery" horizontal-infinity-scroll="loadMore()" >
+							<a class="scroll-photo" ng-repeat="worksAnnotated in worksAnnotateds">
+								<img ng-src={{worksAnnotated.src}} />
+								<span class="text-content"><div><h4>{{worksAnnotated.title}}</h4><h5>{{worksAnnotated.artist}}</h5></div></span>
+							</a>
+						</div>
+					</div>
+					<div class="row">
+						<h4>Artworks Uploaded</h4>
+						<div class="arrow-group">
+							<a href="" ng-mouseenter="scrollLeft()" ng-mouseleave="scrollEnd()">
+								<img class="arrow prev" src="/images/left-arrow.png"/>
+							</a>
+							<a href="" ng-mouseenter="scrollRight()" ng-mouseleave="scrollEnd()">
+								<img class="arrow next" src="/images/right-arrow.png"/>
+							</a>
+						</div>
+						<div class="scroll-gallery" horizontal-infinity-scroll="loadMore()" >
+							<div class="scroll-photo" ng-repeat="worksUploaded in worksUploadeds">
+								<img ng-src={{worksUploaded.src}} />
+								<span class="text-content"><div><h4>{{worksUploaded.title}}</h4><h5>{{worksUploaded.artist}}</h5></div></span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
