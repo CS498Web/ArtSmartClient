@@ -18,12 +18,19 @@ angular.module('anotareApp')
             var isScrolling = false;
             var intervalID;
 
-            scope.loadMore = function() {
-                for (var i = 0; i < 5 && lastImageIndex < scope.imageScope.length; i++) {
-                    scope.items.push(scope.imageScope[lastImageIndex]);
-                    lastImageIndex++;
-                }
-            };
+            // scope.loadMore = function() {
+            //     for (var i = 0; i < 5 && lastImageIndex < scope.imageScope.length; i++) {
+            //         scope.items.push(scope.imageScope[lastImageIndex]);
+            //         lastImageIndex++;
+            //     }
+            // };
+
+            // scope.loadMore = function() {
+            //     scope.imageScope.forEach(function (image, index) {
+            //         scope.items.push(image);
+            //     });
+                
+            // };
 
             //move to next photo, or first photo if it's the last photo
             scope.scrollRight = function () {

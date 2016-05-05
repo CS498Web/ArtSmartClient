@@ -16,7 +16,7 @@ angular.module('anotareApp')
     // $cookieStore.remove('user');
 
     function changeUser(user) {
-        angular.extend(currentUser, user);
+        currentUser = user;
         localStorageService.set('user', user);
     }
 
@@ -28,7 +28,7 @@ angular.module('anotareApp')
             return !_.isEmpty(user);
         },
         logout: function(success, error) {
-            $http.post('/logout').success(function(){
+            $http.delete(baseURL + 'logout').success(function(){
                 changeUser({});
                 if (success && typeof success == "function") success();
             }).error( function() {

@@ -8,11 +8,11 @@
  * Controller of the anotareApp
  */
  angular.module('anotareApp')
- .controller('LandingCtrl', ['$scope', '$http', '$location',
-             function ($scope, $http, $location) {
+ .controller('LandingCtrl', ['$scope', '$http', '$location', '$state',
+             function ($scope, $http, $location, $state) {
 
     if ($scope.isLoggedIn()) {
-        $location.path('/main/explore');
+        $state.go('root.explore', {}, {reload: true});
     }
 
     $scope.landingLogin = function() {
