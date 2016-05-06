@@ -69,7 +69,9 @@ angular.module('anotareApp')
               
               scope.imageDescription = _.pick(scope.imageScope,
                 'artists', 'title', 'description', 'currentLocation', 'period', 'year', 'originLocation', 'medium', 'actualSize');
-              scope.imageDescription.artists = scope.imageDescription.artists.join(", ");
+              if (_.isArray(scope.imageDescription.artists)) {
+                scope.imageDescription.artists = scope.imageDescription.artists.join(", ");
+              }
               var canvasImage = document.getElementById("canvas-image");
 
               var canvasImage = document.getElementById("canvas-image");

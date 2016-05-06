@@ -51,7 +51,8 @@ angular.module('anotareApp')
             $scope.$apply(function() {
 
               element.removeClass('highlight-border');
-              $scope.fileToUpload = e.target.result;
+              $scope.$parent.fileToUpload = e.target.result;
+              $("#imgDrop").css('background-image','url(' + $scope.$parent.fileToUpload + ')');
               $scope.urlValue = "";
               //$scope.$parent.fileToUpload = e.target.result;
 

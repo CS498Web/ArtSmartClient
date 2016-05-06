@@ -17,7 +17,8 @@ angular.module('anotareApp')
           reader.onload = function(e) {
             $scope.$apply(function() {
               $scope.$parent.fileToUpload = e.target.result;
-              $scope.$parent.urlValue = "";
+              $("#imgDrop").css('background-image','url(' + $scope.$parent.fileToUpload + ')');
+              $scope.urlValue = "";
             });
           }
           reader.readAsDataURL(changeEvent.target.files[0]);

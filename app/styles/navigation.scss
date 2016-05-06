@@ -27,7 +27,7 @@
       background: none;
       color: black;
     }
-    
+
 		&:hover{
       cursor: pointer;
       background: none;
@@ -56,7 +56,11 @@ hr{
 
 .imgUpload{
   height:300px;
-  width:300px;
+  width:100%;
+  background-image: url('/images/image_plus.png');
+  background-size: contain;
+  background-position: center center;
+  background-repeat: no-repeat;
 }
 
 .btn-file {

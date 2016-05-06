@@ -22,10 +22,7 @@ angular.module('anotareApp')
 
     return {
         isLoggedIn: function(user) {
-            if(user === undefined) {
-                user = currentUser;
-            }
-            return !_.isEmpty(user);
+            return !_.isEmpty(currentUser);
         },
         logout: function(success, error) {
             $http.delete(baseURL + 'logout').success(function(){
@@ -51,6 +48,8 @@ angular.module('anotareApp')
                 if (error && typeof error == "function") error();
             });
         },
-        user: currentUser
+        getCurrentUser: function() {
+            return currentUser;
+        }
     };
 }])

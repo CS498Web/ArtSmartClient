@@ -11,7 +11,7 @@
 
       <ul class="nav navbar-nav navbar-right">
         <li ng-show="isLoggedIn() === false"><a class="navbar-link" ng-click="toggleLogin()">Log In</a></li>
-        
+
         <li ng-show="isLoggedIn()"><a class="navbar-link" ng-click="upload()">Upload</a></li>
         
         <li ng-show="isLoggedIn()" class="dropdown">
@@ -58,15 +58,15 @@
           <div class="row">
             <div class="col-sm-12 form-group expand-input">
               <label for="imgDrop">Upload by Drag & Drop</label>
-              <img dropbox id="imgDrop" class="center-block imgUpload" src={{fileToUpload}} />
+              <img dropbox id="imgDrop" class="center-block imgUpload" />
             </div>
           </div>
           <div ng-show="imageLoaded==false" class="row">
-            <div class="col-sm-6 form-group expand-input">
+<!--             <div class="col-sm-6 form-group expand-input">
               <label for="imgUrl">Upload by URL</label>
               <input imgurl ng-change="validateUrl()" ng-model="urlValue" type="text" class="form-control" placeholder="URL" id="imgUrl">
-            </div>
-            <div class="col-sm-6 btn-group expand-input">
+            </div> -->
+            <div class="col-sm-12 btn-group expand-input">
               <div class="row">
                 <div class="col-sm-12">
                   <label for="imgBrowse">Upload Local File</label>
@@ -88,43 +88,45 @@
             <div class="col-sm-6 form-group expand-input">
 
               <label for="titleInput">Title</label>
-              <input type="text" class="form-control" placeholder="Title" ng-model="title" id="titleInput" />
+              <input type="text" class="form-control" placeholder="Title" ng-model="artworkToUpload.title" id="titleInput" />
 
             </div>
             <div class="col-sm-6 form-group expand-input">
 
 
               <label for="artistInput">Artist</label>
-              <input type="text" class="form-control" placeholder="Artist" ng-model="artist" id="artistInput" />
+              <input type="text" class="form-control" placeholder="Artist" ng-model="artworkToUpload.artists" id="artistInput" />
 
             </div>
           </div>
           <div class="row">
             <div class="col-sm-6 form-group expand-input">
 
-              <label for="titleInput">Description</label>
-              <input type="text" class="form-control" placeholder="Description" ng-model="description" id="descriptionInput" />
+              <label for="mediumInput">Medium</label>
+              <input type="text" class="form-control" placeholder="Medium" ng-model="artworkToUpload.medium" id="mediumInput" />
 
             </div>
+
+            
             <div class="col-sm-6 form-group expand-input">
 
               <label for="artistInput">Location</label>
-              <input type="text" class="form-control" placeholder="Location" ng-model="location" id="locationInput" />
+              <input type="text" class="form-control" placeholder="Location" ng-model="artworkToUpload.originLocation" id="locationInput" />
 
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-4 form-group expand-input">
+            <div class="col-sm-12 form-group expand-input">
 
-              <label for="mediumInput">Medium</label>
-              <input type="text" class="form-control" placeholder="Medium" ng-model="medium" id="mediumInput" />
+              <label for="titleInput">Description</label>
+              <textarea type="text" class="form-control" placeholder="Description" ng-model="artworkToUpload.description" id="descriptionInput" />
 
             </div>
           </div>
           <div class="row">
             <div class="col-sm-12 expand-input">
 
-              <button type="submit" class="btn btn-success btn-lg btn-block">Upload</button>
+              <button ng-click="uploadArtwork()" class="btn btn-success btn-lg btn-block">Upload</button>
 
             </div>
           </div>
