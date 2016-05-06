@@ -1,20 +1,38 @@
-.navbar{
+@import './mixin.scss';
+
+.custom-navbar{
+  border-bottom: 2px solid black;
+  padding-top: 5px;
+  padding-bottom: 5px;
 	.dropdown:hover .dropdown-menu {
 		display: block;
-		background-color: rgba(30, 30, 30, 0.1);
+      background: white;
+		/*background-color: $light-grey;*/
 	}
 	/*padding: 0 100px;*/
-	background-color: rgba(31, 30, 30, 0.1);
-	li{
-		a{
-			color: white;
-			font-size: 20px;
-			font-family: EB Garamond;
+/*  li {
+  background-color: $light-grey;
+    background: none;
+    &:hover {
+      background: none;
+    }
+  }*/
+	.navbar-link{
+		color: black;
+		font-size: 20px;
+    font-weight: 300;
+		font-family: $font-sans;
+    
+    &:focus {
+      background: none;
+      color: black;
+    }
 
-			&:hover{
-				background:none;
-				color: #9013FE;
-			}
+		&:hover{
+      cursor: pointer;
+      background: none;
+      color: $light-grey;
+      /*color: $grey;*/
 		}
 	}
 }
@@ -38,7 +56,11 @@ hr{
 
 .imgUpload{
   height:300px;
-  width:300px;
+  width:100%;
+  background-image: url('/images/image_plus.png');
+  background-size: contain;
+  background-position: center center;
+  background-repeat: no-repeat;
 }
 
 .btn-file {

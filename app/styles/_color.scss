@@ -1,6 +1,7 @@
 $primary-color: #9013FE;
 $hover-color: lighten($primary-color, 40%);
 $active-color: lighten($primary-color, 10%);
+$link-color: lighten($primary-color, 20%);
 
 $danger-color: #ce0033;
 
@@ -8,4 +9,3 @@ $light-grey: #e9e9e9;
 $grey: #bcbcbc;
 $dark-grey: #7a7a7a;
 
-$link-color: lighten($primary-color, 20%);

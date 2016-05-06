@@ -8,8 +8,8 @@
  * Controller of the anotareApp
  */
  angular.module('anotareApp')
- .controller('ArtworkCtrl', [ '$scope', '$http', 'ArtworkService', '$stateParams',
-             function ($scope, $http, ArtworkService, $stateParams) {
+ .controller('ArtworkCtrl', [ '$scope', '$http', 'ArtworkService', 'UserService', '$stateParams',
+             function ($scope, $http, ArtworkService, UserService, $stateParams) {
   $scope.imageScope;
   $scope.editMode = false;
   $scope.annotationText = "";
@@ -59,11 +59,12 @@
         });
     };
 
-    $scope.updateImage = function() {
+    $scope.updateImage = function(success, error) {
       ArtworkService.putOne($stateParams.artwork_id, $scope.imageScope)
       .then(
         //success function
         function (response) {
+          if (success && typeof success === 'function') success(response.data.data);
           },
         //error function
         function(result) {
@@ -77,12 +78,29 @@
       .then(
         //success function
         function (response) {
-          },
+        },
         //error function
         function(result) {
           console.log("Failed to delete annotation, result is :");
           console.log(result); 
         });
     };
+
+    $scope.addWorkAnnotatedToUser = function(user_id, annotation_id) {
+      UserService.getSingleUser(user_id)
+      .then( function(response) {
+        var user = response.data.data;
+        if (!_.findWhere(user.worksAnnotated, annotation_id)) {
+            if ( _.isArray(user.worksAnnotated) ){
+              user.worksAnnotated.push(annotation_id);
+            } else {
+              user.worksAnnotated = [annotation_id];
+            }
+        }
+        UserService.put(user_id, user)
+        .then(function(response) {
+        })
+      })
+    }
     
   }]);

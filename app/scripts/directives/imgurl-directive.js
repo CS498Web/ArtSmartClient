@@ -14,17 +14,27 @@ angular.module('anotareApp')
       restrict: 'A',
       link: function($scope, element, attributes) {
         $scope.validateUrl = function() {
+          var formHeader = {
+            headers:{ 
+              'Content-Type': 'application/x-www-form-urlencoded'
+            }
+          }
           if ($scope.urlValue !== "") {
             $http({
               method: 'GET',
               url: $scope.urlValue,
-              responseType : 'blob'
+              responseType : 'blob',
+              headers: formHeader,
+              withCredentials: true
             }).then(function successCallback(response) {
               var type = response.headers('Content-type');
               if (type.match('image/.+')) {
                 $scope.valid = true;
-                var url = URL.createObjectURL(response.data);
-                $scope.fileToUpload = url
+                var reader = new window.FileReader();
+                reader.readAsDataURL(response.data); 
+                reader.onloadend = function() {
+                  $scope.fileToUpload = reader.result;
+                }
               }
             }, function errorCallback(response) {
 

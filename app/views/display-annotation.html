@@ -91,7 +91,7 @@
                         <input ng-disabled="shouldShowEditImageDescription()" type="text" pu-elastic-input ng-class="shouldShowDescriptionLabels() ? 'edit-canvas-description' : ''" class="canvas-description image-others" ng-model="imageDescription.actualSize.unit"></input>
                     </div>
                 </div>
-                <div class='col-sm-12 text-left'>
+                <div class='col-sm-6 text-left'>
                     <a ng-click="showMoreInfo()" ng-show="shouldShowMoreInfo()">more info <i class="fa fa-angle-down" aria-hidden="true"></i></a>
                     <a ng-click="showLessInfo()" ng-show="shouldShowLessInfo()">less info <i class="fa fa-angle-up" aria-hidden="true"></i></a>
                     <a ng-click="cancelImageDescription()" ng-show="shouldShowEditImageDescription() === false">cancel</a>
@@ -100,6 +100,15 @@
 
                     <a ng-click="editImageDescription()" ng-show="shouldShowEditImageDescription()">edit</a>
                     <a ng-click="updateImageDescription()" ng-show="shouldShowEditImageDescription() === false">update</a>
+                </div>
+
+                <div class='col-sm-6 text-right text-comment'>
+                    <div>
+                        uploaded <span class="date-comment">{{imageScope.dateCreated | date:"MMM d ''''yy 'at' HH:mm"}}</span>
+                    </div>
+                    <div class="user-comment">
+                        {{imageScope.uploadedByName}}
+                    </div>
                 </div>
             </div>
         	
@@ -110,23 +119,34 @@
             <div class='col-md-12 text-right' id="annotation-header">{{annotationHeader}}</div>
             <div class='col-md-12' id="annotation-description-container">
                 <div ng-class="shouldShowUpdateAnnotation() || shouldShowSubmitAnnotation() ? 'highlight-annotation' : '' " id="annotation-description">
-                    <textarea elastic placeholder="Type in your annotation..." disabled=true ng-model="annotationText"></textarea>
+                    <textarea elastic placeholder="Type in your annotation..." disabled=true ng-model="currentAnnotation.text"></textarea>
                 </div>
             </div>
             <div class='edit-text-annotation col-md-12' ng-show="showAnnotation">
-                <a type="submit" class="pull-right" ng-show="shouldShowEditAnnotation()" ng-click="switchToEditAnnotationText()">edit</a>
+                <div class='edit-text-column annotation-user-details text-comment col-md-6' ng-show="shouldShowSubmitAnnotation() === false">
+                    <div>
+                        annotated <span class="date-comment">{{currentAnnotation.dateCreated | date:"MMM d ''''yy 'at' HH:mm"}}</span>
+                    </div>
+                    <div class="user-comment">
+                        <a>{{currentAnnotation.creatorName}}</a>
+                    </div>
+                </div>
+                
+                <div class='edit-text-column col-md-6 pull-right text-right'>
+                    <a type="submit" ng-show="shouldShowEditAnnotation()" ng-click="switchToEditAnnotationText()">edit</a>
 
-                <a type="submit" ng-show="shouldShowSubmitAnnotation()" class="pull-right" ng-click="submitNewAnnotation()">submit</a>
+                    <a type="submit" ng-show="shouldShowSubmitAnnotation()" ng-click="submitNewAnnotation()">submit</a>
 
-                <div ng-show="shouldShowUpdateAnnotation()" class="pull-right">
-                    <a type="submit" ng-click="cancelEditAnnotationText()">cancel</a>
-                    <span class="action-divider"> | </span>
-                    <a type="submit" ng-click="updateEditAnnotationText()">update</a>
+                    <div ng-show="shouldShowUpdateAnnotation()" >
+                        <a type="submit" ng-click="cancelEditAnnotationText()">cancel</a>
+                        <span class="action-divider"> | </span>
+                        <a type="submit" ng-click="updateEditAnnotationText()">update</a>
+                    </div>
                 </div>
             </div>
             <div class="col-md-12 annotation-comments-container">
                 <div class="col-md-12 annotation-comments" ng-repeat="comment in comments">
-                    <div class="text-comment">{{comment.text}} <span class="user-comment">- {{comment.userName}}</span></div>
+                    <div class="text-comment">{{comment.text}} <span class="user-comment">- {{comment.userName}}</span> <span class="date-comment">{{comment.dateCreated | date:"MMM d ''''yy 'at' HH:mm"}}</span></div>
                 </div>
             </div>
             <div class="edit-text-annotation col-md-12" ng-show="showAnnotation">

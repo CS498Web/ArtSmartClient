@@ -108,6 +108,7 @@
       outline: none;
       padding: 0;
       max-width: none !important; /*overriding pu-elastic-input */
+      min-width: 20px;
       &.image-artist {
         font-size: 21px;
         font-weight: bold;
@@ -185,6 +186,15 @@
       }
     }
 
+    .edit-text-column {
+      padding: 0;
+    }
+
+    .annotation-user-details {
+      font-size: 12px;
+
+    }
+
 		#annotation-header{
 			font-size: 18px;
       font-weight: 300;
@@ -238,19 +248,22 @@
       padding-bottom: 5px;
       padding-left: 0;
       border-top: 1px solid $light-grey;
-      font-size: 13px;
       line-height: 15px;
       text-align: left;
-
-			.user-comment{
-        color: $grey;
-			}
-			.text-comment{
-        color: $dark-grey;
-			}
 		}
 		
 	}
+
+  .text-comment{
+    font-size: 13px;
+    color: $dark-grey;
+    .user-comment{
+      color: $link-color;
+    }
+    .date-comment{
+      color: $grey;
+    }
+  }
 
   
 

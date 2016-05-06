@@ -16,19 +16,16 @@ angular.module('anotareApp')
     // $cookieStore.remove('user');
 
     function changeUser(user) {
-        angular.extend(currentUser, user);
+        currentUser = user;
         localStorageService.set('user', user);
     }
 
     return {
         isLoggedIn: function(user) {
-            if(user === undefined) {
-                user = currentUser;
-            }
-            return !_.isEmpty(user);
+            return !_.isEmpty(currentUser);
         },
         logout: function(success, error) {
-            $http.post('/logout').success(function(){
+            $http.delete(baseURL + 'logout').success(function(){
                 changeUser({});
                 if (success && typeof success == "function") success();
             }).error( function() {
@@ -51,6 +48,8 @@ angular.module('anotareApp')
                 if (error && typeof error == "function") error();
             });
         },
-        user: currentUser
+        getCurrentUser: function() {
+            return currentUser;
+        }
     };
 }])
