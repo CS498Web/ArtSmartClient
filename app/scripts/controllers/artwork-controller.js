@@ -49,7 +49,7 @@
       .then(
         //success function
         function (response) {
-            $scope.imageScope = response.data;
+            $scope.imageScope = response.data.data;
             next();
           },
         //error function

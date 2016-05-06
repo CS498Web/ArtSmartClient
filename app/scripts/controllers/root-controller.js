@@ -75,18 +75,17 @@
     }
 
     $scope.addWorkUploadedToUser = function(user_id, artwork_id) {
-      UserService.getSingleUser(user_id)
-      .then( function(response) {
-        console.log(response);
-        var user = response.data.data;
-        if ( _.isArray(user.worksUploaded) ){
-          user.worksUploaded.push(artwork_id);
-        } else {
-          user.worksUploaded = [artwork_id];
-        }
-        UserService.put(user_id, user)
-        .then(function(response) {
-        })
+      UserService.getSingleUser(user_id,
+        function(userResponse) {
+            var user = userResponse;
+            if ( _.isArray(user.worksUploaded) ){
+              user.worksUploaded.push(artwork_id);
+            } else {
+              user.worksUploaded = [artwork_id];
+            }
+            UserService.put(user_id, user)
+            .then(function(response) {
+            })
       })
     }
 
