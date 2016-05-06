@@ -1,13 +1,24 @@
 @import './mixin.scss';
 
 .custom-navbar{
+  background-color: $light-grey;
   border-bottom: 2px solid black;
   padding-top: 5px;
   padding-bottom: 5px;
 	.dropdown:hover .dropdown-menu {
 		display: block;
-      background: white;
-		/*background-color: $light-grey;*/
+    /*background: white;*/
+    box-shadow: none;
+		background-color: $light-grey;
+    border-left: 2px solid black;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+    /*top: 110%;*/
+    border-radius: 2px;
+    outline: none;
+    .divider {
+      background-color: $dark-grey;
+    }
 	}
 	/*padding: 0 100px;*/
 /*  li {
@@ -31,7 +42,7 @@
 		&:hover{
       cursor: pointer;
       background: none;
-      color: $light-grey;
+      color: $grey;
       /*color: $grey;*/
 		}
 	}
@@ -57,7 +68,7 @@ hr{
 .imgUpload{
   height:300px;
   width:100%;
-  background-image: url('/images/image_plus.png');
+  background-image: url('http://i.imgur.com/A0AzddO.png');
   background-size: contain;
   background-position: center center;
   background-repeat: no-repeat;

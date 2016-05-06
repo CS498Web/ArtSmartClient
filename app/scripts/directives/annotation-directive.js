@@ -636,8 +636,8 @@ angular.module('anotareApp')
                   event.point.y = raster.bounds.y + raster.bounds.height;
                 }
 
-                shape.position.x += event.delta.x;
-                shape.position.y += event.delta.y;
+                shape.position.x = event.point.x;
+                shape.position.y = event.point.y;
                 drawFrameOn(shape, 'updateAll');
               }
 
@@ -787,7 +787,7 @@ angular.module('anotareApp')
           _.each(annotation.relativeSegmentPoints, function(element, index) {
             annotation.actualSegments.push({
               x: element.x * canvasWidth,
-              y: element.y * canvasWidth
+              y: element.y * canvasHeight
             });
           });
 

@@ -91,13 +91,10 @@
       function(response) {
         var user = response;
         console.log(response);
-        if (!_.findWhere(user.worksAnnotated, annotation_id)) {
-          console.log(user.worksAnnotated);
-            if ( _.isArray(user.worksAnnotated) ){
-              user.worksAnnotated.push(annotation_id);
-            } else {
-              user.worksAnnotated = [annotation_id];
-            }
+        if ( _.isArray(user.worksAnnotated) && !_.contains(user.worksAnnotated, annotation_id)){
+          user.worksAnnotated.push(annotation_id);
+        } else {
+          user.worksAnnotated = [annotation_id];
         }
         UserService.put(user_id, user)
       })

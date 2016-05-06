@@ -6,7 +6,7 @@
 
 angular.module('anotareApp')
   .factory('ArtworkService', function ($http) {
-    var baseUrl = "http://localhost:4000/api"
+    var baseUrl = "http://192.241.182.160:4000/api"
     var formHeader = {headers:{ 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}}
     // delete $http.defaults.headers.post['Content-type'];
     // delete $http.defaults.headers.delete['Content-type'];

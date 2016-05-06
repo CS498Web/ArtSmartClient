@@ -110,7 +110,10 @@
             })
         }
         $scope.artworkToUpload.imageFile = $scope.fileToUpload;
+        $scope.artworkToUpload.uploadedById = $scope.currentUser.id;
+        $scope.artworkToUpload.uploadedByName = $scope.currentUser.name;
         ArtworkService.postOne($scope.artworkToUpload, function(artwork) {
+            console.log(artwork);
             $scope.closeModal();
             $scope.artworkToUpload= {
                 title : "",
@@ -122,6 +125,8 @@
             }
             $scope.addWorkUploadedToUser($scope.currentUser.id, artwork._id);
             $state.go('root.artwork', {artwork_id: artwork._id});
+        }, function(error) {
+            console.log(error);
         });
     }
 

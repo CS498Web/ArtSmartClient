@@ -3,7 +3,7 @@
   <div class="container-fluid">
     <div class="navbar-header">
 
-      <a class="navbar-brand" ui-sref="root.landing"><img src="/images/anotare-icon-navbar.png" style="height:40px; margin-top: -8px;"></a>
+      <a class="navbar-brand" ui-sref="root.landing"><img src="http://i.imgur.com/C1W9BXu.png" style="height:40px; margin-top: -8px;"></a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -12,10 +12,10 @@
       <ul class="nav navbar-nav navbar-right">
         <li ng-show="isLoggedIn() === false"><a class="navbar-link" ng-click="toggleLogin()">Log In</a></li>
 
-        <li ng-show="isLoggedIn()"><a class="navbar-link" ng-click="upload()">Upload</a></li>
+        <li ng-show="isLoggedIn()"><a class="navbar-link" ng-click="upload()">Upload <i class="fa fa-upload" aria-hidden="true"></i></a></li>
         
         <li ng-show="isLoggedIn()" class="dropdown">
-          <a class="navbar-link" href="#" class="dropdown-toggle" data-toggle="dropdown" role="hover" aria-haspopup="true" aria-expanded="false">{{username}} <span class="caret"></span></a>
+          <a class="navbar-link" href="#" class="dropdown-toggle" data-toggle="dropdown" role="hover" aria-haspopup="true" aria-expanded="false">{{username}} <i class="fa fa-angle-down" aria-hidden="true"></i></a>
           <ul class="dropdown-menu">
             <li><a class="navbar-link" ng-click="goToMyProfile()">My profile</a></li>
             <li role="separator" class="divider"></li>
@@ -31,13 +31,17 @@
 </nav>
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+
   <div class="modal-dialog" role="document">
+
     <div class="modal-content">
+
       <div class="modal-header">
         <button type="button" class="close" ng-click="closeModal()"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myModalLabel">{{modalTitle}}</h4>
         <h4>{{file}}</h4>
       </div>
+
       <div class="modal-body">
 
         <div ng-show="loggingIn==true" class="loginForm">
@@ -50,8 +54,7 @@
           <button ng-click="navbarLogin()" type="submit" class="btn btn-primary btn-lg btn-block">Log In</button>
         </div>
 
-        <div ng-show "signingUp==true" class="signupForm">
-
+        <div ng-show="signingUp==true" class="signupForm">
         </div>
 
         <div ng-show="uploading==true" class="uploadForm">
@@ -61,11 +64,8 @@
               <img dropbox id="imgDrop" class="center-block imgUpload" />
             </div>
           </div>
+
           <div ng-show="imageLoaded==false" class="row">
-<!--             <div class="col-sm-6 form-group expand-input">
-              <label for="imgUrl">Upload by URL</label>
-              <input imgurl ng-change="validateUrl()" ng-model="urlValue" type="text" class="form-control" placeholder="URL" id="imgUrl">
-            </div> -->
             <div class="col-sm-12 btn-group expand-input">
               <div class="row">
                 <div class="col-sm-12">
@@ -83,7 +83,9 @@
               </div>
             </div>
           </div>
+
           <hr />
+
           <div class="row">
             <div class="col-sm-6 form-group expand-input">
 
@@ -99,6 +101,7 @@
 
             </div>
           </div>
+
           <div class="row">
             <div class="col-sm-6 form-group expand-input">
 
@@ -115,14 +118,17 @@
 
             </div>
           </div>
+
           <div class="row">
             <div class="col-sm-12 form-group expand-input">
 
               <label for="titleInput">Description</label>
-              <textarea type="text" class="form-control" placeholder="Description" ng-model="artworkToUpload.description" id="descriptionInput" />
+              <textarea type="text" class="form-control" placeholder="Description" ng-model="artworkToUpload.description" id="descriptionInput">
+              </textarea>
 
             </div>
           </div>
+
           <div class="row">
             <div class="col-sm-12 expand-input">
 
@@ -130,7 +136,12 @@
 
             </div>
           </div>
+
         </div>
+
       </div>
+
     </div>
   </div>
+</div>
+

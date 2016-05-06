@@ -10,7 +10,7 @@ angular.module('anotareApp')
 
     var currentUser = localStorageService.get('user') || {};
 
-    var baseURL = "http://localhost:4000/api/"
+    var baseURL = "http://192.241.182.160:4000/api/";
     var formHeader = {headers:{ 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}}
 
     // $cookieStore.remove('user');
