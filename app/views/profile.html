@@ -1,7 +1,7 @@
-<div class="explore-container">
+<div class="explore-container"> 
 
 	<div id="container">
-		<div id="left">
+		<div>
 				<div class="user information" style="text-align: center">
 					<p>Name: {{user.username}}</p>
 					<p>Email:  {{user.email}}</p>
@@ -10,7 +10,7 @@
 			<br/>
 
 
-			<div id="right">
+			<div>
 				<div class="container horizontal-gallery">
 					<div class="row">
 						<h4>Artwork Annotated</h4>
@@ -23,7 +23,7 @@
 							</a>
 						</div>
 						<div class="scroll-gallery" horizontal-infinity-scroll="loadMore()" >
-							<a class="scroll-photo" ng-repeat="worksAnnotated in worksAnnotateds">
+							<a class="scroll-photo" ng-repeat="worksAnnotated in annotatedArtworks">
 								<img ng-src={{worksAnnotated.src}} />
 								<span class="text-content"><div><h4>{{worksAnnotated.title}}</h4><h5>{{worksAnnotated.artist}}</h5></div></span>
 							</a>
@@ -40,7 +40,7 @@
 							</a>
 						</div>
 						<div class="scroll-gallery" horizontal-infinity-scroll="loadMore()" >
-							<div class="scroll-photo" ng-repeat="worksUploaded in worksUploadeds">
+							<div class="scroll-photo" ng-repeat="worksUploaded in uploadedArtworks">
 								<img ng-src={{worksUploaded.src}} />
 								<span class="text-content"><div><h4>{{worksUploaded.title}}</h4><h5>{{worksUploaded.artist}}</h5></div></span>
 							</div>

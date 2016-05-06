@@ -46,7 +46,7 @@ angular
       controller: 'ExploreCtrl'
     })
     .state('root.profile', {
-      url: '/profile',
+      url: '/profile/{user_id}',
       parent: 'root',
       templateUrl: 'views/profile.html',
       controller: 'ProfileCtrl'
