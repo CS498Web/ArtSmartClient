@@ -152,6 +152,10 @@
         })
     }
 
+    $scope.goToMyProfile = function() {
+        $state.go('root.profile', {user_id: $scope.currentUser.id}, {reload: true});
+    }
+
     $scope.updateCurrentUser();
 
  }]);

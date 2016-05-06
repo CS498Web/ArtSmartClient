@@ -44,6 +44,12 @@ angular
       templateUrl: 'views/explore.html',
       controller: 'ExploreCtrl'
     })
+    .state('root.profile', {
+      url: '/profile/{user_id}',
+      parent: 'root',
+      templateUrl: 'views/profile.html',
+      controller: 'ProfileCtrl'
+    })
     .state('root.artwork', {
       url: '/artworks/{artwork_id}',
       parent: 'root',

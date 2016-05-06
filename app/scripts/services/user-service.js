@@ -17,9 +17,14 @@ angular.module('anotareApp')
         getAllUsers : function() {
           return $http.get(baseURL + 'users/');
         },
-        getSingleUser : function(id) {
+        getSingleUser : function(id, success, error) {
            var url = baseURL + 'users/' + id
-           return $http.get(url);
+           $http.get(url).success(function(response){
+                if (success && typeof success == "function") success(response.data);
+            })
+            .error( function(error) {
+                if (error && typeof error == "function") error();
+            });
         },
         post : function(data) {
           return $http.post(baseURL+'users/', $.param(data));

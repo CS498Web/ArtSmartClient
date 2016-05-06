@@ -17,9 +17,9 @@
         <li ng-show="isLoggedIn()" class="dropdown">
           <a class="navbar-link" href="#" class="dropdown-toggle" data-toggle="dropdown" role="hover" aria-haspopup="true" aria-expanded="false">{{username}} <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a class="navbar-link" href="#/profile/{{user_id}}">My profile</a></li>
+            <li><a class="navbar-link" ng-click="goToMyProfile()">My profile</a></li>
             <li role="separator" class="divider"></li>
-            <li><a class="navbar-link" href="#/landing" ng-click="navbarLogout()">Log out</a></li>
+            <li><a class="navbar-link" ng-click="navbarLogout()">Log out</a></li>
           </ul>
         </li>
       </ul>

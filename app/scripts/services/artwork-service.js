@@ -14,8 +14,15 @@ angular.module('anotareApp')
         getAll : function() {
           return $http.get(baseUrl + '/artworks/');
         },
-        getOne : function(artwork_id) {
-            return $http.get(baseUrl + '/artworks/' + artwork_id);
+        getOne : function(artwork_id, success, error) {
+            return $http.get(baseUrl + '/artworks/' + artwork_id)
+            .success(function(response){
+                console.log(response);
+                if (success && typeof success == "function") success(response.data);
+            })
+            .error( function(error) {
+                if (error && typeof error == "function") error();
+            });
         },
         postOne : function(data, success, error) {
             return $http.post(baseUrl+'/artworks', $.param(data), formHeader)
