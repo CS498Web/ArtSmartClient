@@ -31,7 +31,7 @@
         return AuthService.getCurrentUser();
     }
 
-    var updateCurrentUser = function() {
+    $scope.updateCurrentUser = function() {
         $scope.currentUser = $scope.getCurrentUser();
         $scope.username = $scope.currentUser.name;
     }
@@ -90,6 +90,18 @@
       })
     }
 
+    $scope.getAllArtwork = function( success ) {
+        ArtworkService.getAll()
+        .then(
+        //success function
+        success,
+        //error function
+        function(result) {
+          console.log("Failed to get the images, result is :");
+          console.log(result); 
+        });
+    }
+
     $scope.uploadArtwork = function() {
         if (typeof $scope.artworkToUpload.artists === 'string' && 
             $scope.artworkToUpload.artists.trim().length > 0) {
@@ -119,7 +131,7 @@
             email: $scope.loginName,
             password: $scope.loginPassword
         }, function() {
-            updateCurrentUser();
+            $scope.updateCurrentUser();
             $scope.closeModal();
             $scope.loginName = "";
             $scope.loginPassword = "";
@@ -133,14 +145,14 @@
 
     $scope.navbarLogout = function() {
         $scope.logout(function() {
-            updateCurrentUser();
+            $scope.updateCurrentUser();
             $state.go('root.landing', {}, {reload: true});
         }, function(error) {
             console.log(error);
         })
     }
 
-    updateCurrentUser();
+    $scope.updateCurrentUser();
 
  }]);
 

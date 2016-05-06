@@ -10,15 +10,5 @@
  angular.module('anotareApp')
  .controller('ExploreCtrl', [ '$scope', '$http', 'ArtworkService', '$stateParams',
              function ($scope, $http, ArtworkService, $stateParams) {
-    $scope.getAllArtwork = function( success ) {
-        ArtworkService.getAll()
-        .then(
-        //success function
-        success,
-        //error function
-        function(result) {
-          console.log("Failed to get the images, result is :");
-          console.log(result); 
-        });
-    }
+    
   }]);

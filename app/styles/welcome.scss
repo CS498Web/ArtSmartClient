@@ -1,3 +1,5 @@
+@import './mixin.scss';
+
 #welcome {
   text-align: center;
   background: none;
@@ -22,14 +24,14 @@
       position: absolute;
       left: 50%;
       transform: translateX(-57%);
-      top:20px; 
+      /*top:20px; */
       width:18em; 
     }
     .logo-gallery{
       position: absolute;
       left: 50%;
       transform: translateX(-43%);
-      top: 70px;
+      /*top: 70px;*/
       width: 16em;
       height: 18em;
     }
@@ -38,25 +40,28 @@
   form {
     width: 330px;
     margin: 0 auto 0 auto;
+    font-family: $font-sans;
     input{
-      font-family: 'Josefin Sans', sans-serif;
       margin-top: 10px;
       height: 30px;
       font-size: 15px;
       color: black;
       background-color: #F5F5F5;
-      &::-webkit-input-placeholder { 
-        color: black;
-      }
       border-radius: 0;
     }
-    button {
-      font-family: 'EB Garamond', serif;
+    .button-register {
+      width: 100%;
       float: right;
-      border:none;
+      border: 1px solid black;
+      border-radius: 2px;
       font-size: 15px;
-      margin: 0 0 0 5px;
-      &.active{
+      padding-top: 5px;
+      padding-bottom: 5px;
+      padding-left: 15px;
+      padding-right: 15px;
+      &:hover {
+        background-color: $hover-color;
+        cursor: pointer;
       }
     }
   }

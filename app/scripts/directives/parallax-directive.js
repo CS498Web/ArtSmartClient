@@ -28,23 +28,23 @@ angular.module('anotareApp')
       var centerH = $(window).width() - widthElement/2;
 
 
-      //create parallax effect on the logo
-      // $(document).mousemove(function(event) {
-      //     currentMousePos.x = event.pageX;
-      //     currentMousePos.y = event.pageY;
-      //     if (scope.direction === 'reverse'){
-      //       var marginTop =  initialMarginTop - (currentMousePos.y - centerV) / centerV * scope.offset;
-      //       var marginLeft = initialMarginLeft - (currentMousePos.x - centerH) / centerH * scope.offset;
-      //     }
-      //     else {
-      //       var marginTop =  initialMarginTop + (currentMousePos.y - centerV) / centerV * scope.offset;
-      //       var marginLeft = initialMarginLeft + (currentMousePos.x - centerH) / centerH * scope.offset;
-      //     }
-      //     element.css({
-      //       "margin-top": marginTop + "px",
-      //       "margin-left": marginLeft + "px"
-      //     });
-      // });
+      // create parallax effect on the logo
+      $(document).mousemove(function(event) {
+          currentMousePos.x = event.pageX;
+          currentMousePos.y = event.pageY;
+          if (scope.direction === 'reverse'){
+            var marginTop =  initialMarginTop - (currentMousePos.y - centerV) / centerV * scope.offset;
+            var marginLeft = initialMarginLeft - (currentMousePos.x - centerH) / centerH * scope.offset;
+          }
+          else {
+            var marginTop =  initialMarginTop + (currentMousePos.y - centerV) / centerV * scope.offset;
+            var marginLeft = initialMarginLeft + (currentMousePos.x - centerH) / centerH * scope.offset;
+          }
+          element.css({
+            "margin-top": marginTop + "px",
+            "margin-left": marginLeft + "px"
+          });
+      });
 
     }
   };

@@ -1,6 +1,6 @@
 <div class="jumbotron" id="welcome">
     <div id="logo-on-photo">
-      <!-- <photo-slider>
+      <photo-slider>
       <div>
         <a class="arrow prev" href="" ng-click="prev()">
           <img id="right-arrow" src="images/left-arrow.png"/>
@@ -11,10 +11,10 @@
 
         <a ui-sref="root.annotation">
           <img parallax id="logo-large-rect" offset-parallax="5" direction-parallax="reverse" ng-src="images/anotare-icon.png"/>
-          <img parallax class="logo-gallery" ng-repeat="photo in imageScope" offset-parallax="15" style="" ng-src={{photo.src}} ng-show="photo.visible"/>
+          <img parallax class="logo-gallery" ng-repeat="photo in headerItems = (items | limitTo:5)" offset-parallax="15" style="" ng-src={{photo.src}} ng-show="photo.visible"/>
         </a>
       </div>
-    </photo-slider> -->
+    </photo-slider>
   </div>
 
   <a ui-sref="root.explore">
@@ -31,7 +31,6 @@
       <input ng-model="userEmail" type="email" class="form-control" placeholder="Email">
       <input ng-model="userPassword" type="password" class="form-control"placeholder="Password">
     </div>
-    <button type="submit" ng-click="landingLogin()" class="btn btn-default active">Login</button>
-    <button type="submit" ng-click="landingSignup()" class="btn btn-default">Sign up</button>
+    <div class="button-register" ng-click="landingSignup()">Register</div>
   </form>
 </div>
