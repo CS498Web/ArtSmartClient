@@ -25,21 +25,18 @@
     // }
 
     $scope.user;
-
+    $scope.annotatedArtworks = [];
+    $scope.uploadedArtworks = [];
 
 
     function init() {
         $scope.annotatedArtworkIds = $scope.user.worksAnnotated;
-        $scope.annotatedArtworks = [];
         $scope.uploadedArtworkIds = $scope.user.worksUploaded;
-        $scope.uploadedArtworks = [];
 
         for (var i = 0; i < $scope.annotatedArtworkIds.length; i++) {
             ArtworkService.getOne($scope.annotatedArtworkIds[i],
             function(data){
-                console.log(data);
                 $scope.annotatedArtworks.push(data);
-                console.log($scope.annotatedArtworks);
             },
             function(err) {
                 console.log(err);
@@ -60,6 +57,7 @@
 
 
     UserService.getSingleUser($stateParams.user_id, function(data){
+        console.log(data);
       $scope.user = data;
       console.log($scope.user);
       init();

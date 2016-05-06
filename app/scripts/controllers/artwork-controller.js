@@ -87,10 +87,12 @@
     };
 
     $scope.addWorkAnnotatedToUser = function(user_id, annotation_id) {
-      UserService.getSingleUser(user_id)
-      .then( function(response) {
-        var user = response.data.data;
+      UserService.getSingleUser(user_id,
+      function(response) {
+        var user = response;
+        console.log(response);
         if (!_.findWhere(user.worksAnnotated, annotation_id)) {
+          console.log(user.worksAnnotated);
             if ( _.isArray(user.worksAnnotated) ){
               user.worksAnnotated.push(annotation_id);
             } else {
@@ -98,8 +100,6 @@
             }
         }
         UserService.put(user_id, user)
-        .then(function(response) {
-        })
       })
     }
     
